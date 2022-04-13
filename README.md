@@ -11,7 +11,7 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 * 📹 _Ggf. Videos_
 * Lokale Speicherung von Rezepten/Einkaufslisten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
 * Mehrere Ansichten (Bücher), nach Kategorien z.B. Nudeln, Kartoffeln oder Italienisch, Türkisch
-* Favoriten
+* Favoriten (Rangliste?)
 * Nach Zutaten die man hat suchen oder die man ausschließen will um Rezepte vorgeschlagen zu bekommen
 * Einkaufsliste zum abhaken automatisch erstellen nach Rezept
 * _Mit vorgeschlagenem Kaufdatum (Zutat mit "frühster Kaufzeitpunkt")_
