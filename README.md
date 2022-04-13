@@ -10,11 +10,11 @@
 * Sortierbar z.B. nach Aufwand, Schwierigkeit
 * Sterne-Bewertung 1-10
 
-## Sprache
+### Sprache
 Java-Script
-## Datenbank
+### Datenbank
 mongoDB
-## API
+### API
 node.js (selbstgebaut)
 
 ## ToDos:
