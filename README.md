@@ -9,7 +9,7 @@
 
 ToDos:
 
-[ ] Architektur erstellen (tech-stack
-[ ] Datenbank aufsetzen
-[ ] Environment variablen definieren
-[ ] Authentifizierung
+- [ ] Architektur erstellen (tech-stack
+- [ ] Datenbank aufsetzen
+- [ ] Environment variablen definieren
+- [ ] Authentifizierung
