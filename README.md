@@ -32,6 +32,7 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 ## ToDos:
 
 - [ ] Architektur erstellen (tech-stack)
+- [ ] Datenbank modellieren
 - [ ] Datenbank aufsetzen
 - [ ] Datenbank füllen (testweise)
 - [ ] Environment variablen definieren
