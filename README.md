@@ -1,4 +1,8 @@
-# foodle
+# Foodle (Rezepte-App)
+
+## Wording (Ideen)
+Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort Food und Noodle.
+Eine Sammlung von Foodles wird Spaghetti oder Feed genannt. 
 
 ## Ideas
 
@@ -10,12 +14,14 @@
 * _Sortierbar z.B. nach Aufwand, Schwierigkeit
 * ⭐ Sterne-Bewertung 1-10
 
-### Sprache
-Java-Script
+### Programmiersprachen
+* JavaScript
+
 ### Datenbank
-mongoDB
+* MongoDB
+
 ### API
-node.js (selbstgebaut)
+* NodeJS (Selbstgebaut)
 
 ## ToDos:
 
