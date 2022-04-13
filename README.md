@@ -10,9 +10,9 @@
 * Sortierbar z.B. nach Aufwand, Schwierigkeit
 * Sterne-Bewertung 1-10
 
-Sprache:    Java-Script
-Datenbank:  mongoDB
-API:        node.js (selbstgebaut)
+##Sprache:    Java-Script
+##Datenbank:  mongoDB
+##API:        node.js (selbstgebaut)
 
 ToDos:
 
