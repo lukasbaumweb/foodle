@@ -4,7 +4,7 @@
 
 * Rezepte mit anderen Benutzern teilen
 * Rezpte mit Bilder abspeichern ("Slideshow")
-* ___Ggf. Videos___
+* _Ggf. Videos
 * Lokale Speicherung von Rezepten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
 * Mehrere Ansichten (Bücher), nach Kategorien z.B. Nudeln, Kartoffeln oder Italienisch, Türkisch
 * Sortierbar z.B. nach Aufwand, Schwierigkeit
