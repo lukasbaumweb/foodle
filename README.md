@@ -3,13 +3,22 @@
 ## Ideas
 
 * Rezepte mit anderen Benutzern teilen
-* Rezpte mit Bilder abspeichern
-* Lokale Speicherung von Rezepten ermöglichen
+* Rezpte mit Bilder abspeichern ("Slideshow")
+*   Ggf. Videos?
+* Lokale Speicherung von Rezepten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
+* Mehrere Ansichten (Bücher), nach Kategorien z.B. Nudeln, Kartoffeln oder Italienisch, Türkisch
+* Sortierbar z.B. nach Aufwand, Schwierigkeit
+* Sterne-Bewertung 1-10
 
+Sprache:    Java-Script
+Datenbank:  mongoDB
+API:        node.js (selbstgebaut)
 
 ToDos:
 
-- [ ] Architektur erstellen (tech-stack
+- [ ] Architektur erstellen (tech-stack)
 - [ ] Datenbank aufsetzen
+- [ ] Datenbank füllen (Testweise)
 - [ ] Environment variablen definieren
 - [ ] Authentifizierung
+- [ ] API bauen
