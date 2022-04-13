@@ -1,18 +1,24 @@
 # Foodle (Rezepte-App)
 
 ## Wording (Ideen)
-Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort Food und Noodle.
-Eine Sammlung von Foodles wird Spaghetti oder Feed genannt. 
+❤️ Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort Food und Noodle.
+Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed genannt.
 
 ## Ideas
 
 * 🤝 Rezepte mit anderen Benutzern teilen
 * 🖼️ Rezpte mit Bilder abspeichern ("Slideshow")
-* 📹 _Ggf. Videos
-* Lokale Speicherung von Rezepten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
+* 📹 _Ggf. Videos_
+* Lokale Speicherung von Rezepten/Einkaufslisten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
 * Mehrere Ansichten (Bücher), nach Kategorien z.B. Nudeln, Kartoffeln oder Italienisch, Türkisch
-* _Sortierbar z.B. nach Aufwand, Schwierigkeit
-* ⭐ Sterne-Bewertung 1-10
+* Favoriten
+* Nach Zutaten die man hat suchen oder die man ausschließen will um Rezepte vorgeschlagen zu bekommen
+* Einkaufsliste zum abhaken automatisch erstellen nach Rezept
+* _Mit vorgeschlagenem Kaufdatum (Zutat mit "frühster Kaufzeitpunkt")_
+* Random Wochenplan oder selbst erstellen mit Einkaufsliste logischerweise
+
+* ⭐ Sterne-Bewertung 1-10 (Bzw. Fooooooooodles)
+* _Sortierbarkeit z.B. nach Aufwand (5 Min. = 1 Stern / 2 Std. = 6 Sterne), Schwierigkeit_
 
 ### Programmiersprachen
 * JavaScript
@@ -29,5 +35,7 @@ Eine Sammlung von Foodles wird Spaghetti oder Feed genannt.
 - [ ] Datenbank aufsetzen
 - [ ] Datenbank füllen (testweise)
 - [ ] Environment variablen definieren
-- [ ] Authentifizierung
+- [ ] Authentifizierung (Google-Verknüpfung?)
 - [ ] API bauen
+- [ ] Logo erstellen
+- [ ] Loading Animationen
