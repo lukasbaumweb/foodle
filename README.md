@@ -20,14 +20,43 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 * ⭐ Sterne-Bewertung 1-10 (Bzw. Fooooooooodles)
 * _Sortierbarkeit z.B. nach Aufwand (5 Min. = 1 Stern / 2 Std. = 6 Sterne), Schwierigkeit_
 
-### Programmiersprachen
+## Features
+
+### Features (Must-Have)
+* Foodles speichern, bearbeiten, löschen, teilen
+  - Name
+  - Bilder (Slideshow)
+  - Bewertung
+  - Zutaten
+  - Schwierigkeit
+  - Anleitung
+- Kategorien
+- Favoriten
+
+
+### Features (Optional)
+* Einkaufsliste basiernd auf Gerichten erstellen
+* Wochenplan mit Rezepten zu welcher Mahlzeit, welches Gericht erstellt wird
+* Rezepte API nutzen, um die eigene Collection zu erweitern 
+
+## Infrastruktur
+
+### Sprachen
 * JavaScript
+* Python
+* CSS
+* HTML
+* JSON
+
+### Bibliotheken
+* React (Frontend)
+* Flask (Backend)
 
 ### Datenbank
 * MongoDB
 
 ### API
-* NodeJS (Selbstgebaut)
+* NodeJS (Express) oder Python (Flask)
 
 ## ToDos:
 
