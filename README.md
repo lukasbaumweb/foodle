@@ -18,6 +18,7 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 * Random Wochenplan oder selbst erstellen mit Einkaufsliste logischerweise
 
 * ⭐ Sterne-Bewertung 1-10 (Bzw. Fooooooooodles)
+* +Bilder
 * _Sortierbarkeit z.B. nach Aufwand (5 Min. = 1 Stern / 2 Std. = 6 Sterne), Schwierigkeit_
 
 ## Features
