@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foodles</title>
+    <style>
+      body { background: #f2e3d5; } .container { position: absolute; margin:
+      auto; top: 0; left: 0; right: 0; bottom: 0; width: 200px; height: 200px; }
+      .bg { position: absolute; width: 200px; height: 200px; border-radius:
+      100%; background: #2c656b; overflow: hidden; } .bg:before { position:
+      absolute; content: ""; background: #255459; width: 200px; height: 200px;
+      top: 150px; } .bg-effect { position: absolute; width: 200px; height:
+      200px; border-radius: 100%; background: #2c656b; animation: 2s
+      bg-effect-animation 1s ease-out infinite; } @keyframes bg-effect-animation
+      { 0% { transform: scale(1); opacity: 1; } 80% { transform: scale(1.6);
+      opacity: 0; } 100% { transform: scale(1.6); opacity: 0; } } .food {
+      position: absolute; top: 66px; left: 25px; } .cup { z-index: 10; position:
+      absolute; width: 150px; height: 75px; background: #8c0327; border-radius:
+      0 0 150px 150px; top: 30px; } .cup:before { position: absolute; content:
+      ""; background: #730220; width: 160px; height: 8px; left: -5px;
+      border-radius: 2px; } .cup:after { position: absolute; content: "";
+      background: #730220; width: 60px; height: 8px; top: 68px; left: 44px;
+      border-radius: 0 0 4px 4px; } .cup .eye div { width: 10px; height: 10px;
+      background: #f2e3d5; border-radius: 100%; position: absolute; } .cup .eye
+      div:nth-child(1) { top: 20px; left: 50px; animation: 1s left-eye-move
+      0.25s ease-out infinite alternate; } .cup .eye div:nth-child(2) { top:
+      20px; left: 90px; animation: 1s right-eye-move 0.25s ease-out infinite
+      alternate; } @keyframes left-eye-move { 0% { transform: translate(0, 0); }
+      80% { transform: translate(0, 0); } 100% { transform: translate(2px, -2px)
+      scale(0.8); } } @keyframes right-eye-move { 0% { transform: translate(0,
+      0); } 80% { transform: translate(0, 0); } 100% { transform: translate(2px,
+      -4px) scale(1.2); } } .cup .mouth { position: absolute; width: 30px;
+      height: 2px; background: #f2e3d5; border-radius: 0 0 10px 10px; top: 40px;
+      left: 60px; animation: 1s mouth-move 0.25s ease-out infinite alternate; }
+      @keyframes mouth-move { 0% { transform: rotateZ(0) translate(0, 0);
+      height: 1px; } 80% { transform: rotateZ(0) translate(0, 0); height: 1px; }
+      100% { transform: rotateZ(-4deg) translate(4px, -2px); height: 10px; } }
+      .noodle1 { z-index: 9; } .noodle2 { z-index: 7; left: 50px; top: 10px; }
+      .noodle { position: absolute; width: 100px; height: 70px; background:
+      radial-gradient(#2c656b, #2c656b 4px, #f2e3d5 4px, #f2e3d5 8px, #2c656b
+      8px, #2c656b 12px, #f2e3d5 12px, #f2e3d5 16px, #2c656b 16px, #2c656b 20px,
+      #f2e3d5 20px, #f2e3d5 24px, #2c656b 24px, #2c656b 28px, #f2e3d5 28px,
+      #f2e3d5 32px, #2c656b 32px, #2c656b 36px, transparent 36px, transparent
+      40px); } .noodle3 { position: absolute; left: 80px; } .noodle3 div {
+      z-index: 6; position: absolute; width: 4px; height: 65px; background:
+      transparent; border: 3px solid #f2e3d5; border-radius: 4px; border-left:
+      none; animation: 1s noodle3-move ease-out infinite alternate; } @keyframes
+      noodle3-move { 0% { transform: translate(0, 0); } 80% { transform:
+      translate(0, 0); } 100% { transform: translate(2px, -18px); } } .noodle3
+      div:nth-child(1) { left: 0; top: -16px; } .noodle3 div:nth-child(2) {
+      left: 6px; top: -19px; } .noodle3 div:nth-child(3) { left: 12px; top:
+      -22px; } .chopsticks div { z-index: 5; position: absolute; border-top:
+      120px solid #a69580; border-left: 2px solid transparent; border-right: 2px
+      solid transparent; height: 0; width: 8px; } .chopsticks div:nth-child(1) {
+      top: -138px; left: 65px; transform-origin: left bottom; transform:
+      rotateZ(60deg); animation: 1s chopstick-move ease-out infinite alternate;
+      } .chopsticks div:nth-child(2) { top: -127px; left: 71px;
+      transform-origin: left bottom; transform: rotateZ(60deg); animation: 1s
+      chopstick-move ease-out infinite alternate; } @keyframes chopstick-move {
+      0% { transform: rotateZ(60deg) translate(0); } 80% { transform:
+      rotateZ(60deg) translate(0); } 100% { transform: rotateZ(70deg)
+      translate(-20px, -10px); } }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="bg-effect"></div>
+      <div class="bg">
+        <div class="food">
+          <div class="chopsticks">
+            <div></div>
+            <div></div>
+          </div>
+          <div class="cup">
+            <div class="eye">
+              <div></div>
+              <div></div>
+            </div>
+            <div class="mouth"></div>
+          </div>
+          <div class="noodle noodle1"></div>
+          <div class="noodle noodle2"></div>
+          <div class="noodle3">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
