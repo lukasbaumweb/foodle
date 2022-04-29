@@ -1,8 +1,8 @@
 # Foodle (Rezepte-App)
 
-## Wording (Ideen)
-❤️ Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort Food und Noodle.
-Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed genannt.
+## Wording 
+❤️ Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort **Food** und **Noodle**.
+Eine Sammlung von Foodles wird Spaghetti ___FoodusOpus___ Sammlung oder Feed genannt.
 
 ## Ideas
 
@@ -34,7 +34,6 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 - Kategorien
 - Favoriten
 
-
 ### Features (Optional)
 * Einkaufsliste basiernd auf Gerichten erstellen
 * Wochenplan mit Rezepten zu welcher Mahlzeit, welches Gericht erstellt wird
@@ -57,20 +56,11 @@ Eine Sammlung von Foodles wird Spaghetti/___FoodusOpus___/Sammlung oder Feed gen
 * MongoDB
 
 ### API
-* NodeJS (Express) oder Python (Flask)
+* NodeJS (Express) 
+* Python (Flask) (Optional)
 
 ## ToDos:
-
-- [ ] Architektur erstellen (tech-stack)
-- [ ] Datenbank modellieren
-- [ ] Datenbank aufsetzen
-- [ ] Datenbank füllen (testweise)
-- [ ] Environment variablen definieren
-- [ ] Authentifizierung (Google-Verknüpfung?)
-- [ ] API bauen
-- [ ] Logo erstellen
-- [ ] Loading Animationen
-
+Die derzeitig ausstehenden Aufgaben für dieses Projekt wurde in das Repository eigene [Kanban Board](https://github.com/lukasbaumweb/foodle/projects/1) ausgelagert.
 
 # License
 MIT License
