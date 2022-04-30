@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  font-size: 1rem;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  font-family: $text-font;
+  background: $light-background-color;
+}
+
+.dark-mode {
+  background-color: $dark-bg-color;
+  color: $dark-text-color;
+}
+
+::selection {
+  background: $secondary-color;
+}
+
+ul {
+  list-style-type: none;
+}
