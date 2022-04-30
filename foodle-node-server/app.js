@@ -1,38 +1,20 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const compression = require("compression");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-// routes
-const users = require("./routes/users");
-const auth = require("./routes/auth");
-
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
-const corsOptions = {
-  origin: `http://localhost:${process.env.PORT || 3100}`,
-};
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(compression());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(morgan("combined"));
-
-app.use(express.static("/public"));
-
-app.use("/api/v1/users", users);
-app.use("/api/v1/auth", auth);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 module.exports = app;
