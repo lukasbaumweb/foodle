@@ -1,0 +1,21 @@
+_id: req_7e357d2c2f094e4dbe610372193cda18
+type: Request
+parentId: fld_c1e87926abed429587279f1e66530561
+modified: 1651518543915
+created: 1651518518155
+url: "{{ _.url }}/auth/register"
+name: sign up
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1651518518155
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

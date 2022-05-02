@@ -1,0 +1,14 @@
+_id: env_14f978a42a6c43ac8c2504da434942ed
+type: Environment
+parentId: env_a0e80e2dca7c1cd86952c8b0d2574a54ef6b030b
+modified: 1651515272477
+created: 1651515143379
+name: Foodle
+data:
+  url: http://localhost:3100/api/v1
+dataPropertyOrder:
+  "&":
+    - url
+color: null
+isPrivate: false
+metaSortKey: 1651515143379

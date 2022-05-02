@@ -1,0 +1,35 @@
+_id: req_aff5f23ff80144b193dc267424734978
+type: Request
+parentId: fld_c1e87926abed429587279f1e66530561
+modified: 1651518507394
+created: 1651513613264
+url: "{{ _.url }}/auth"
+name: index auth
+description: ""
+method: GET
+body:
+  mimeType: application/x-www-form-urlencoded
+  params:
+    - id: pair_c4b78311abba449897bfe30a60498d3e
+      name: userKey
+      value: asdasda sd asd
+      description: ""
+      disabled: false
+parameters: []
+headers:
+  - id: pair_fc925773b16a43379bef228b8e783716
+    name: ""
+    value: ""
+    description: ""
+  - name: Content-Type
+    value: application/x-www-form-urlencoded
+    id: pair_1ed5eae608c54b97a63c2dbf915a46f2
+authentication: {}
+metaSortKey: -1651513613264
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
