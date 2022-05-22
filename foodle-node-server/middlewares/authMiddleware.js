@@ -9,9 +9,7 @@ const authMiddleware = (req, res, next) => {
 
   jwt.verify(token, JWT_TOKEN, (err, user) => {
     if (err) return res.sendStatus(403);
-
     req.user = user;
-
     next();
   });
 };

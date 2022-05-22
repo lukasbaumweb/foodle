@@ -1,46 +1,104 @@
 import axios from "axios";
 
-class Foodle_API {
+const removeTrailingSlash = (str) =>
+  str.charAt(str.length - 1) === "/" ? str.substr(0, str.length - 1) : str;
+
+class FoodleAPI {
   constructor(url) {
-    // example: https://domain.tld/api/v1
-    this.url = (url || process.env.REACT_APP_API_URL)?.trimEnd("/");
+    this.url = removeTrailingSlash(url || process.env.REACT_APP_FOODLE_API_URL);
+    this.options = {};
+    this.authToken = null;
   }
 
-  async get(collection, options) {
-    const query = axios.get(`${this.url}/${collection}`, options);
+  async get(collection) {
+    const query = axios.get(`${this.url}/${collection}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
 
-  async post(collection, { id, data }, options) {
-    const query = axios.post(`${this.url}/${collection}/${id}`, { data }, options);
+  async post(collection, { id, data }) {
+    const query = axios.post(
+      `${this.url}/${collection}/${id}`,
+      { data },
+      this.options
+    );
     const result = await this.executeQuery(query);
     return result;
   }
 
-  async put(collection, { id, data }, options) {
-    const query = axios.put(`${this.url}/${collection}/${id}`, { data }, options);
+  async put(collection, { id, data }) {
+    const query = axios.put(
+      `${this.url}/${collection}/${id}`,
+      { data },
+      this.options
+    );
     const result = await this.executeQuery(query);
     return result;
   }
 
-  async delete(collection, id, options) {
-    const query = axios.delete(`${this.url}/${collection}/${id}`, options);
+  async delete(collection, id) {
+    const query = axios.delete(`${this.url}/${collection}/${id}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
 
   async executeQuery(promise) {
-    const result = await promise();
+    const result = await promise;
     const data = result.data;
-    const error = this.error(result.error);
+    const error = result.error;
+    if (error) this.errorHandler(error);
     return { data, error };
   }
 
-  error(err) {
-    console.error(err);
-    return err;
+  async login(username, password) {
+    const query = axios.post(
+      `${this.url}/auth/login`,
+      {
+        username,
+        password,
+      },
+      this.options
+    );
+    const result = await this.executeQuery(query);
+    return result;
   }
+
+  async isLoggedIn(sessionKey) {
+    this.options = {
+      headers: {
+        Authorization: `Bearer ${this.authToken}`,
+      },
+    };
+    const query = axios.post(
+      `${this.url}/auth/check`,
+      {
+        token: sessionKey,
+      },
+      this.options
+    );
+    const { data, error } = await this.executeQuery(query);
+
+    return false;
+  }
+
+  errorHandler = (error) => {
+    const { request, response } = error;
+    if (response) {
+      const { message } = response.data;
+      const status = response.status;
+      return {
+        message,
+        status,
+      };
+    } else if (request) {
+      return {
+        message: "server time out",
+        status: 503,
+      };
+    } else {
+      return { message: "opps! something went wrong while setting up request" };
+    }
+  };
 }
 
-export default Foodle_API;
+export default FoodleAPI;

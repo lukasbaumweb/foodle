@@ -1,0 +1,11 @@
+.listItem {
+  cursor: pointer;
+  .listItemBar {
+    display: none;
+  }
+
+  &:focus-within,
+  &:hover .listItemBar {
+    display: flex;
+  }
+}
