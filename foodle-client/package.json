@@ -14,7 +14,6 @@
     "react-dom": "^18.0.0",
     "react-infinite-scroll-hook": "^4.0.3",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
     "sass": "^1.50.1",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
@@ -28,6 +27,9 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
