@@ -8,11 +8,11 @@ const LogoHeader = styled('h3')(`
    margin: auto;
   
   
-  &:hover span:nth-child(2),
-  &:hover span:nth-child(3),
-  &:hover span:nth-child(4),
-  &:hover span:nth-child(5),
-  &:hover span:nth-child(6){
+  &:hover span:nth-of-type(2),
+  &:hover span:nth-of-type(3),
+  &:hover span:nth-of-type(4),
+  &:hover span:nth-of-type(5),
+  &:hover span:nth-of-type(6){
     transform: translateX(0);
     opacity: 1;
   }
@@ -22,32 +22,38 @@ const LogoHeader = styled('h3')(`
     opacity: 0;
     z-index: 0;
     transform: translateX(0);
-    transition: .2s all ease;
+    transition: .4s all ease;
   }
-  & > span:nth-child(1){
+  & > span:nth-of-type(1){
     opacity: 1;
-    z-index: 2;    
+    z-index: 2;
+    transition: .2s all ease; 
   }
-  & > span:nth-child(2) {
+  & > span:nth-of-type(2) {
     transform: translateX(-30px);
+    transition: .3s all ease; 
   }
-  & > span:nth-child(3) {
+  & > span:nth-of-type(3) {
     transform: translateX(-60px);
+    transition: .3s all ease; 
   }
-  & > span:nth-child(4) {
+  & > span:nth-of-type(4) {
     transform: translateX(-90px);
+    transition: .4s all ease; 
   }
-  & > span:nth-child(5) {
+  & > span:nth-of-type(5) {
     transform: translateX(-120px);
+    transition: .5s all ease; 
   }
-  & > span:nth-child(6) {
+  & > span:nth-of-type(6) {
     transform: translateX(-150px);
+    transition: .5s all ease; 
   }
 `);
 
 const AnimatedFoodleLogo = () => {
   return (
-    <LogoHeader class="foodle-logo">
+    <LogoHeader className="foodle-logo">
       <span>F</span>
       <span>O</span>
       <span>O</span>

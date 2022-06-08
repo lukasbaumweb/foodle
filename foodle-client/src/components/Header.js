@@ -20,20 +20,14 @@ import Chef from "./../assets/images/cook.svg";
 import AnimatedFoodleLogo from "./AnimatedFoodleLogo";
 
 const Header = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const auth = new Auth(window);
 
   const navigate = useNavigate();
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const onNavigate = (route) => {
@@ -106,7 +100,8 @@ const Header = () => {
                 <Button
                   sx={{ marginLeft: 1 }}
                   variant="contained"
-                  startIcon={<img src={Chef} height="20" />}
+                  startIcon={<img alt="Chef Icon" src={Chef} height="20" />}
+                  onClick={() => navigate(ROUTES.public.login.path)}
                 >
                   Login
                 </Button>

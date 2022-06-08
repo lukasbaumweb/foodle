@@ -1,6 +1,5 @@
 const bcryptjs = require("bcryptjs");
 const express = require("express");
-const { json } = require("express/lib/response");
 const authMiddleware = require("../middlewares/authMiddleware");
 const User = require("../models/User");
 const { logAndRespond } = require("../utils/logging");

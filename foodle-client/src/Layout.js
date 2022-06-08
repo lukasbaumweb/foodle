@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ToTopButton from "./components/ToTopButton";

@@ -2,18 +2,16 @@ import {
   Container,
   Grid,
   Typography,
-  Avatar,
   Card,
   CardActionArea,
-  CardContent,
   CardMedia,
 } from "@mui/material";
 import React from "react";
 
-import Recipes from "./../assets/images/recipes.png";
-import CookBook from "./../assets/images/cook-books.png";
-import RandomRecipe from "./../assets/images/random-recipe.png";
-import GroceriesList from "./../assets/images/groceries-list.png";
+import Recipes from "./../assets/images/recipes.jpg";
+import CookBook from "./../assets/images/cook-books.jpg";
+import RandomRecipe from "./../assets/images/random-recipe.jpg";
+import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";

@@ -17,7 +17,6 @@ import {
   FilledInput,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../../components/Footer";
 import { Auth } from "../../utils/auth";
 import ROUTES from "../../utils/routes";
 import Loader from "../../components/Loader";

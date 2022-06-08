@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
 import { Auth } from "../../utils/auth";
 import ROUTES from "../../utils/routes";
 
