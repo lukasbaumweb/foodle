@@ -72,17 +72,17 @@ function App() {
   }
 
   let renderedRoutes = [
-    { element: <Home /> },
+    { element: <Home />, index: true },
     { path: ROUTES.public.recipes.path, element: <Recipes /> },
     { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
     { path: ROUTES.public.randomRecipe.path, element: <RandomRecipe /> },
     { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
+    { path: ROUTES.public.about.path, element: <About /> },
   ];
 
   if (values.authState === AUTH_STATES.loggedIn) {
     renderedRoutes = [
       ...renderedRoutes,
-      { path: ROUTES.public.about.path, element: <About /> },
       { path: ROUTES.private.account.path, element: <Account /> },
       { path: ROUTES.private.settings.path, element: <Settings /> },
       { path: "*", element: <NoMatch /> },
@@ -100,12 +100,11 @@ function App() {
     ];
   }
 
-  console.log(renderedRoutes);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {renderedRoutes.map(({ path, element }, i) => {
-          if (!path) return <Route index element={element} key={i} />;
+        {renderedRoutes.map(({ path, element, index }, i) => {
+          if (index) return <Route index element={element} key={i} />;
           return <Route path={path} element={element} key={i} />;
         })}
       </Route>
