@@ -38,6 +38,7 @@ Eine Sammlung von Foodles wird Spaghetti ___FoodusOpus___ Sammlung oder Feed gen
 * Einkaufsliste basiernd auf Gerichten erstellen
 * Wochenplan mit Rezepten zu welcher Mahlzeit, welches Gericht erstellt wird
 * Rezepte API nutzen, um die eigene Collection zu erweitern 
+* Rezept nach Zutaten suchen
 
 ## Infrastruktur
 
