@@ -7,7 +7,7 @@ Eine Sammlung von Foodles wird Spaghetti ___FoodusOpus___ Sammlung oder Feed gen
 ## Ideas
 
 * 🤝 Rezepte mit anderen Benutzern teilen
-* 🖼️ Rezpte mit Bilder abspeichern ("Slideshow")
+* 🖼️ Rezpte mit Bilder abspeichern ("Slideshow" mit Nutzerbildern, nicht nur Ersteller)
 * 📹 _Ggf. Videos_
 * Lokale Speicherung von Rezepten/Einkaufslisten ermöglichen (Momentane Rezepte etc. lokal cachen? / Online-Aktualisierung)
 * Mehrere Ansichten (Bücher), nach Kategorien z.B. Nudeln, Kartoffeln oder Italienisch, Türkisch
