@@ -22,14 +22,14 @@ $light-mode-color: rgb(238, 230, 230);
   width: 40px;
   height: 40px;
   background: transparent;
-  border: 4px solid $light-mode-color;
+  border: 4px solid $dark-mode-color;
   animation: loader 2s infinite ease;
   display: inline-block;
 }
 
 .inner-loader {
   display: inline-block;
-  background-color: $light-mode-color;
+  background-color: $dark-mode-color;
   width: 100%;
   vertical-align: top;
   animation: inner-loader 2s infinite;
@@ -75,12 +75,10 @@ $light-mode-color: rgb(238, 230, 230);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .loader {
-    border: 4px solid $dark-mode-color;
-  }
+.loader.dark-mode {
+  border: 4px solid $light-mode-color;
+}
 
-  .inner-loader {
-    background-color: $dark-mode-color;
-  }
+.inner-loader.dark-mode {
+  background-color: $light-mode-color;
 }

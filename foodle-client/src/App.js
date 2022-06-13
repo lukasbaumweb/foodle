@@ -13,9 +13,12 @@ import Login from "./views/public/Login";
 import Register from "./views/public/Register";
 import ResetPassword from "./views/public/ResetPassword";
 import Recipes from "./views/public/Recipes";
+import SetRecipe from "./views/public/SetRecipe";
+import Recipe from "./views/public/Recipe";
 import GroceryList from "./views/public/GroceryList";
 import RandomRecipe from "./views/public/RandomRecipe";
 import CookingBooks from "./views/public/CookingBooks";
+import Impressum from "./views/public/Impressum";
 
 const AUTH_STATES = {
   waiting: "waiting",
@@ -74,10 +77,13 @@ function App() {
   let renderedRoutes = [
     { element: <Home />, index: true },
     { path: ROUTES.public.recipes.path, element: <Recipes /> },
+    { path: ROUTES.public.recipe.path, element: <Recipe /> },
+    { path: ROUTES.public.setRecipe.path, element: <SetRecipe /> },
     { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
     { path: ROUTES.public.randomRecipe.path, element: <RandomRecipe /> },
     { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
     { path: ROUTES.public.about.path, element: <About /> },
+    { path: ROUTES.public.impressum.path, element: <Impressum /> },
   ];
 
   if (values.authState === AUTH_STATES.loggedIn) {
@@ -96,6 +102,7 @@ function App() {
         element: <ResetPassword />,
       },
       { path: "/login", element: <Login /> },
+      { path: "/logout", element: <Login /> },
       { path: "*", element: <Navigate to="/login" /> },
     ];
   }

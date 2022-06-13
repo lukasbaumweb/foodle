@@ -56,11 +56,7 @@ class Auth {
     this._api
       .login(username, password)
       .then((result) => {
-        const { error, data, code } = result.data;
-
-        if (code) {
-          error = translate(code);
-        }
+        const { data, error } = result;
 
         if (data) {
           this._session.setAuthToken(data.token);
@@ -72,11 +68,11 @@ class Auth {
       .catch((err) => callback(handleError(err)));
   }
 
-  static logout() {
-    this.context.localStorage.removeItem(
-      LOCAL_STORAGE_USER_METADATA,
-      this.toString()
-    );
+  static logout(context) {
+    if (!context) throw new Error("context (window object) missing");
+    context.localStorage.removeItem(LOCAL_STORAGE_USER_METADATA);
+    context.localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
+    window.location.href = "/logout";
   }
 
   getUser() {

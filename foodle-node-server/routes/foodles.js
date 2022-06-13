@@ -8,7 +8,7 @@ const Foodle = require("./../models/Foodle");
 /**
  * Get all entries
  */
-router.get("/", authMiddleware, (req, res, next) => {
+router.get("/", (req, res, next) => {
   Foodle.find()
     .populate("author")
     .populate({
@@ -25,30 +25,48 @@ router.get("/", authMiddleware, (req, res, next) => {
 });
 
 /**
- * get one entry
+ * get one entry or random entry
  */
-router.get("/", authMiddleware, (req, res, next) => {
-  const { id } = req.body;
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
   if (!id) {
     logAndRespond(res, "id invalid or missing", 500);
     return;
   }
 
-  Foodle.findOne({ _id: id })
-    .populate("author")
-    .exec((err, data) => {
-      if (err) {
-        logAndRespond(res, "Error occured", 500);
-      } else {
-        res.json({ data });
-      }
+  if (id === "random") {
+    Foodle.count({ isPrivate: false }).exec(function (err, count) {
+      const random = Math.floor(Math.random() * count);
+
+      Foodle.findOne({ isPrivate: false })
+        .populate("author")
+        .skip(random)
+        .exec((err, data) => {
+          if (err) {
+            logAndRespond(res, "Error occured", 500);
+          } else {
+            res.json({ data });
+          }
+        });
     });
+  } else {
+    Foodle.findOne({ _id: id })
+      .populate("author")
+      .exec((err, data) => {
+        if (err) {
+          logAndRespond(res, "Error occured", 500);
+        } else {
+          res.json({ data });
+        }
+      });
+  }
 });
 
 /**
  * create one entry
  */
-router.post("/", authMiddleware, (req, res, next) => {
+router.post("/", authMiddleware, (req, res) => {
   const { title, ingredients, difficulty, tutorial } = req.body;
 
   const payload = validate(req.user, title, ingredients, difficulty, tutorial);

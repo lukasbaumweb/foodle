@@ -4,6 +4,16 @@ import { en_GB } from "../i18n/en_GB";
 const langCode = process.env.REACT_APP_LANGUAGE || "de_DE";
 
 /**
+ * Prefixes
+ */
+export const CODES = {
+  AUTH_ERROR: "auth-error/",
+  VALIDATION_ERROR: "validation-error/",
+  FOOD_UNITS: "food-unit/",
+  INGREDIENT_NAME: "ingredient/",
+};
+
+/**
  * Contains all valid languages to select
  */
 export const languages = {
@@ -17,24 +27,35 @@ export const languages = {
 const defaultLanguage = languages[langCode] || languages["de_DE"];
 
 /**
- * Translates a message based of it's code
+ * Translates a message based on code
  * @param {String} code
  * @param {languages} language
- * @returns translated String
+ * @returns translated string
  */
-export const translate = (code, language = defaultLanguage) => {
-  let result;
-
+export const translate = (
+  code = "unknown-error",
+  value,
+  language = defaultLanguage
+) => {
   if (code === "unknown-error") {
     return language[code];
   }
 
-  if (code.startsWith("auth-error/")) {
-    result = language["auth-error"][code];
+  if (code?.startsWith(CODES.AUTH_ERROR)) {
+    return language["auth-error"][code];
   }
 
-  if (code.startsWith("validation-error/")) {
+  if (code?.startsWith(CODES.VALIDATION_ERROR)) {
     return language["validation-error"][code];
   }
-  return result;
+
+  if (code === CODES.FOOD_UNITS) {
+    return language["foodUnits"][value];
+  }
+
+  if (code === CODES.INGREDIENT_NAME) {
+    return language["ingredients"][value];
+  }
+
+  return language["unknown-error"];
 };

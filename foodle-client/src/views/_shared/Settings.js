@@ -11,15 +11,10 @@ const Settings = () => {
     <Container maxWidth="xs" sx={{ pt: 5 }}>
       <Typography variant="h4">Einstellungen</Typography>
       <Grid container sx={{ pt: 2 }}>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{ display: "flex", alignItems: "center" }}
-        >
+        <Grid item xs={4} sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="subtitle">Nachtmodus</Typography>
         </Grid>
-        <Grid item xs={12} md={8} sx={{ textAlign: "right" }}>
+        <Grid item xs={8} sx={{ textAlign: "right" }}>
           <MaterialUISwitch
             onClick={colorMode.toggleColorMode}
             checked={theme.palette.mode === "dark"}

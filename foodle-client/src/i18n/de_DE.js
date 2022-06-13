@@ -23,12 +23,15 @@ export const de_DE = {
   "auth-error": {
     "auth-error/bad-format-email":
       "Fehlerhafter E-Mail Format (name@domain.tld)",
-    "auth-error/incorrect-password": "Benutzer unbekannt oder Passwort falsch", //"Passwort falsch",
+    "auth-error/incorrect-password": "Benutzer unbekannt oder Passwort falsch",
     "auth-error/user-unknown": "Benutzer unbekannt oder Passwort falsch",
   },
 
   "validation-error": {
+    "validation-error/email-missing": "E-Mail fehlt",
     "validation-error/username-missing": "Benutzername fehlt",
+    "validation-error/firstName-missing": "Vorname fehlt",
+    "validation-error/lastName-missing": "Nachname fehlt",
     "validation-error/password-missing": "Passwort fehlt",
   },
 
@@ -97,4 +100,43 @@ export const de_DE = {
     510: "Not Extended",
     511: "Network Authentication Required",
   },
+  foodUnits: {
+    piece: {
+      full: "Stück",
+      abbr: "St.",
+    },
+    gram: {
+      full: "Gramm",
+      abbr: "g",
+    },
+    kilogram: {
+      full: "Kilogramm",
+      abbr: "kg",
+    },
+    mililiter: {
+      full: "Milliliter",
+      abbr: "ml",
+    },
+    liter: {
+      full: "Liter",
+      abbr: "l",
+    },
+    package: {
+      full: "Packung",
+      abbr: "Pck.",
+    },
+    teaSpoon: {
+      full: "Teelöffel",
+      abbr: "TL",
+    },
+    tablespoon: {
+      full: "Esslöffel",
+      abbr: "EL",
+    },
+  },
+
+  ingredients: {
+    flour: "Mehl",
+  },
 };
+

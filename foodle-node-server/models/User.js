@@ -22,20 +22,22 @@ const UserSchema = new Schema(
         validator: (v) => validateEmail(v),
         message: (props) => `${props.value} is not a valid email (bad format)`,
       },
+      select: false,
     },
     password: { type: String, select: false },
-    hidden: Boolean,
-    isActivated: Boolean,
+    hidden: { type: Boolean, select: false },
+    isActivated: { type: Boolean, select: false },
     type: {
       type: String,
       enum: {
         values: ["guest", "user"],
         message: "{VALUE} is not supported",
       },
+      select: false,
     },
-    favs: [{ type: Schema.ObjectId, ref: "Foodle" }],
-    ratings: [{ type: Schema.ObjectId, ref: "Foodle" }],
-    createdAt: { type: Date, default: Date.now },
+    favs: [{ type: Schema.ObjectId, ref: "Foodle", select: false }],
+    ratings: [{ type: Schema.ObjectId, ref: "Foodle", select: false }],
+    createdAt: { type: Date, default: Date.now, select: false },
   },
   { timestamps: true }
 );

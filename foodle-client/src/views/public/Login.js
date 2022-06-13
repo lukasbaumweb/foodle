@@ -24,6 +24,7 @@ import { translate } from "../../utils/translater";
 import { isObjectEmpty } from "../../utils/functions";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import SmallLogo from "./../../assets/images/foodles-small.png";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -62,7 +63,7 @@ const Login = () => {
       if (err) {
         setValues({
           ...values,
-          errors: { all: translate(err.code) },
+          errors: { all: err.error },
           loading: false,
         });
       } else {
@@ -97,10 +98,12 @@ const Login = () => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>Logo</Avatar>
-        <Typography component="h1" variant="h5">
-          Anmelden
+        <img src={SmallLogo} alt="Foodle Logo" />
+
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Foodle - Deine App für alle deine Rezepte
         </Typography>
+
         <Box component="form" onSubmit={onSubmit} noValidate>
           <TextField
             variant="filled"
@@ -117,21 +120,6 @@ const Login = () => {
             error={values.errors["username"]?.length > 0}
             helperText={values.errors["username"]}
           />
-          {/* <TextField
-            variant="filled"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Passwort"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleChange}
-            value={values.password}
-            error={values.errors["password"]?.length > 0}
-            helperText={values.errors["password"]}
-          /> */}
 
           <FormControl variant="filled" fullWidth>
             <InputLabel htmlFor="password">Passwort</InputLabel>
@@ -155,22 +143,19 @@ const Login = () => {
               }
             />
           </FormControl>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Angemeldet bleiben"
-          />
+          /> */}
 
           {values.errors.all && (
             <Alert severity="error">{values.errors.all}</Alert>
           )}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Anmelden
-          </Button>
+          <Box sx={{ textAlign: "center" }}>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              Anmelden
+            </Button>
+          </Box>
           <Grid container>
             <Grid item xs>
               <Link to={ROUTES.public.resetPassword.path} variant="body2">
@@ -179,7 +164,7 @@ const Login = () => {
             </Grid>
             <Grid item>
               <Link to={ROUTES.public.register.path} variant="body2">
-                Registrieren
+                Noch kein Account?
               </Link>
             </Grid>
           </Grid>

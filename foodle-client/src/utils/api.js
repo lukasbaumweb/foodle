@@ -16,6 +16,20 @@ class FoodleAPI {
     return result;
   }
 
+  async getFoodle(id) {
+    const query = axios.get(`${this.url}/foodle/${id}`, {
+      ...this.options,
+    });
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async getRandomFoodle() {
+    const query = axios.get(`${this.url}/foodle/random`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
   async post(collection, { id, data }) {
     const query = axios.post(
       `${this.url}/${collection}/${id}`,
@@ -46,8 +60,8 @@ class FoodleAPI {
     const result = await promise;
     const data = result.data;
     const error = result.error;
-    if (error) this.errorHandler(error);
-    return { data, error };
+    if (error) throw new Error(this.errorHandler(error));
+    return data;
   }
 
   async login(username, password) {

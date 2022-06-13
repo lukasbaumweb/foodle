@@ -1,4 +1,5 @@
 const logAndRespond = (response, message, code) => {
+  console.log({ message, code });
   if (message) {
     if (code) {
       if (code >= 400) {
