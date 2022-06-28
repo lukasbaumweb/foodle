@@ -37,25 +37,34 @@ export const translate = (
   value,
   language = defaultLanguage
 ) => {
-  if (code === "unknown-error") {
-    return language[code];
-  }
+  try {
+    if (code === "unknown-error") {
+      return language[code] || value;
+    }
 
-  if (code?.startsWith(CODES.AUTH_ERROR)) {
-    return language["auth-error"][code];
-  }
+    if (code?.startsWith(CODES.AUTH_ERROR)) {
+      return language["auth-error"][code] || value;
+    }
 
-  if (code?.startsWith(CODES.VALIDATION_ERROR)) {
-    return language["validation-error"][code];
-  }
+    if (code?.startsWith(CODES.VALIDATION_ERROR)) {
+      return language["validation-error"][code] || value;
+    }
 
-  if (code === CODES.FOOD_UNITS) {
-    return language["foodUnits"][value];
-  }
+    if (code === CODES.FOOD_UNITS) {
+      return language["foodUnits"][value] || value;
+    }
 
-  if (code === CODES.INGREDIENT_NAME) {
-    return language["ingredients"][value];
-  }
+    if (code === CODES.INGREDIENT_NAME) {
+      return language["ingredients"][value] || value;
+    }
 
-  return language["unknown-error"];
+    return language["unknown-error"];
+  } catch (err) {
+    console.error(err);
+    return value;
+  }
+};
+
+export const getLanguage = (language = defaultLanguage) => {
+  return language;
 };

@@ -13,6 +13,7 @@ app.listen(port, () =>
       process.env.NODE_ENV
   )
 );
+
 app.on("error", (error) => {
   if (error.syscall !== "listen") throw error;
 

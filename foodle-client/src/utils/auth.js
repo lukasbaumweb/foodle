@@ -1,5 +1,6 @@
 import FoodleAPI from "./api";
 import { translate } from "./translater";
+import CONSTANTS from "./constants";
 
 const LOCAL_STORAGE_USER_METADATA = "foodleData";
 const LOCAL_STORAGE_SESSION_KEY = "foodleSession";
@@ -68,11 +69,21 @@ class Auth {
       .catch((err) => callback(handleError(err)));
   }
 
-  static logout(context) {
+  static logout(context, error) {
     if (!context) throw new Error("context (window object) missing");
     context.localStorage.removeItem(LOCAL_STORAGE_USER_METADATA);
     context.localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
-    window.location.href = "/logout";
+
+    if (error === CONSTANTS.SESSION_EXPIRED) {
+      window.location.href = "/logout?e=" + CONSTANTS.SESSION_EXPIRED_ABBR;
+    } else {
+      window.location.href = "/logout";
+    }
+  }
+
+  static getAuthToken(context) {
+    if (!context) throw new Error("context (window object) missing");
+    return Session.getAuthToken(context);
   }
 
   getUser() {
@@ -138,6 +149,15 @@ class Session {
   setAuthToken(token) {
     this.token = token;
     this.save();
+  }
+
+  static getAuthToken(context) {
+    let storage = context.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
+    if (storage) {
+      storage = JSON.parse(storage);
+      return storage.metadata.token;
+    }
+    return null;
   }
 
   setUser(data) {

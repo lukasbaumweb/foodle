@@ -25,6 +25,7 @@ export const de_DE = {
       "Fehlerhafter E-Mail Format (name@domain.tld)",
     "auth-error/incorrect-password": "Benutzer unbekannt oder Passwort falsch",
     "auth-error/user-unknown": "Benutzer unbekannt oder Passwort falsch",
+    "auth-error/session-expired": "Sitzung abgelaufen",
   },
 
   "validation-error": {
@@ -33,9 +34,11 @@ export const de_DE = {
     "validation-error/firstName-missing": "Vorname fehlt",
     "validation-error/lastName-missing": "Nachname fehlt",
     "validation-error/password-missing": "Passwort fehlt",
+    "validation-error/image-upload-limit-reached":
+      "Bitte nicht zu viele Bilder auf einmal hochladen",
   },
 
-  stutusCodes: {
+  statusCodes: {
     100: "Continue",
     101: "Switching protocols",
     102: "Processing",
@@ -139,4 +142,3 @@ export const de_DE = {
     flour: "Mehl",
   },
 };
-

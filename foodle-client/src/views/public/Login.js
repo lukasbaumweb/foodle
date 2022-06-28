@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -25,6 +25,7 @@ import { isObjectEmpty } from "../../utils/functions";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SmallLogo from "./../../assets/images/foodles-small.png";
+import constants from "../../utils/constants";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -36,6 +37,24 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    switch (params.get("e")) {
+      case constants.SESSION_EXPIRED_ABBR:
+        setValues((state) => ({
+          ...state,
+          errors: { all: translate("auth-error/session-expired") },
+          loading: false,
+        }));
+        break;
+
+      default:
+        break;
+    }
+    return () => {};
+  }, []);
 
   const validate = () => {
     const errors = {};

@@ -9,7 +9,7 @@ const FoodleSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: false,
     },
-    body: { type: String, default: "Keine Beschreibung vorhanden" },
+    description: { type: String, default: "Keine Beschreibung vorhanden" },
     ingredients: [{ type: Object }],
     tutorial: { type: String, default: "Keine Anleitung vorhanden" },
     comments: [
@@ -37,6 +37,13 @@ const FoodleSchema = new Schema(
     workTime: { type: Number },
     calories: { type: Number },
     createdAt: { type: Date, default: Date.now },
+    images: [
+      {
+        ref: "File",
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    tags: [String],
   },
   { timestamps: true }
 );

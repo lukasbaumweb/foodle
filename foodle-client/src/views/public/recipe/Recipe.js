@@ -11,14 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import FoodleAPI from "../../utils/api";
-import Chef from "../../assets/svg/chef.svg";
-import IngredientsList from "../../components/IngredientsList";
-import Loader from "../../components/Loader";
+import FoodleAPI from "../../../utils/api";
+import Chef from "../../../assets/svg/chef.svg";
+import IngredientsList from "../../../components/IngredientsList";
+import Loader from "../../../components/Loader";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
-import TimerIcon from '@mui/icons-material/Timer';
+import TimerIcon from "@mui/icons-material/Timer";
 
 const Recipe = () => {
   const [values, setValues] = useState({

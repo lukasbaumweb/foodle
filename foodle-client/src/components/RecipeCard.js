@@ -46,8 +46,8 @@ const RecipeCard = ({ recipe = {} }) => {
       <CardContent>
         <Typography variant="h5">{recipe.title}</Typography>
         <Typography variant="body2" color="text.secondary">
-          {recipe.body.substring(0, 120)}
-          {recipe.body.length >= 120 && "..."}
+          {recipe.body?.substring(0, 120)}
+          {recipe.body?.length >= 120 && "..."}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

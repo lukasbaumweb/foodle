@@ -5,7 +5,6 @@ import {
   Card,
   CardActionArea,
   CardMedia,
-  Fab,
   SpeedDial,
   Backdrop,
 } from "@mui/material";
@@ -33,7 +32,7 @@ const Home = () => {
       icon: <AddIcon />,
       name: "Rezept",
       onClick: () => {
-        navigate(ROUTES.public.setRecipe.path.replace(":id", "new"));
+        navigate(ROUTES.public.createRecipe.path);
       },
     },
     { icon: <ShareIcon />, name: "Share" },
