@@ -7,10 +7,14 @@ const FoodleSchema = new Schema(
     author: {
       ref: "User",
       type: mongoose.Schema.Types.ObjectId,
-      required: false,
     },
     description: { type: String, default: "Keine Beschreibung vorhanden" },
-    ingredients: [{ type: Object }],
+    ingredients: [
+      {
+        ref: "Config",
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     tutorial: { type: String, default: "Keine Anleitung vorhanden" },
     comments: [
       {
@@ -44,6 +48,11 @@ const FoodleSchema = new Schema(
       },
     ],
     tags: [String],
+    category: {
+      type: String,
+      enum: ["appetizer", "salad", "meal", "sauce", "dessert"],
+      default: "meal",
+    },
   },
   { timestamps: true }
 );

@@ -1,12 +1,12 @@
 const express = require("express");
-const { getIngredientConfig } = require("../controllers/configController");
+const { getConfig } = require("../controllers/configController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 /**
  * Get all entries
  */
-router.get("/ingredient", getIngredientConfig);
+router.get("/:entity", getConfig);
 
 /**
  * get one entry

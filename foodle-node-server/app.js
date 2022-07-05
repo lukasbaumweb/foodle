@@ -20,7 +20,7 @@ const foodlesRouter = require("./routes/foodles");
 const authRouter = require("./routes/auth");
 const filesRouter = require("./routes/files");
 const ingredientRouter = require("./routes/ingredients");
-const configRouter = require("./routes/config");
+const configRouter = require("./routes/configs");
 const { MONGO_URI } = require("./config");
 
 const app = express();
@@ -54,7 +54,7 @@ app.use("/api/v1/auth", limiter, authRouter);
 app.use("/api/v1/user", usersRouter);
 app.use("/api/v1/foodle", foodlesRouter);
 app.use("/api/v1/files", filesRouter);
-app.use("/api/v1/ingredients", ingredientRouter);
+app.use("/api/v1/ingredient", ingredientRouter);
 app.use("/api/v1/config", configRouter);
 
 mongoose
@@ -64,7 +64,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.info("Database connected!");
+    console.info("Database connected: " + MONGO_URI);
   })
   .catch((err) => {
     console.error(err);

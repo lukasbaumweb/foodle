@@ -9,23 +9,33 @@ import {
   CardMedia,
   CardContent,
   Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  FormHelperText,
 } from "@mui/material";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
-import { translate } from "../../../utils/translater";
+import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import AddFiles from "../../../assets/svg/add-files.svg";
-import IngredientsList from "../../../components/IngredientsList";
-import TutorialList from "../../../components/TutorialList/index";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "./../../../utils/routes";
+import SelectTags from "../../../components/SelectTags";
 
 const CreateRecipe = () => {
   const [values, setValues] = useState({
     loading: false,
     title: "",
     description: "",
+    category: "",
+    tags: [],
     ingredients: [],
-    error: {},
+    errors: {},
   });
+
+  const navigate = useNavigate();
 
   if (values.loading) return <Loader />;
 
@@ -34,6 +44,10 @@ const CreateRecipe = () => {
 
     if (values.title.trim().length === 0) {
       errors["title"] = translate("validation-error/title-missing");
+    }
+
+    if (values.category.length === 0) {
+      errors["category"] = translate("validation-error/category-missing");
     }
 
     const result = isObjectEmpty(errors);
@@ -52,12 +66,22 @@ const CreateRecipe = () => {
 
     setValues({ ...values, loading: true });
 
-    const payload = {};
+    const payload = {
+      title: values.title,
+      description: values.description,
+      category: values.category,
+      tags: values.tags.map((tag) => tag.name || tag),
+    };
+
     const api = new FoodleAPI();
 
     api
       .createFoodle(payload)
-      .then(() => setValues({ ...values, loading: false }))
+      .then((result) => {
+        console.log(result);
+        const id = result.data._id;
+        navigate(ROUTES.public.editRecipe.path.replace(":id", id));
+      })
       .catch((err) => {
         console.error(err);
         setValues({ ...values, loading: false });
@@ -74,7 +98,13 @@ const CreateRecipe = () => {
 
   return (
     <Container sx={{ pt: 3 }}>
-      <Grid container spacing={2} component="form" onSubmit={onSubmit}>
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        noValidate
+        onSubmit={onSubmit}
+      >
         <Grid item xs={12} md={6}>
           <Box>
             <Card>
@@ -90,7 +120,7 @@ const CreateRecipe = () => {
                   Bild hinzufügen
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Speichere dein Rezept erst ab, bevor du Bilder hochladen
+                  Speichere dein Foodle erst ab, bevor du Bilder hochladen
                   kannst.
                 </Typography>
               </CardContent>
@@ -102,11 +132,16 @@ const CreateRecipe = () => {
             <Grid item xs={12}>
               <TextField
                 name="title"
-                label="Titel des Rezepts"
+                label="Titel des Foodles"
                 variant="filled"
                 onChange={handleChange}
                 value={values.title}
-                helperText="z.B. Spaghetti Carbonara"
+                helperText={
+                  values.errors["title"]?.length > 0
+                    ? values.errors["title"]
+                    : "z.B. Spaghetti Carbonara"
+                }
+                error={values.errors["title"]?.length > 0}
                 fullWidth
               />
             </Grid>
@@ -123,13 +158,43 @@ const CreateRecipe = () => {
                 multiline
               />
             </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="filled">
+                <InputLabel htmlFor="category">Kategorie</InputLabel>
+                <Select
+                  name="category"
+                  id="category"
+                  value={values.category}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                >
+                  <MenuItem value="" disabled>
+                    Kategorie auswählen
+                  </MenuItem>
+
+                  {Object.entries(getLanguage().mealCategory).map(
+                    (category) => (
+                      <MenuItem key={category[0]} value={category[0]}>
+                        {category[1]}
+                      </MenuItem>
+                    )
+                  )}
+                </Select>
+                {values.errors["category"]?.length > 0 && (
+                  <FormHelperText error={true}>
+                    {values.errors["category"]}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <IngredientsList editable />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TutorialList editable />
+        <Grid item xs={12}>
+          <SelectTags
+            value={values.tags}
+            onChangeTags={(tags) => setValues({ ...values, tags })}
+          />
         </Grid>
         <Grid
           item

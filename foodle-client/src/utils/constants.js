@@ -1,7 +1,8 @@
 const CONSTANTS = {
   SESSION_EXPIRED: "auth-error/session-expired",
   SESSION_EXPIRED_ABBR: "se",
-  LOCAL_STORAGE_INGREDIENTS_KEY: "ingr",
+  LOCAL_STORAGE_INGREDIENTS_KEY: "ingredients",
+  LOCAL_STORAGE_TAGS_KEY: "tags",
 };
 
 export default CONSTANTS;

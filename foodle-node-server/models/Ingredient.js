@@ -4,7 +4,10 @@ const { Schema } = mongoose;
 
 const IngredientSchema = Schema(
   {
-    name: String,
+    config: {
+      ref: "Config",
+      type: mongoose.Schema.Types.ObjectId,
+    },
     amount: Number,
     unit: {
       type: String,
@@ -18,6 +21,8 @@ const IngredientSchema = Schema(
     timestamps: true,
   }
 );
+
+IngredientSchema.plugin(require("mongoose-autopopulate"));
 
 const Ingredient = mongoose.model("Ingredient", IngredientSchema);
 

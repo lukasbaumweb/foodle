@@ -48,8 +48,8 @@ const Header = () => {
   };
 
   const onNavigate = (route) => {
-    navigate(route);
     handleMenuClose();
+    navigate(route);
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -94,7 +94,7 @@ const Header = () => {
 
   const ButtonList = [
     {
-      title: "Rezepte",
+      title: "Foodles",
       onClick: () => navigate(ROUTES.public.recipes.path),
       icon: <TopicIcon />,
     },
@@ -104,7 +104,7 @@ const Header = () => {
       icon: <LibraryBooksIcon />,
     },
     {
-      title: "Zufallsrezept",
+      title: "Zufallsfoodle",
       onClick: () => navigate(ROUTES.public.randomRecipe.path),
       icon: <CasinoIcon />,
     },

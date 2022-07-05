@@ -17,26 +17,11 @@ import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import SpeedDialAction from "@mui/material/SpeedDialAction";
-import AddIcon from "@mui/icons-material/Add";
-import ShareIcon from "@mui/icons-material/Share";
+import RecipeDial from "../components/RecipeDial";
 
 const Home = () => {
-  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const actions = [
-    {
-      icon: <AddIcon />,
-      name: "Rezept",
-      onClick: () => {
-        navigate(ROUTES.public.createRecipe.path);
-      },
-    },
-    { icon: <ShareIcon />, name: "Share" },
-  ];
 
   return (
     <Container maxWidth="lg">
@@ -46,7 +31,7 @@ const Home = () => {
             <CardActionArea
               onClick={() => navigate(ROUTES.public.recipes.path)}
             >
-              <CardMedia component="img" image={Recipes} alt="Rezepte" />
+              <CardMedia component="img" image={Recipes} alt="Foodles" />
               <Typography
                 gutterBottom
                 variant="h5"
@@ -54,7 +39,7 @@ const Home = () => {
                 sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
                 textAlign="center"
               >
-                Rezepte
+                Foodles
               </Typography>
             </CardActionArea>
           </Card>
@@ -85,7 +70,7 @@ const Home = () => {
               <CardMedia
                 component="img"
                 image={RandomRecipe}
-                alt="Zufallsrezept"
+                alt="Zufallsfoodle"
               />
               <Typography
                 gutterBottom
@@ -94,7 +79,7 @@ const Home = () => {
                 sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
                 textAlign="center"
               >
-                Zufallsrezept
+                Zufallsfoodle
               </Typography>
             </CardActionArea>
           </Card>
@@ -122,25 +107,7 @@ const Home = () => {
           </Card>
         </Grid>
       </Grid>
-      <Backdrop open={open} />
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            tooltipOpen
-            onClick={action.onClick}
-          />
-        ))}
-      </SpeedDial>
+      <RecipeDial />
     </Container>
   );
 };

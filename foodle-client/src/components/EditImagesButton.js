@@ -36,12 +36,15 @@ const EditImagesButton = ({ id }) => {
       api
         .getFoodleImages(id)
         .then(({ data }) => {
-          console.log(data.images);
-          setValues((state) => ({
-            ...state,
-            images: data.images,
-            loading: false,
-          }));
+          if (data) {
+            setValues((state) => ({
+              ...state,
+              images: data.images,
+              loading: false,
+            }));
+          } else {
+            setValues((state) => ({ ...state, loading: false }));
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -103,7 +106,7 @@ const EditImagesButton = ({ id }) => {
       });
   };
 
-  if (isNew) return <></>;
+  if (isNew || !values.images || values.images?.length === 0) return <></>;
 
   return (
     <>

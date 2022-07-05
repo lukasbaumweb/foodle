@@ -3,6 +3,7 @@ const CODES = {
     "auth-error/incorrect-password": "incorrect password",
     "auth-error/user-unknown": "user unknown",
     "auth-error/session-expired": "session expired",
+    "auth-error/login-required": "login required",
   },
 };
 const translater = (code) => {

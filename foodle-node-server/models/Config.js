@@ -6,7 +6,7 @@ const ConfigSchema = Schema({
   type: {
     type: String,
     enum: {
-      values: ["ingredient", "unit"],
+      values: ["ingredient", "tag"],
       message: "{VALUE} is not supported",
     },
   },

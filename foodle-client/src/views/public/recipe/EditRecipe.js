@@ -1,50 +1,65 @@
-import React, { useEffect, useState } from "react";
-import { Button, Container, Grid, Box, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Container,
+  Grid,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import FoodleAPI from "../../../utils/api";
-import { useParams } from "react-router-dom";
 import Loader from "../../../components/Loader";
-import { translate } from "../../../utils/translater";
+import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
-import ImageSlider from "../../../components/ImageSlieder";
-import UploadImageButton from "../../../components/UploadImageButton";
-import EditImagesButton from "../../../components/EditImagesButton";
+import ImageSlider from "./../../../components/ImageSlieder";
+import UploadImageButton from "./../../../components/UploadImageButton";
+import EditImagesButton from "./../../../components/EditImagesButton";
+import IngredientsList from "../../../components/IngredientsList";
+import TutorialList from "../../../components/TutorialList/index";
+import { useNavigate, useParams } from "react-router-dom";
+import ROUTES from "../../../utils/routes";
+import SelectTags from "../../../components/SelectTags";
+import DetailsMenu from "../../../components/DetailsMenu";
 
-const EditRecipe = () => {
+const CreateRecipe = () => {
   const [values, setValues] = useState({
-    loading: true,
     title: "",
+    description: "",
+    category: "",
+    isPrivate: true,
+    tags: [],
     ingredients: [],
+    steps: [],
     error: {},
+    exists: false,
+    loading: true,
   });
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const api = new FoodleAPI();
 
-    const getFoodle = async () => {
-      api
-        .getFoodle(id)
-        .then(({ data }) => {
-          console.log(data);
-          setValues((state) => ({
-            ...state,
-            ...data,
-            ingredients: data.ingredients,
-            loading: false,
-          }));
-        })
-        .catch((err) => {
-          console.error(err);
-          setValues((state) => ({ ...state, loading: false }));
-        });
-    };
-
-    if (id !== "new") {
-      getFoodle();
-    } else {
-      setValues((state) => ({ ...state, loading: false }));
-    }
+    api
+      .getFoodle(id)
+      .then(({ data }) => {
+        setValues((state) => ({
+          ...state,
+          ingredients: data?.ingredients,
+          steps: data?.steps,
+          ...data,
+          exists: !!data,
+          loading: false,
+        }));
+      })
+      .catch((err) => console.error(err));
 
     return () => {};
   }, [id]);
@@ -74,11 +89,16 @@ const EditRecipe = () => {
 
     setValues({ ...values, loading: true });
 
-    const payload = {};
+    const payload = {
+      title: values.title,
+      description: values.description,
+      category: values.category,
+      tags: values.tags.map((tag) => tag.name),
+    };
     const api = new FoodleAPI();
 
     api
-      .updateFoodle(payload)
+      .updateFoodle(id, payload)
       .then(() => setValues({ ...values, loading: false }))
       .catch((err) => {
         console.error(err);
@@ -94,9 +114,56 @@ const EditRecipe = () => {
     }
   };
 
+  const deleteFoodle = async () => {
+    const api = new FoodleAPI();
+    try {
+      await api.deleteFoodle(id);
+      navigate(ROUTES.public.recipes.path);
+    } catch (err) {
+      console.error(err);
+      setValues({ ...values });
+    }
+  };
+
+  const publishFoodle = async () => {
+    const api = new FoodleAPI();
+    try {
+      await api.updateFoodle(id, { isPrivate: !values.isPrivate });
+      setValues({ ...values, isPrivate: !values.isPrivate });
+    } catch (err) {
+      console.error(err);
+      setValues({ ...values });
+    }
+  };
+
+  if (!values.exists)
+    return (
+      <Container sx={{ pt: 3 }}>
+        <Card sx={{ p: 2 }}>
+          <CardContent>
+            <Typography variant="h5" sx={{ mb: 1 }}>
+              404 - Foodle nicht gefunden
+            </Typography>
+            <Typography variant="body1">
+              Das Foodle mit der ID: "{id}" konnte nicht gefunden werden
+            </Typography>
+          </CardContent>
+        </Card>
+      </Container>
+    );
+
   return (
     <Container sx={{ pt: 3 }}>
-      <Grid container spacing={2} component="form" onSubmit={onSubmit}>
+      <Grid container spacing={3} component="form" onSubmit={onSubmit}>
+        <Grid item xs={12}>
+          <Box display="flex" justifyContent="flex-end">
+            <DetailsMenu
+              onDelete={deleteFoodle}
+              onPublish={publishFoodle}
+              isPrivate={values.isPrivate}
+            />
+          </Box>
+        </Grid>
         <Grid item xs={12} md={6}>
           <ImageSlider id={id} images={values.images} />
           <Box display="flex" justifyContent="space-between" paddingTop={1}>
@@ -105,13 +172,69 @@ const EditRecipe = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField
-            name="title"
-            label="Titel"
-            variant="standard"
-            onChange={handleChange}
-            value={values.title}
-            fullWidth
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                name="title"
+                label="Titel des Foodles"
+                variant="filled"
+                onChange={handleChange}
+                value={values.title}
+                helperText="z.B. Spaghetti Carbonara"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="description"
+                label="Kurzbeschreibung"
+                variant="filled"
+                onChange={handleChange}
+                value={values.description}
+                rows={3}
+                helperText="z.B. Mega leckere Spaghetti Variante nach Sheldon Cooper"
+                fullWidth
+                multiline
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="filled">
+                <InputLabel htmlFor="category">Kategorie</InputLabel>
+                <Select
+                  name="category"
+                  id="category"
+                  value={values.category}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                >
+                  <MenuItem value="" disabled>
+                    Kategorie auswählen
+                  </MenuItem>
+
+                  {Object.entries(getLanguage().mealCategory).map(
+                    (category) => (
+                      <MenuItem key={category[0]} value={category[0]}>
+                        {category[1]}
+                      </MenuItem>
+                    )
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <IngredientsList foodleId={id} data={values.ingredients} editable />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TutorialList foodleId={id} data={values.steps} editable />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectTags
+            value={values.tags}
+            onChangeTags={(tags) => setValues({ ...values, tags })}
           />
         </Grid>
         <Grid
@@ -130,4 +253,4 @@ const EditRecipe = () => {
   );
 };
 
-export default EditRecipe;
+export default CreateRecipe;

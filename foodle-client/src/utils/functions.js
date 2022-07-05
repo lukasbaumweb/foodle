@@ -35,39 +35,60 @@ export const capitalize = (word) => {
   return `${word.charAt(0).toUpperCase()}${word.substring(1, word.length)}`;
 };
 
-export const retrieveIngredientList = async (window) => {
-  const api = new FoodleAPI();
-
-  const { data } = await api.getIngredientConfig();
-
-  if (window) {
-    window.localStorage.setItem(
-      CONSTANTS.LOCAL_STORAGE_INGREDIENTS_KEY,
-      JSON.stringify({ ingredients: data, savedAt: new Date().getTime() })
-    );
-  }
-
-  return data;
+/**
+ * @enum { String }
+ */
+export const Entity = {
+  INGREDIENT: "ingredient",
+  TAG: "tag",
 };
 
-export const getAllIngredients = async (window) => {
-  if (typeof window !== "undefined") {
-    try {
-      const local = window.localStorage.getItem(
-        CONSTANTS.LOCAL_STORAGE_INGREDIENTS_KEY
-      );
+/**
+ * Retrieves entity values from database or localstorage if values are stored in cache
+ * @param {Object} window
+ * @param {Entity} entity
+ * @returns entity values from database or cache (depends on expiry time)
+ */
+export const getLocalStorage = async (entity) => {
+  let localStorageKey = "",
+    innerKey = "";
 
-      const storedObject = JSON.parse(local);
-
-      if (
-        new Date(storedObject?.savedAt).getTime() - new Date().getTime() <
-        EXPIRY_TIME
-      ) {
-        return storedObject.ingredients;
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  switch (entity) {
+    case Entity.INGREDIENT:
+      localStorageKey = CONSTANTS.LOCAL_STORAGE_INGREDIENTS_KEY;
+      innerKey = "ingredients";
+      break;
+    case Entity.TAG:
+      localStorageKey = CONSTANTS.LOCAL_STORAGE_TAGS_KEY;
+      innerKey = "tags";
+      break;
+    default:
+      throw Error(`Entity: ${entity} is unkown`);
   }
-  return await retrieveIngredientList(window);
+
+  try {
+    const local = window.localStorage.getItem(localStorageKey);
+    const storedObject = JSON.parse(local);
+
+    if (
+      new Date(storedObject?.savedAt).getTime() - new Date().getTime() <
+      EXPIRY_TIME
+    ) {
+      return storedObject[innerKey];
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  const api = new FoodleAPI();
+
+  const { data } = await api.getConfig(entity);
+
+  if (data)
+    window.localStorage.setItem(
+      localStorageKey,
+      JSON.stringify({ [innerKey]: data, savedAt: new Date().getTime() })
+    );
+
+  return data;
 };

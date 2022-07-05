@@ -64,7 +64,7 @@ router.post("/", authMiddleware, (req, res, next) => {
 router.put("/", authMiddleware, (req, res, next) => {
   const { id, firstName, lastName, email, password } = req.body;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 500);
+    logAndRespond(res, "id invalid or missing", 400);
     return;
   }
 
@@ -106,7 +106,7 @@ router.put("/", authMiddleware, (req, res, next) => {
 router.delete("/:id", authMiddleware, (req, res, next) => {
   const { id } = req.body;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 500);
+    logAndRespond(res, "id invalid or missing", 400);
     return;
   }
 

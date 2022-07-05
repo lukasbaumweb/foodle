@@ -1,14 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.31a109eb.css",
-    "main.js": "/static/js/main.129a5475.js",
+    "main.css": "/static/css/main.523bad05.css",
+    "main.js": "/static/js/main.5ce876d8.js",
+    "static/media/random-recipe.jpg": "/static/media/random-recipe.491dba758418d695115c.jpg",
+    "static/media/groceries-list.jpg": "/static/media/groceries-list.f59e10e145265194f72a.jpg",
+    "static/media/recipes.jpg": "/static/media/recipes.0e85186db08b4f7bc8a2.jpg",
+    "static/media/cook-books.jpg": "/static/media/cook-books.47a169363359a3e017cc.jpg",
     "service-worker.js": "/service-worker.js",
+    "static/media/chef.svg": "/static/media/chef.0d853f187ca99abf4649fa3232ca6527.svg",
+    "static/media/empty.svg": "/static/media/empty.d2bc575e71777a2380c8dacc440c9654.svg",
     "index.html": "/index.html",
-    "main.31a109eb.css.map": "/static/css/main.31a109eb.css.map",
-    "main.129a5475.js.map": "/static/js/main.129a5475.js.map"
+    "static/media/cook.svg": "/static/media/cook.ca14ee74cc9654bf8c0f12c233950205.svg",
+    "static/media/add-files.svg": "/static/media/add-files.1a535b7f0c27a086f2ad8494691fc734.svg",
+    "main.523bad05.css.map": "/static/css/main.523bad05.css.map",
+    "main.5ce876d8.js.map": "/static/js/main.5ce876d8.js.map"
   },
   "entrypoints": [
-    "static/css/main.31a109eb.css",
-    "static/js/main.129a5475.js"
+    "static/css/main.523bad05.css",
+    "static/js/main.5ce876d8.js"
   ]
 }

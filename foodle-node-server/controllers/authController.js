@@ -14,6 +14,8 @@ const generateAccessToken = (username, id) => {
 
 const login = (req, res) => {
   const { username, password } = req.body;
+
+  console.log(username, password);
   if (!username || !password) {
     res.json({ error: "username or password are missing" });
     return;
@@ -46,6 +48,7 @@ const login = (req, res) => {
         res.json({
           message: "login successful",
           data: {
+            uid: user._id,
             username: user.username,
             type: user.type,
             token: generateAccessToken(username, user._id),
@@ -85,13 +88,21 @@ const register = (req, res) => {
       break;
     case "user":
       if (username) {
+        const { firstName, lastName, email } = req.body;
         const salt = bcryptjs.genSaltSync(
           parseInt(process.env.SALT_ROUNDS) || 12
         );
 
         const hashedPassword = bcryptjs.hashSync(password, salt);
         User.create(
-          { username, password: hashedPassword, type: "user" },
+          {
+            firstName,
+            lastName,
+            email,
+            username,
+            password: hashedPassword,
+            type: "user",
+          },
           (error, user) => {
             if (error) {
               console.error(error);
@@ -99,7 +110,12 @@ const register = (req, res) => {
               return;
             }
             logAndRespond(res, {
-              token: generateAccessToken(username, user._id),
+              data: {
+                uid: user._id,
+                username: user.username,
+                type: user.type,
+                token: generateAccessToken(username, user._id),
+              },
             });
           }
         );

@@ -1,13 +1,17 @@
 const Config = require("../models/Config");
 
-const getIngredientConfig = (req, res, next) => {
-  Config.find({ type: "ingredient" }).exec((err, data) => {
+const getConfig = (req, res, next) => {
+  const { entity } = req.params;
+  Config.find({ type: entity }).exec((err, data) => {
     if (err) {
       logAndRespond(res, err.message, 500);
     } else {
-      res.json({ data });
+      const config = {};
+      data.forEach((item) => (config[item._id] = item));
+
+      res.json({ data: config });
     }
   });
 };
 
-module.exports = { getIngredientConfig };
+module.exports = { getConfig };

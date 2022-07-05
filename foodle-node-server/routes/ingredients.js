@@ -1,39 +1,37 @@
 const express = require("express");
-const { getAllIngredients } = require("../controllers/ingredientController");
+const {
+  getAllIngredients,
+  createIngredient,
+  updateIngredient,
+  deleteIngredient,
+  getOneIngredient,
+} = require("../controllers/ingredientController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 /**
  * Get all entries
  */
-router.get("/", getAllIngredients);
+router.get("/", authMiddleware, getAllIngredients);
 
 /**
  * get one entry
  */
-router.get("/:id", authMiddleware, (req, res, next) => {
-  res.json({ error: "Not implemented" });
-});
+router.get("/:id", authMiddleware, getOneIngredient);
 
 /**
  * create one entry
  */
-router.post("/", authMiddleware, (req, res, next) => {
-  res.json({ error: "Not implemented" });
-});
+router.post("/", authMiddleware, createIngredient);
 
 /**
  * update one entry
  */
-router.put("/:id", authMiddleware, (req, res, next) => {
-  res.json({ error: "Not implemented" });
-});
+router.put("/:id", authMiddleware, updateIngredient);
 
 /**
  * delete one entry
  */
-router.delete("/:id", authMiddleware, (req, res, next) => {
-  res.json({ error: "Not implemented" });
-});
+router.delete("/:id", authMiddleware, deleteIngredient);
 
 module.exports = router;

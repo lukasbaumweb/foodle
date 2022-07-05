@@ -13,7 +13,7 @@ const path = require("path");
 router.post("/foodle/:id", authMiddleware, async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 500);
+    logAndRespond(res, "id invalid or missing", 400);
     return;
   }
 

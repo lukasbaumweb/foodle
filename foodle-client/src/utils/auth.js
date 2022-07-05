@@ -21,9 +21,7 @@ const handleError = (error) => {
 };
 
 class Auth {
-  constructor(window) {
-    if (!window) throw Error("window object is required");
-
+  constructor() {
     this._context = window;
 
     this._api = new FoodleAPI();
@@ -56,6 +54,22 @@ class Auth {
   login(username, password, callback) {
     this._api
       .login(username, password)
+      .then((result) => {
+        const { data, error } = result;
+
+        if (data) {
+          this._session.setAuthToken(data.token);
+          this._session.setUser(data);
+          this.save();
+        }
+        callback(error, data);
+      })
+      .catch((err) => callback(handleError(err)));
+  }
+
+  register(payload, callback) {
+    this._api
+      .register(payload)
       .then((result) => {
         const { data, error } = result;
 

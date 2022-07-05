@@ -7,7 +7,6 @@ import {
   CardMedia,
   CircularProgress,
   MobileStepper,
-  Paper,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -33,12 +32,13 @@ const ImageSlider = ({ id }) => {
       api
         .getFoodleImages(id)
         .then(({ data }) => {
-          console.log(data.images);
-          setValues((state) => ({
-            ...state,
-            images: data.images,
-            loading: false,
-          }));
+          if (data)
+            setValues((state) => ({
+              ...state,
+              images: data?.images || [],
+              loading: false,
+            }));
+          else setValues((state) => ({ ...state, loading: false }));
         })
         .catch((err) => {
           console.error(err);
@@ -91,7 +91,7 @@ const ImageSlider = ({ id }) => {
               Bild hinzufügen
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Speichere dein Rezept erst ab bevor du Bilder hochladen kannst.
+              Speichere dein Foodle erst ab bevor du Bilder hochladen kannst.
             </Typography>
           </CardContent>
         </Card>
@@ -103,22 +103,7 @@ const ImageSlider = ({ id }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          height: 50,
-          pl: 2,
-          bgcolor: "background.default",
-        }}
-      >
-        <Typography>
-          {values.images[values.currentImage]?.title || "Kein Titel"}
-        </Typography>
-      </Paper>
-      <Box>
+      <Box minHeight="255px">
         {values.images.map((image, index) => (
           <Box key={index} sx={{ display: "flex" }}>
             {Math.abs(values.currentImage - index) <= 2 ? (
@@ -138,41 +123,63 @@ const ImageSlider = ({ id }) => {
             ) : null}
           </Box>
         ))}
+        {values.images.length === 0 && (
+          <Box>
+            <Card>
+              <CardMedia
+                component="img"
+                height="200"
+                image={AddFiles}
+                alt="Eintrag speichern"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Keine Bilder gefunden
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lade eine Bild hoch, um dein Foodle anzupreisen
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        )}
       </Box>
-      <MobileStepper
-        variant="dots"
-        steps={maxSteps}
-        position="static"
-        activeStep={values.currentImage}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={values.currentImage === maxSteps - 1}
-          >
-            Vorwärts
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button
-            size="small"
-            onClick={handleBack}
-            disabled={values.currentImage === 0}
-          >
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Zurück
-          </Button>
-        }
-      />{" "}
+      {values.images.length > 0 && (
+        <MobileStepper
+          variant="dots"
+          steps={maxSteps}
+          position="static"
+          activeStep={values.currentImage}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={values.currentImage === maxSteps - 1}
+            >
+              Vorwärts
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={values.currentImage === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Zurück
+            </Button>
+          }
+        />
+      )}
     </Box>
   );
 };

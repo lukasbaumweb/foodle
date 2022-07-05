@@ -77,7 +77,7 @@ const Login = () => {
     if (!validate()) return;
     setValues({ ...values, loading: true });
 
-    const auth = new Auth(window);
+    const auth = new Auth();
     auth.login(values.username, values.password, (err, data) => {
       if (err) {
         setValues({
@@ -86,7 +86,8 @@ const Login = () => {
           loading: false,
         });
       } else {
-        navigate(ROUTES.private.home.path);
+        window.location.href = "/";
+        // navigate(ROUTES.private.home.path);
       }
     });
   };
@@ -162,10 +163,6 @@ const Login = () => {
               }
             />
           </FormControl>
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Angemeldet bleiben"
-          /> */}
 
           {values.errors.all && (
             <Alert severity="error">{values.errors.all}</Alert>

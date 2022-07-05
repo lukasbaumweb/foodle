@@ -7,6 +7,7 @@ const CommentSchema = new Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      autoPopulate: true,
     },
     createdAt: { type: Date, default: Date.now },
   },
@@ -14,5 +15,6 @@ const CommentSchema = new Schema(
 );
 
 const Comment = mongoose.model("Comment", CommentSchema);
+CommentSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = Comment;

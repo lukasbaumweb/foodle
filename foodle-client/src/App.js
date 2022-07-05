@@ -103,8 +103,14 @@ function App() {
         path: ROUTES.public.resetPassword.path,
         element: <ResetPassword />,
       },
-      { path: "/login", element: <Login /> },
-      { path: "/logout", element: <Login /> },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/logout",
+        element: <Login />,
+      },
       { path: "*", element: <Navigate to="/login" /> },
     ];
   }

@@ -2,10 +2,12 @@ import React from "react";
 import { Container, Grid, Typography, useTheme } from "@mui/material";
 import MaterialUISwitch from "../../components/NightModeSwitch";
 import { ColorModeContext } from "../../utils/ThemeProvider";
+import { Auth } from "../../utils/auth";
 
 const Settings = () => {
   const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
+  const auth = new Auth();
 
   return (
     <Container maxWidth="xs" sx={{ pt: 5 }}>
@@ -21,6 +23,7 @@ const Settings = () => {
           />
         </Grid>
       </Grid>
+      <pre>{JSON.stringify(auth.getUser(), null, 2)}</pre>
     </Container>
   );
 };

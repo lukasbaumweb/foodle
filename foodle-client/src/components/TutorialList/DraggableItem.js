@@ -58,7 +58,7 @@ const DraggableListItem = ({ item, index, onEdit, onDelete, editable }) => {
             </ListItemIcon>
           )}
           <ListItemText
-            primary={`${index + 1}. ${item.text}`}
+            primary={`${index + 1}. ${item.title}`}
             secondary={item.description}
           />
         </CustomListItem>

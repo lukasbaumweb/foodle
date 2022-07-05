@@ -39,7 +39,11 @@ const RandomRecipe = () => {
       })
       .catch((err) => {
         console.error(err);
-        setValues((state) => ({ ...state, loading: false }));
+        setValues((state) => ({
+          ...state,
+          error: err.message,
+          loading: false,
+        }));
       });
   }, []);
 
@@ -53,16 +57,29 @@ const RandomRecipe = () => {
   return (
     <Container maxWidth="sm">
       <Typography variant="h5" sx={{ mt: 2 }}>
-        Zufälliges Rezept
+        Zufälliges Foodle
       </Typography>
       <Typography variant="body1">
-        Hier wird ein veröffentlichtes Rezept aus der großen Sammlung zufällig
+        Hier wird ein veröffentlichtes Foodle aus der großen Sammlung zufällig
         ausgewählt und angezeigt.
       </Typography>
       <Box display="flex" justifyContent="center" marginTop="20px">
         {values.recipe ? (
-          <RecipeCard recipe={values.recipe} />
+          <RecipeCard recipe={values.recipe} imageSize="300" />
         ) : (
+          <Card>
+            <CardContent>
+              <Typography variant="h5">
+                Kein zufälliges Foodle gefunden
+              </Typography>
+              <Typography variant="body1">
+                Es konnte kein öffentlich bereitgestelltes Foodle gefunden
+                werden{" "}
+              </Typography>
+            </CardContent>
+          </Card>
+        )}
+        {values.error && (
           <Card>
             <CardContent>
               <Typography variant="h5">

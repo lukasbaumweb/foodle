@@ -9,7 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 import { Auth } from "../../utils/auth";
 import { capitalize, isObjectEmpty } from "../../utils/functions";
 import ROUTES from "../../utils/routes";
@@ -27,6 +28,8 @@ const Register = () => {
     errors: {},
   });
 
+  const navigate = useNavigate();
+
   const validate = () => {
     const errors = {};
 
@@ -41,10 +44,33 @@ const Register = () => {
       errors["email"] = translate("validation-error/email-missing");
     }
 
-    if (values.password.trim().length === 0) {
+    if (values.password.length === 0) {
       errors["password"] = translate("validation-error/password-missing");
+    } else if (values.password.length < 8) {
+      errors["password"] = translate("validation-error/password-too-short");
     }
-    console.log(errors);
+
+    if (values.repeatPassword.length === 0) {
+      errors["repeatPassword"] = translate("validation-error/password-missing");
+    } else if (values.repeatPassword.length < 8) {
+      errors["repeatPassword"] = translate(
+        "validation-error/password-too-short"
+      );
+    }
+
+    if (
+      values.password.length > 7 &&
+      values.repeatPassword.length > 7 &&
+      values.password.length !== values.repeatPassword.length
+    ) {
+      errors["password"] = translate(
+        "validation-error/password-does-not-match"
+      );
+      errors["repeatPassword"] = translate(
+        "validation-error/password-does-not-match"
+      );
+    }
+
     const result = isObjectEmpty(errors);
     if (!result) setValues({ ...values, errors: errors });
 
@@ -54,9 +80,32 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
-    setValues({ ...values, loading: true });
+    setValues({ ...values, loading: true, errors: {} });
 
-    const auth = new Auth(window);
+    const auth = new Auth();
+
+    auth.register(
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        username: generateUsername(),
+        email: values.email,
+        password: values.password,
+      },
+      (err, data) => {
+        console.log(data);
+        if (err) {
+          setValues({
+            ...values,
+            errors: { all: err.error },
+            loading: false,
+          });
+        } else {
+          // navigate(ROUTES.private.home.path);
+          window.location.href = ROUTES.private.home.path;
+        }
+      }
+    );
   };
 
   const generateUsername = () => {
@@ -72,7 +121,7 @@ const Register = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  console.log(values);
+  if (values.loading) return <Loader />;
 
   return (
     <Container maxWidth="sm">
@@ -87,7 +136,7 @@ const Register = () => {
         <img src={SmallLogo} alt="Foodle Logo" />
 
         <Typography variant="body1" sx={{ mt: 2 }}>
-          Du hast noch keinen Account, möchtest aber trotzdem deine Rezepte
+          Du hast noch keinen Account, möchtest aber trotzdem deine Foodles
           speichern und teilen?
         </Typography>
         <Typography variant="body2" sx={{ my: 2 }}>
@@ -154,6 +203,7 @@ const Register = () => {
             autoComplete="email"
             error={values.errors["email"]?.length > 0}
             helperText={values.errors["email"]}
+            onChange={handleChange}
             required
             fullWidth
           />
@@ -165,21 +215,26 @@ const Register = () => {
             type="password"
             id="password"
             autoComplete="current-password"
-            error={values.errors["email"]?.length > 0}
-            helperText={values.errors["email"]}
+            error={values.errors["password"]?.length > 0}
+            helperText={values.errors["password"]}
+            onChange={handleChange}
             required
             fullWidth
           />
+          <Typography variant="caption" sx={{ p: 0 }}>
+            Mind. 8 Zeichen
+          </Typography>
           <TextField
             variant="filled"
             margin="normal"
-            name="repeat-password"
+            name="repeatPassword"
             label="Passwort wiederholen"
             type="password"
-            id="repeat-password"
+            id="repeatPassword"
             autoComplete="repeat-password"
-            error={values.errors["repeat-password"]?.length > 0}
-            helperText={values.errors["repeat-password"]}
+            error={values.errors["repeatPassword"]?.length > 0}
+            helperText={values.errors["repeatPassword"]}
+            onChange={handleChange}
             required
             fullWidth
           />

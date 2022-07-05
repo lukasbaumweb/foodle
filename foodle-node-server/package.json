@@ -20,6 +20,7 @@
     "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.2",
+    "mongoose-autopopulate": "^0.16.1",
     "morgan": "~1.9.1",
     "xss-clean": "^0.1.1"
   },

@@ -6,6 +6,7 @@ const {
   updateFoodle,
   deleteFoodle,
   getImagesById,
+  removeIngredient,
 } = require("../controllers/foodleController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
@@ -14,17 +15,22 @@ const router = express.Router();
 /**
  * Get all entries
  */
-router.get("/", getAll);
+router.get("/", authMiddleware, getAll);
 
 /**
  * get one entry or random entry
  */
-router.get("/:id", getFoodleById);
+router.get("/:id", authMiddleware, getFoodleById);
+
+/**
+ * get images by id
+ */
+router.get("/images/:id", authMiddleware, getImagesById);
 
 /**
  * get one entry or random entry
  */
-router.get("/images/:id", getImagesById);
+router.delete("/ingredient/:id/:ingredientId", authMiddleware, removeIngredient);
 
 /**
  * create one entry
@@ -34,7 +40,7 @@ router.post("/", authMiddleware, createFoodle);
 /**
  * update one entry
  */
-router.put("/", authMiddleware, updateFoodle);
+router.put("/:id", authMiddleware, updateFoodle);
 
 /**
  * delete one entry

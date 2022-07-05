@@ -5,6 +5,13 @@ import constants from "./constants";
 const removeTrailingSlash = (str) =>
   str.charAt(str.length - 1) === "/" ? str.substr(0, str.length - 1) : str;
 
+const generateSearchUrl = (filters) => {
+  return Object.entries(filters)
+    .reduce((acc, cur) => {
+      return acc + cur[0] + "=" + cur[1] + "&";
+    }, "?")
+    .slice(0, -1);
+};
 class FoodleAPI {
   constructor(url) {
     this.url = removeTrailingSlash(url || process.env.REACT_APP_FOODLE_API_URL);
@@ -19,23 +26,28 @@ class FoodleAPI {
     else this.options = {};
   }
 
-  async get(collection) {
-    const query = axios.get(`${this.url}/${collection}`, this.options);
+  async getFoodles(props) {
+    let searchParams = "";
+    if (props.filter) searchParams = generateSearchUrl(props.filter);
+    const query = axios.get(`${this.url}/foodle${searchParams}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
 
   async createFoodle(payload) {
-    const query = axios.get(`${this.url}/foodle`, {
-      data: payload,
-      ...this.options,
-    });
+    const query = axios.post(`${this.url}/foodle`, payload, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async updateFoodle(id, payload) {
+    const query = axios.put(`${this.url}/foodle/${id}`, payload, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
 
   async getFoodle(id) {
-    const query = axios.post(`${this.url}/foodle/${id}`, {
+    const query = axios.get(`${this.url}/foodle/${id}`, {
       ...this.options,
     });
     const result = await this.executeQuery(query);
@@ -43,9 +55,7 @@ class FoodleAPI {
   }
 
   async getFoodleImages(id) {
-    const query = axios.get(`${this.url}/foodle/images/${id}`, {
-      ...this.options,
-    });
+    const query = axios.get(`${this.url}/foodle/images/${id}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
@@ -67,8 +77,17 @@ class FoodleAPI {
   async deleteFoodleImage(foodleId, imageId) {
     const query = axios.delete(
       `${this.url}/foodle/image/${foodleId}`,
-      { data: { imageId: imageId } },
-      { ...this.options }
+      { imageId },
+      this.options
+    );
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async removeIngredientFromFoodle(foodleId, ingredientId) {
+    const query = axios.delete(
+      `${this.url}/foodle/ingredient/${foodleId}/${ingredientId}`,
+      this.options
     );
     const result = await this.executeQuery(query);
     return result;
@@ -84,8 +103,8 @@ class FoodleAPI {
     return result;
   }
 
-  async getIngredientConfig() {
-    const query = axios.get(`${this.url}/config/ingredient`, this.options);
+  async getConfig(entity) {
+    const query = axios.get(`${this.url}/config/${entity}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
@@ -103,7 +122,7 @@ class FoodleAPI {
   async put(collection, { id, data }) {
     const query = axios.put(
       `${this.url}/${collection}/${id}`,
-      { data },
+      data,
       this.options
     );
     const result = await this.executeQuery(query);
@@ -158,6 +177,23 @@ class FoodleAPI {
       {
         username,
         password,
+      },
+      this.options
+    );
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async register({ firstName, lastName, username, email, password }) {
+    const query = axios.post(
+      `${this.url}/auth/register`,
+      {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        mode: "user",
       },
       this.options
     );

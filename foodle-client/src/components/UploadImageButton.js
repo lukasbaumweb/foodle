@@ -53,7 +53,8 @@ const UploadImageButton = ({ id }) => {
     );
   }
 
-  const handleClose = () => setValues({ ...values, dialogOpen: false });
+  const handleClose = () =>
+    setValues({ ...values, dialogOpen: false, images: [] });
 
   const loadingOptions = {
     onUploadProgress: (progressEvent) => {
@@ -113,8 +114,7 @@ const UploadImageButton = ({ id }) => {
                 images: [...e.target.files],
                 dialogOpen: true,
               });
-            } else if (e.target.files.length === 0) {
-            } else {
+            } else if (e.target.files.length > 6) {
               setValues({
                 ...values,
                 errors: {
