@@ -1,6 +1,5 @@
 import {
   Alert,
-  Avatar,
   Box,
   Button,
   Container,
@@ -9,10 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { Auth } from "../../utils/auth";
-import { capitalize, isObjectEmpty } from "../../utils/functions";
+import { isObjectEmpty } from "../../utils/functions";
 import ROUTES from "../../utils/routes";
 import { translate } from "../../utils/translater";
 import SmallLogo from "./../../assets/images/foodles-small.png";
@@ -21,14 +20,11 @@ const Register = () => {
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
-    username: "",
     email: "",
     password: "",
     repeatPassword: "",
     errors: {},
   });
-
-  const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
@@ -84,37 +80,23 @@ const Register = () => {
 
     const auth = new Auth();
 
-    auth.register(
-      {
+    auth
+      .register({
         firstName: values.firstName,
         lastName: values.lastName,
-        username: generateUsername(),
         email: values.email,
         password: values.password,
-      },
-      (err, data) => {
-        console.log(data);
-        if (err) {
-          setValues({
-            ...values,
-            errors: { all: err.error },
-            loading: false,
-          });
-        } else {
-          // navigate(ROUTES.private.home.path);
-          window.location.href = ROUTES.private.home.path;
-        }
-      }
-    );
-  };
-
-  const generateUsername = () => {
-    const firstName = capitalize(values.firstName.toLocaleLowerCase());
-    const lastName = capitalize(values.lastName.toLocaleLowerCase());
-
-    const username = `${firstName} ${lastName}`;
-
-    return username;
+      })
+      .then(() => {
+        window.location.href = ROUTES.private.home.path;
+      })
+      .catch((err) =>
+        setValues({
+          ...values,
+          errors: { all: err.error },
+          loading: false,
+        })
+      );
   };
 
   const handleChange = (e) => {
@@ -122,6 +104,8 @@ const Register = () => {
   };
 
   if (values.loading) return <Loader />;
+
+  console.log(values.errors);
 
   return (
     <Container maxWidth="sm">
@@ -172,93 +156,91 @@ const Register = () => {
                 name="lastName"
                 onChange={handleChange}
                 value={values.lastName}
-                error={values.errors["firstName"]?.length > 0}
-                helperText={values.errors["firstName"]}
+                error={values.errors["lastName"]?.length > 0}
+                helperText={values.errors["lastName"]}
                 autoComplete="family-name"
                 required
                 fullWidth
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="filled"
+                margin="normal"
+                id="email"
+                label="E-Mail Adresse"
+                name="email"
+                autoComplete="email"
+                error={values.errors["email"]?.length > 0}
+                helperText={values.errors["email"]}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="filled"
+                margin="normal"
+                name="password"
+                label="Passwort"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                error={values.errors["password"]?.length > 0}
+                helperText={values.errors["password"]}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+              <Typography variant="caption" sx={{ p: 0 }}>
+                Mind. 8 Zeichen
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="filled"
+                margin="normal"
+                name="repeatPassword"
+                label="Passwort wiederholen"
+                type="password"
+                id="repeatPassword"
+                autoComplete="repeat-password"
+                error={values.errors["repeatPassword"]?.length > 0}
+                helperText={values.errors["repeatPassword"]}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+            </Grid>
           </Grid>
-          <TextField
-            variant="filled"
-            margin="normal"
-            id="username"
-            label="Benutzername"
-            name="username"
-            autoComplete="username"
-            InputProps={{
-              readOnly: true,
-            }}
-            value={generateUsername()}
-            fullWidth
-            helperText="Der Benutzername wird automatisch erstellt"
-          />
-          <TextField
-            variant="filled"
-            margin="normal"
-            id="email"
-            label="E-Mail Adresse"
-            name="email"
-            autoComplete="email"
-            error={values.errors["email"]?.length > 0}
-            helperText={values.errors["email"]}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
-          <TextField
-            variant="filled"
-            margin="normal"
-            name="password"
-            label="Passwort"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            error={values.errors["password"]?.length > 0}
-            helperText={values.errors["password"]}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
-          <Typography variant="caption" sx={{ p: 0 }}>
-            Mind. 8 Zeichen
-          </Typography>
-          <TextField
-            variant="filled"
-            margin="normal"
-            name="repeatPassword"
-            label="Passwort wiederholen"
-            type="password"
-            id="repeatPassword"
-            autoComplete="repeat-password"
-            error={values.errors["repeatPassword"]?.length > 0}
-            helperText={values.errors["repeatPassword"]}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
+
           {values.errors.all && (
             <Alert severity="error">{values.errors.all}</Alert>
           )}
           <Box sx={{ textAlign: "center" }}>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+            >
               Registrieren
             </Button>
           </Box>
-          <Grid container>
-            <Grid item xs>
-              <Link to={ROUTES.public.login.path} variant="body2">
-                Bereits registriert?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={ROUTES.public.resetPassword.path} variant="body2">
-                Passwort vergessen?
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
+        <Grid container>
+          <Grid item xs>
+            <Link to={ROUTES.public.login.path} variant="body2">
+              Bereits registriert?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link to={ROUTES.public.resetPassword.path} variant="body2">
+              Passwort vergessen?
+            </Link>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

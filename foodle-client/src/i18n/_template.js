@@ -10,7 +10,7 @@
   loader_sentences: [],
   authMessages: {
     "auth-error/unknown-account": "Unbekannter Account",
-    "auth-error/bad-format-email":
+    "validation-error/email-missing":
       "Fehlerhafter E-Mail Format (name@domain.tld)",
   },
   stutusCodes: {

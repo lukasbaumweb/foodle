@@ -27,7 +27,7 @@ import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
 import DetailsMenu from "../../../components/DetailsMenu";
 
-const CreateRecipe = () => {
+const EditRecipe = () => {
   const [values, setValues] = useState({
     title: "",
     description: "",
@@ -152,17 +152,29 @@ const CreateRecipe = () => {
       </Container>
     );
 
+  console.log(values.author);
+
   return (
-    <Container sx={{ pt: 3 }}>
+    <Container sx={{ pt: 1 }}>
       <Grid container spacing={3} component="form" onSubmit={onSubmit}>
         <Grid item xs={12}>
-          <Box display="flex" justifyContent="flex-end">
-            <DetailsMenu
-              onDelete={deleteFoodle}
-              onPublish={publishFoodle}
-              isPrivate={values.isPrivate}
-            />
-          </Box>
+          <Grid container>
+            <Grid item xs={6} display="flex" alignItems="center">
+              <Typography variant="body1">
+                {values.title}
+                {values.author && ` von ${values.author.username}`}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Box display="flex" justifyContent="flex-end">
+                <DetailsMenu
+                  onDelete={deleteFoodle}
+                  onPublish={publishFoodle}
+                  isPrivate={values.isPrivate}
+                />
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
           <ImageSlider id={id} images={values.images} />
@@ -253,4 +265,4 @@ const CreateRecipe = () => {
   );
 };
 
-export default CreateRecipe;
+export default EditRecipe;

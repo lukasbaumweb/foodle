@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import AccountCircle from "@mui/icons-material/AccountCircle";
-
 import {
   AppBar,
   Box,
@@ -17,7 +15,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -30,6 +27,7 @@ import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import TopicIcon from "@mui/icons-material/Topic";
 import CasinoIcon from "@mui/icons-material/Casino";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import FoodlesSmall from "../assets/images/foodles-small.png";
 
 const MENU_ID = "primary-menu";
@@ -229,7 +227,7 @@ const Header = () => {
         <MenuItem onClick={() => onNavigate(ROUTES.private.settings.path)}>
           Einstellungen
         </MenuItem>
-        <MenuItem onClick={() => Auth.logout(window)}>Abmelden</MenuItem>
+        <MenuItem onClick={() => Auth.logout()}>Abmelden</MenuItem>
       </Menu>
     </>
   );

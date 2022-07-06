@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
   Button,
   Container,
-  Checkbox,
-  FormControlLabel,
   Grid,
   TextField,
   Typography,
@@ -15,13 +12,14 @@ import {
   InputAdornment,
   IconButton,
   FilledInput,
+  FormHelperText,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Auth } from "../../utils/auth";
 import ROUTES from "../../utils/routes";
 import Loader from "../../components/Loader";
 import { translate } from "../../utils/translater";
-import { isObjectEmpty } from "../../utils/functions";
+import { isObjectEmpty, validateEmail } from "../../utils/functions";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SmallLogo from "./../../assets/images/foodles-small.png";
@@ -29,14 +27,12 @@ import constants from "../../utils/constants";
 
 const Login = () => {
   const [values, setValues] = useState({
-    username: "",
+    email: "",
     password: "",
     showPassword: false,
     loading: false,
     errors: {},
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -59,15 +55,18 @@ const Login = () => {
   const validate = () => {
     const errors = {};
 
-    if (values.username.trim().length === 0) {
-      errors["username"] = translate("validation-error/username-missing");
+    if (values.email.trim().length === 0) {
+      errors["email"] = translate("validation-error/email-missing");
+    } else if (!validateEmail(values.email.trim())) {
+      errors["email"] = translate("validation-error/email-malformed");
     }
 
     if (values.password.trim().length === 0) {
       errors["password"] = translate("validation-error/password-missing");
     }
+
     const result = isObjectEmpty(errors);
-    if (result) setValues({ ...values, errors: errors });
+    if (!result) setValues({ ...values, errors: errors });
 
     return result;
   };
@@ -78,18 +77,21 @@ const Login = () => {
     setValues({ ...values, loading: true });
 
     const auth = new Auth();
-    auth.login(values.username, values.password, (err, data) => {
-      if (err) {
+    auth
+      .login(values.email, values.password)
+      .then(() => {
+        window.location.href = "/";
+      })
+      .catch((err) =>
         setValues({
           ...values,
-          errors: { all: err.error },
+          errors: { all: translate(err.message) },
           loading: false,
-        });
-      } else {
-        window.location.href = "/";
-        // navigate(ROUTES.private.home.path);
-      }
-    });
+        })
+      );
+
+    //
+    // navigate(ROUTES.private.home.path);
   };
 
   const handleChange = (e) =>
@@ -107,6 +109,8 @@ const Login = () => {
   };
 
   if (values.loading) return <Loader />;
+
+  console.log(values.errors);
 
   return (
     <Container maxWidth="sm">
@@ -130,18 +134,18 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Benutzername"
-            name="username"
-            autoComplete="username"
+            id="email"
+            label="E-Mail Adresse"
+            name="email"
+            autoComplete="email"
             autoFocus
             onChange={handleChange}
-            value={values.username}
-            error={values.errors["username"]?.length > 0}
-            helperText={values.errors["username"]}
+            value={values.email}
+            error={values.errors["email"]?.length > 0}
+            helperText={values.errors["email"]}
           />
 
-          <FormControl variant="filled" fullWidth>
+          <FormControl variant="filled" sx={{ my: 3 }} fullWidth>
             <InputLabel htmlFor="password">Passwort</InputLabel>
             <FilledInput
               id="password"
@@ -162,29 +166,39 @@ const Login = () => {
                 </InputAdornment>
               }
             />
+            <FormHelperText error={values.errors["password"]?.length > 0}>
+              {values.errors["password"]}
+            </FormHelperText>
           </FormControl>
 
           {values.errors.all && (
-            <Alert severity="error">{values.errors.all}</Alert>
+            <Alert severity="error" variant="filled">
+              {values.errors.all}
+            </Alert>
           )}
           <Box sx={{ textAlign: "center" }}>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+            >
               Anmelden
             </Button>
           </Box>
-          <Grid container>
-            <Grid item xs>
-              <Link to={ROUTES.public.resetPassword.path} variant="body2">
-                Passwort vergessen?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={ROUTES.public.register.path} variant="body2">
-                Noch kein Account?
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
+        <Grid container>
+          <Grid item xs>
+            <Link to={ROUTES.public.resetPassword.path} variant="body2">
+              Passwort vergessen?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link to={ROUTES.public.register.path} variant="body2">
+              Noch kein Account?
+            </Link>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

@@ -17,7 +17,7 @@ const FileSchema = Schema(
   }
 );
 
-FileSchema.pre("deleteOne", function (next) {
+FileSchema.pre("deleteOne", (next) => {
   console.log(this);
   next();
 });

@@ -3,6 +3,11 @@ import CONSTANTS from "./constants";
 
 const EXPIRY_TIME = 1000 * 60 * 60; //1d
 
+/**
+ * Checks whether object is empty
+ * @param {Object} obj custom object
+ * @returns true if object is empty
+ */
 export const isObjectEmpty = (obj) => {
   return (
     obj &&
@@ -11,12 +16,28 @@ export const isObjectEmpty = (obj) => {
   );
 };
 
-export const onShare = async (document, navigator, text, pUrl) => {
-  if (!document || !text) throw new Error("parameter are missing");
+/**
+ * Checks if email corresponds with common email format (name@domain.tld)
+ * @param {String} email common email string
+ * @returns true if email correspnds with format
+ */
+export const validateEmail = (email) => {
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+};
+
+/**
+ * Shares custom text and url with navigator url
+ * @param {*} text to be shown in shared media
+ * @param {*} customUrl to be shared
+ */
+export const onShare = async (text, customUrl) => {
+  if (!text) throw new Error("text is missing");
 
   const title = document.title;
   const url =
-    pUrl ||
+    customUrl ||
     (document.querySelector("link[rel=canonical]")
       ? document.querySelector("link[rel=canonical]").href
       : document.location.href);

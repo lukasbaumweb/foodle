@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   Grid,
@@ -5,11 +6,7 @@ import {
   Card,
   CardActionArea,
   CardMedia,
-  SpeedDial,
-  Backdrop,
 } from "@mui/material";
-import React, { useState } from "react";
-
 import Recipes from "./../assets/images/recipes.jpg";
 import CookBook from "./../assets/images/cook-books.jpg";
 import RandomRecipe from "./../assets/images/random-recipe.jpg";

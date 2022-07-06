@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Backdrop, SpeedDial, SpeedDialAction } from "@mui/material";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import AddIcon from "@mui/icons-material/Add";
-import ShareIcon from "@mui/icons-material/Share";
 import ROUTES from "../utils/routes";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +17,6 @@ const RecipeDial = () => {
         navigate(ROUTES.public.createRecipe.path);
       },
     },
-    { icon: <ShareIcon />, name: "Share" },
   ];
 
   return (

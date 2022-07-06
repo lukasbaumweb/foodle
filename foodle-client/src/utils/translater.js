@@ -58,7 +58,7 @@ export const translate = (
       return language["ingredients"][value] || value;
     }
 
-    return language["unknown-error"];
+    return language[code] || language["unknown-error"];
   } catch (err) {
     console.error(err);
     return value;

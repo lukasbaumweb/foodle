@@ -42,7 +42,7 @@ const Recipes = ({ uid }) => {
       ) : (
         <>
           <Box display="flex" marginTop={3} justifyContent="center">
-            <img src={Empty} height="200" />
+            <img src={Empty} height="200" alt="Keine Fotos gefunden" />
           </Box>
           <Typography textAlign="center" variant="h5" sx={{ mt: 3 }}>
             Keine Foodles gefunden

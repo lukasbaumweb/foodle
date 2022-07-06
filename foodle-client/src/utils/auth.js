@@ -22,8 +22,6 @@ const handleError = (error) => {
 
 class Auth {
   constructor() {
-    this._context = window;
-
     this._api = new FoodleAPI();
 
     this.attachEvents();
@@ -51,42 +49,26 @@ class Auth {
     this._api.isLoggedIn();
   }
 
-  login(username, password, callback) {
-    this._api
-      .login(username, password)
-      .then((result) => {
-        const { data, error } = result;
-
-        if (data) {
-          this._session.setAuthToken(data.token);
-          this._session.setUser(data);
-          this.save();
-        }
-        callback(error, data);
-      })
-      .catch((err) => callback(handleError(err)));
+  async login(email, password) {
+    const { data } = await this._api.login(email, password);
+    if (data) {
+      this._session.setAuthToken(data.token);
+      this._session.setUser(data);
+      this.save();
+    }
   }
 
-  register(payload, callback) {
-    this._api
-      .register(payload)
-      .then((result) => {
-        const { data, error } = result;
+  async register(payload) {
+    const { data } = await this._api.register(payload);
 
-        if (data) {
-          this._session.setAuthToken(data.token);
-          this._session.setUser(data);
-          this.save();
-        }
-        callback(error, data);
-      })
-      .catch((err) => callback(handleError(err)));
+    this._session.setAuthToken(data.token);
+    this._session.setUser(data);
+    this.save();
   }
 
-  static logout(context, error) {
-    if (!context) throw new Error("context (window object) missing");
-    context.localStorage.removeItem(LOCAL_STORAGE_USER_METADATA);
-    context.localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
+  static logout(error) {
+    window.localStorage.removeItem(LOCAL_STORAGE_USER_METADATA);
+    window.localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
 
     if (error === CONSTANTS.SESSION_EXPIRED) {
       window.location.href = "/logout?e=" + CONSTANTS.SESSION_EXPIRED_ABBR;
@@ -95,9 +77,8 @@ class Auth {
     }
   }
 
-  static getAuthToken(context) {
-    if (!context) throw new Error("context (window object) missing");
-    return Session.getAuthToken(context);
+  static getAuthToken() {
+    return Session.getAuthToken();
   }
 
   getUser() {
@@ -109,10 +90,7 @@ class Auth {
   }
 
   save() {
-    this._context.localStorage.setItem(
-      LOCAL_STORAGE_USER_METADATA,
-      this.toString()
-    );
+    window.localStorage.setItem(LOCAL_STORAGE_USER_METADATA, this.toString());
   }
 
   toString() {
@@ -123,11 +101,7 @@ class Auth {
 }
 
 class Session {
-  constructor(window) {
-    if (!window) throw Error("window object is required");
-
-    this.context = window;
-
+  constructor() {
     this.token = null;
     this.metadata = null;
     this.exists = false;
@@ -150,7 +124,7 @@ class Session {
   }
 
   getStoredData() {
-    let storage = this.context.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
+    let storage = window.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
 
     if (storage) {
       storage = JSON.parse(storage);
@@ -165,8 +139,8 @@ class Session {
     this.save();
   }
 
-  static getAuthToken(context) {
-    let storage = context.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
+  static getAuthToken() {
+    let storage = window.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
     if (storage) {
       storage = JSON.parse(storage);
       return storage.metadata.token;
@@ -185,10 +159,7 @@ class Session {
   }
 
   save() {
-    this.context.localStorage.setItem(
-      LOCAL_STORAGE_SESSION_KEY,
-      this.toString()
-    );
+    window.localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, this.toString());
   }
 
   toString() {

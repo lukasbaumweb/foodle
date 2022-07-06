@@ -1,5 +1,7 @@
 export const de_DE = {
   "unknown-error": "Unbekannter Fehler",
+  "unknown user": "Benutzer unbekannt",
+
   loaderSentences: [
     "Gäste werden eingeladen",
     "Einkaufszettel wird geschrieben",
@@ -21,8 +23,6 @@ export const de_DE = {
   ],
 
   "auth-error": {
-    "auth-error/bad-format-email":
-      "Fehlerhafter E-Mail Format (name@domain.tld)",
     "auth-error/incorrect-password": "Benutzer unbekannt oder Passwort falsch",
     "auth-error/user-unknown": "Benutzer unbekannt oder Passwort falsch",
     "auth-error/session-expired": "Sitzung abgelaufen",
@@ -30,7 +30,8 @@ export const de_DE = {
 
   "validation-error": {
     "validation-error/email-missing": "E-Mail fehlt",
-    "validation-error/username-missing": "Benutzername fehlt",
+    "validation-error/email-malformed":
+      "Fehlerhaftes E-Mail Format (name@domain.tld)",
     "validation-error/firstName-missing": "Vorname fehlt",
     "validation-error/lastName-missing": "Nachname fehlt",
     "validation-error/password-missing": "Passwort fehlt",

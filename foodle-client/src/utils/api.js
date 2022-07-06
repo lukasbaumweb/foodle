@@ -34,6 +34,17 @@ class FoodleAPI {
     return result;
   }
 
+  async getMyFoodles(props) {
+    let searchParams = "";
+    if (props.filter) searchParams = generateSearchUrl(props.filter);
+    const query = axios.get(
+      `${this.url}/foodle/author/my${searchParams}`,
+      this.options
+    );
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
   async createFoodle(payload) {
     const query = axios.post(`${this.url}/foodle`, payload, this.options);
     const result = await this.executeQuery(query);
@@ -61,7 +72,7 @@ class FoodleAPI {
   }
 
   async getRandomFoodle() {
-    const query = axios.get(`${this.url}/foodle/random`, this.options);
+    const query = axios.get(`${this.url}/foodle/type/random`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
@@ -139,43 +150,31 @@ class FoodleAPI {
     try {
       const result = await promise;
       const data = result.data;
-      const error = result.error;
-      if (error) throw new Error(error);
       return data;
     } catch (error) {
       const { request, response } = error;
       if (response) {
-        const { message, code, error } = response.data;
-        const status = response.status;
+        const { statusCode, error } = response.data.data;
 
-        if (error === constants.SESSION_EXPIRED) {
-          Auth.logout(window, error);
+        if (statusCode === 440) {
+          Auth.logout(error);
           return;
         }
 
-        return {
-          message,
-          status,
-          code,
-        };
+        throw new Error(error);
       } else if (request) {
-        return {
-          message: "server time out",
-          status: 503,
-        };
+        throw new Error("server time out");
       } else {
-        return {
-          message: "opps! something went wrong while setting up request",
-        };
+        throw new Error("opps! something went wrong while setting up request");
       }
     }
   }
 
-  async login(username, password) {
+  async login(email, password) {
     const query = axios.post(
       `${this.url}/auth/login`,
       {
-        username,
+        email,
         password,
       },
       this.options
@@ -184,13 +183,13 @@ class FoodleAPI {
     return result;
   }
 
-  async register({ firstName, lastName, username, email, password }) {
+  async register({ firstName, lastName, email, password }) {
     const query = axios.post(
       `${this.url}/auth/register`,
       {
         firstName,
         lastName,
-        username,
+
         email,
         password,
         mode: "user",

@@ -7,15 +7,6 @@ const UserSchema = new Schema(
   {
     firstName: String,
     lastName: String,
-    username: {
-      type: String,
-      unique: true,
-      validate: {
-        validator: (v) => v.length > 2,
-        message: (props) => `${props.value} is not at least 3 characters long`,
-      },
-      immutable: true,
-    },
     email: {
       type: String,
       validate: {
@@ -23,18 +14,12 @@ const UserSchema = new Schema(
         message: (props) => `${props.value} is not a valid email (bad format)`,
       },
       select: false,
+      unique: true,
+      required: true,
+      immutable: true,
     },
     password: { type: String, select: false },
-    hidden: { type: Boolean, select: false },
     isActivated: { type: Boolean, select: false },
-    type: {
-      type: String,
-      enum: {
-        values: ["guest", "user"],
-        message: "{VALUE} is not supported",
-      },
-      select: false,
-    },
     favs: [{ type: Schema.ObjectId, ref: "Foodle", select: false }],
     ratings: [{ type: Schema.ObjectId, ref: "Foodle", select: false }],
     createdAt: { type: Date, default: Date.now, select: false },
@@ -42,44 +27,13 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-// UserSchema.pre("save", (next) => {
-//   if ((this.password && this.isModified("password")) || this.isNew) {
-//     if (this.password.length > 5) {
-//       this.password = bcryptjs.hashSync(
-//         this.password,
-//         process.env.SALT_ROUNDS || 12
-//       );
-//     } else {
-//       throw Error("password must be at least 6 characters");
-//     }
-//   }
-//   console.log(this);
-
-//   next();
-// });
-
-// UserSchema.pre("updateOne", (next) => {
-//   if ((this.password && this.isModified("password")) || this.isNew) {
-//     if (this.password.length > 5) {
-//       this.password = bcryptjs.hashSync(
-//         this.password,
-//         process.env.SALT_ROUNDS || 12
-//       );
-//     } else {
-//       throw Error("password must be at least 6 characters");
-//     }
-//   }
-//   console.log(this);
-
-//   next();
-// });
-
 UserSchema.methods.comparePassword = (oldPassword, password, callback) => {
   bcryptjs.compare(oldPassword, password, (error, isMatch) => {
     if (error) {
       return callback(error);
     } else {
-      callback(null, isMatch);
+      if (!isMatch) throw Error("passwords do not match");
+      else callback(null, isMatch);
     }
   });
 };

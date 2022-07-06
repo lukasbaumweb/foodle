@@ -22,6 +22,7 @@ const filesRouter = require("./routes/files");
 const ingredientRouter = require("./routes/ingredients");
 const configRouter = require("./routes/configs");
 const { MONGO_URI } = require("./config");
+const errorController = require("./controllers/errorController");
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use("/api/v1/foodle", foodlesRouter);
 app.use("/api/v1/files", filesRouter);
 app.use("/api/v1/ingredient", ingredientRouter);
 app.use("/api/v1/config", configRouter);
+app.use(errorController);
 
 mongoose
   .connect(MONGO_URI, {

@@ -2,7 +2,8 @@ const bcryptjs = require("bcryptjs");
 const express = require("express");
 const authMiddleware = require("../middlewares/authMiddleware");
 const User = require("../models/User");
-const { logAndRespond } = require("../utils/logging");
+const { BadRequestError, NotFoundError } = require("../utils/errors");
+
 const router = express.Router();
 
 /**
@@ -17,13 +18,18 @@ router.get("/", authMiddleware, (req, res, next) => {
  */
 router.get("/:id", authMiddleware, (req, res, next) => {
   const { id } = req.params;
+
+  if (!id) {
+    next(new BadRequestError("id invalid or missing"));
+    return;
+  }
+
   User.findById({ _id: id }, (err, user) => {
     if (err) {
-      console.error(err);
-      res.json({ error: err });
-      return;
+      next(err);
+    } else {
+      res.json({ user });
     }
-    res.json({ user });
   });
 });
 
@@ -31,13 +37,13 @@ router.get("/:id", authMiddleware, (req, res, next) => {
  * create one user
  */
 router.post("/", authMiddleware, (req, res, next) => {
-  const { id, firstName, lastName, email, username } = req.body;
+  const { id, firstName, lastName, email } = req.body;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError("id invalid or missing"));
     return;
   }
-  if (!username) {
-    logAndRespond(res, "username invalid or missing", 400);
+  if (!email) {
+    next(new BadRequestError("email invalid or missing"));
     return;
   }
 
@@ -45,16 +51,11 @@ router.post("/", authMiddleware, (req, res, next) => {
     firstName,
     lastName,
     email,
-    username,
   };
   User.create(payload, (err, user) => {
     if (err) {
-      console.error(err);
-      res.json({ error: err });
-      return;
-    }
-
-    res.json({ user, message: "User created successfully" });
+      next(err);
+    } else res.json({ user, message: "User created successfully" });
   });
 });
 
@@ -64,23 +65,28 @@ router.post("/", authMiddleware, (req, res, next) => {
 router.put("/", authMiddleware, (req, res, next) => {
   const { id, firstName, lastName, email, password } = req.body;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError("id invalid or missing"));
     return;
   }
 
   if (!password) {
-    logAndRespond(res, "password is missing", 500);
+    next(new BadRequestError("password missing"));
     return;
   }
+
   const payload = {
     firstName,
     lastName,
     email,
   };
   User.findById(id, "+password", (err, user) => {
-    if (err || user === null) {
-      console.error(err);
-      res.json({ error: err });
+    if (err) {
+      next(err);
+      return;
+    }
+
+    if (user === null) {
+      next(new NotFoundError("user not found"));
       return;
     }
 
@@ -88,15 +94,10 @@ router.put("/", authMiddleware, (req, res, next) => {
     if (isMatch) {
       User.updateOne({ _id: id }, payload, (err, user) => {
         if (err) {
-          console.error(err);
-          res.json({ error: err });
-          return;
-        }
-        res.json({ user, message: "User updated successfully" });
+          next(err);
+        } else res.json({ user, message: "User updated successfully" });
       });
-    } else {
-      res.json({ error: "Password incorrect" });
-    }
+    } else next(new BadRequestError("password incorrect"));
   });
 });
 
@@ -106,17 +107,14 @@ router.put("/", authMiddleware, (req, res, next) => {
 router.delete("/:id", authMiddleware, (req, res, next) => {
   const { id } = req.body;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError("id invalid or missing"));
     return;
   }
 
   User.deleteOne({ _id: id }, (err, user) => {
     if (err) {
-      console.error(err);
-      res.json({ error: err });
-      return;
-    }
-    res.json({ user, message: "User updated successfully" });
+      next(err);
+    } else res.json({ user, message: "User updated successfully" });
   });
 });
 

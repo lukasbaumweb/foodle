@@ -78,12 +78,9 @@ function App() {
   let renderedRoutes = [
     { element: <Home />, index: true },
     { path: ROUTES.public.recipes.path, element: <Recipes /> },
-    { path: ROUTES.public.recipe.path, element: <Recipe /> },
-    { path: ROUTES.public.createRecipe.path, element: <CreateRecipe /> },
-    { path: ROUTES.public.editRecipe.path, element: <EditRecipe /> },
-    { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
-    { path: ROUTES.public.randomRecipe.path, element: <RandomRecipe /> },
     { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
+    { path: ROUTES.public.recipe.path, element: <Recipe /> },
+    { path: ROUTES.public.randomRecipe.path, element: <RandomRecipe /> },
     { path: ROUTES.public.about.path, element: <About /> },
     { path: ROUTES.public.impressum.path, element: <Impressum /> },
   ];
@@ -93,6 +90,9 @@ function App() {
       ...renderedRoutes,
       { path: ROUTES.private.account.path, element: <Account /> },
       { path: ROUTES.private.settings.path, element: <Settings /> },
+      { path: ROUTES.public.createRecipe.path, element: <CreateRecipe /> },
+      { path: ROUTES.public.editRecipe.path, element: <EditRecipe /> },
+      { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
       { path: "*", element: <NoMatch /> },
     ];
   } else if (values.authState === AUTH_STATES.loggedOut) {

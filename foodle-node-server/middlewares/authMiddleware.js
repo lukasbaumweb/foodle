@@ -1,21 +1,22 @@
 const jwt = require("jsonwebtoken");
 const { JWT_TOKEN } = require("../config");
-const { translater } = require("../utils/errorCodes");
-const { logAndRespond } = require("../utils/logging");
+const {
+  NotAuthenticatedError,
+  SessionExpiredError,
+} = require("../utils/errors");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return logAndRespond(res, "auth-error/login-required", 401);
+  if (!token) return next(new NotAuthenticatedError());
 
   jwt.verify(token, JWT_TOKEN, (err, user) => {
     if (err) {
-      console.error(err);
-      logAndRespond(res, "auth-error/session-expired", 403);
-      return;
+      next(new SessionExpiredError());
+    } else {
+      req.user = user;
+      next();
     }
-    req.user = user;
-    next();
   });
 };
 

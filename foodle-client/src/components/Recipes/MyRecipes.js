@@ -11,14 +11,14 @@ const MyRecipes = ({ uid }) => {
     const api = new FoodleAPI();
 
     api
-      .getFoodles({ filter: { author: uid } })
+      .getMyFoodles({ filter: { author: uid } })
       .then((result) => {
         setValues((state) => ({ ...state, recipes: result.data || [] }));
       })
       .catch((err) => console.error(err));
 
     return () => {};
-  }, []);
+  }, [uid]);
 
   return (
     <Box>

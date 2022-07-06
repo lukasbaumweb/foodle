@@ -1,11 +1,11 @@
 const express = require("express");
 const authMiddleware = require("../middlewares/authMiddleware");
 const { getSizeFile } = require("../utils/fileUpload");
-const { logAndRespond } = require("../utils/logging");
 const router = express.Router();
 const Foodle = require("../models/Foodle.js");
 const File = require("../models/File.js");
 const path = require("path");
+const { BadRequestError } = require("../utils/errors");
 
 /**
  * update one entry
@@ -13,7 +13,8 @@ const path = require("path");
 router.post("/foodle/:id", authMiddleware, async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError(("id missing")));
+
     return;
   }
 
@@ -59,6 +60,7 @@ router.post("/foodle/:id", authMiddleware, async (req, res, next) => {
           files.push(savedFile);
         } catch (err) {
           console.error(err);
+          next(err);
         }
       }
       payload["files"] = files;
@@ -66,14 +68,15 @@ router.post("/foodle/:id", authMiddleware, async (req, res, next) => {
 
     Foodle.updateOne({ _id: id }, payload, (err, data) => {
       if (err) {
-        logAndRespond(res, err.message, 500);
+        next(err);
       } else {
-        logAndRespond(res, "Files uploaded");
+        // TODO: add file paths
+        res.json({ data: "Files uploaded" });
       }
     });
-  } catch (error) {
-    console.error(error);
-    return next(error);
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 

@@ -1,13 +1,43 @@
 const Ingredient = require("./../models/Ingredient");
 const Foodle = require("./../models/Foodle");
-const { logAndRespond } = require("../utils/logging");
+const { BadRequestError, NotAuthorizedError } = require("../utils/errors");
 
 const getAll = (req, res, next) => {
-  const authorId = req.query.author;
-  const pagingParam = req.query.page || new Date();
-  const limit = req.query.limit || 25;
+  const page = Math.max(0, req.query.page || 1);
+  const perPage = req.query.limit || 25;
 
-  const isAuthorCurrentUser = authorId && req.user.id === authorId;
+  Foodle.find({ isPrivate: false })
+    .populate("author")
+    .populate({
+      path: "ratings",
+      populate: { path: "ratings" },
+    })
+    .sort("-createdAt")
+    .exec((err, recipes) => {
+      if (err) {
+        next(err);
+      } else {
+        Foodle.count().exec((err, count) => {
+          if (err) {
+            logAndRespond(res, err.message, 500);
+          } else {
+            res.json({
+              data: {
+                recipes,
+                page,
+                pages: count / perPage,
+              },
+            });
+          }
+        });
+      }
+    });
+};
+
+const getMyFoodles = (res, req, next) => {
+  const authorId = req.query.author;
+
+  const isAuthorCurrentUser = authorId && req.user && req.user.id === authorId;
   if (isAuthorCurrentUser) {
     Foodle.find({ author: req.user.id })
       .populate("author")
@@ -21,95 +51,77 @@ const getAll = (req, res, next) => {
       })
       .exec((err, data) => {
         if (err) {
-          logAndRespond(res, err.message, 500);
+          next(err);
         } else {
           res.json({ data });
         }
       });
-  } else {
-    Foodle.find({ createdAt: { $lte: pagingParam }, isPrivate: false })
-      .populate("author")
-      .populate({
-        path: "ratings",
-        populate: { path: "ratings" },
-      })
-      .limit(limit)
-      .sort("-createdAt")
-      .exec((err, data) => {
-        if (err) {
-          logAndRespond(res, err.message, 500);
-        } else {
-          res.json({ data });
-        }
-      });
-  }
+  } else next(new BadRequestError((" author or missing")));
 };
 
 const getFoodleById = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError(("id missing")));
     return;
   }
 
-  if (id === "random") {
-    Foodle.count({ isPrivate: false }).exec(function (err, count) {
+  Foodle.findOne({ _id: id })
+    .populate("author")
+    .populate({
+      path: "ingredients",
+      model: Ingredient,
+    })
+    .exec((err, data) => {
       if (err) {
-        logAndRespond(res, err.message, 500);
+        next(err);
+      } else {
+        if (!data) {
+          next(new BadRequestError(("Foodle does not exists")));
+        } else if (
+          !data.author ||
+          data.author._id.toHexString() === req.user.id
+        ) {
+          data.ingredients.map((ingredient) => {
+            return ingredient;
+          });
 
-        return;
-      }
-
-      const random = Math.floor(Math.random() * count);
-
-      Foodle.findOne({ isPrivate: false })
-        .populate("author")
-        .skip(random)
-        .exec((err, data) => {
-          if (err) {
-            logAndRespond(res, err.message, 500);
-          } else {
-            res.json({ data });
-          }
-        });
-    });
-  } else {
-    Foodle.findOne({ _id: id })
-      .populate("author")
-      .populate({
-        path: "ingredients",
-        model: Ingredient,
-      })
-      .exec((err, data) => {
-        if (err || !data) {
-          logAndRespond(
-            res,
-            err?.message || "Foodle does not exists",
-            err ? 500 : 404
-          );
+          res.json({ data });
+        } else if (data.isPrivate) {
+          next(new NotAuthorizedError(("Foodle is not public")));
         } else {
-          if (data.author._id.toHexString() === req.user.id) {
-            data.ingredients.map((ingredient) => {
-              return ingredient;
-            });
-
-            res.json({ data });
-          } else if (data.isPrivate) {
-            res
-              .status(401)
-              .json({ message: "Foodle does not exists or it is not public" });
-          }
+          next(new BadRequestError(("Foodle does not exists")));
         }
+      }
+    });
+};
+
+const getRandomFoodle = (req, res, next) => {
+  Foodle.count({ isPrivate: false }).exec((err, count) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    const random = Math.floor(Math.random() * count);
+
+    Foodle.findOne({ isPrivate: false })
+      .populate("author")
+      .skip(random)
+      .exec((err, data) => {
+        if (err) {
+          next(err);
+        } else res.json({ data });
       });
-  }
+  });
 };
 
 const getImagesById = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError(("id missing")));
     return;
   }
 
@@ -118,7 +130,7 @@ const getImagesById = (req, res, next) => {
     .populate("images")
     .exec((err, data) => {
       if (err) {
-        logAndRespond(res, err.message, 500);
+        next(err);
       } else {
         const publicFolder =
           req.protocol + "://" + req.get("host") + "/foodles/";
@@ -138,14 +150,13 @@ const getImagesById = (req, res, next) => {
 const createFoodle = (req, res) => {
   const { title } = req.body;
   if (!title) {
-    logAndRespond(res, "title is missing", 400);
+    next(new BadRequestError(("title missing")));
+    return;
   } else {
     Foodle.create({ ...req.body, author: req.user.id }, (err, data) => {
       if (err) {
-        logAndRespond(res, err.message, 500);
-      } else {
-        res.json({ data });
-      }
+        next(err);
+      } else res.json({ data });
     });
   }
 };
@@ -154,8 +165,8 @@ const updateFoodle = async (req, res, next) => {
   const { id } = req.params;
   const { title, description, category, tags, ingredients, isPrivate, steps } =
     req.body;
-  if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+  if (!title) {
+    next(new BadRequestError(("id missing")));
     return;
   }
   const payload = { title, description, category, tags, isPrivate, steps };
@@ -168,7 +179,7 @@ const updateFoodle = async (req, res, next) => {
   }
   Foodle.updateOne({ _id: id }, payload, (err, data) => {
     if (err) {
-      logAndRespond(res, err.message, 500);
+      next(err);
     } else {
       res.json({ data });
     }
@@ -178,12 +189,12 @@ const updateFoodle = async (req, res, next) => {
 const removeIngredient = async (req, res, next) => {
   const { id, ingredientId } = req.params;
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError(("id missing")));
     return;
   }
 
   if (!ingredientId) {
-    logAndRespond(res, "ingredientId invalid or missing", 400);
+    next(new BadRequestError(("ingriedient id missing")));
     return;
   }
 
@@ -192,7 +203,7 @@ const removeIngredient = async (req, res, next) => {
 
     Foodle.updateOne({ _id: id }, payload, (err, data) => {
       if (err) {
-        logAndRespond(res, err.message, 500);
+        next(err);
       } else {
         res.json({ data });
       }
@@ -206,12 +217,13 @@ const deleteFoodle = (req, res, next) => {
   console.log(imageId);
 
   if (!id) {
-    logAndRespond(res, "id invalid or missing", 400);
+    next(new BadRequestError(("id missing")));
     return;
   }
+
   Foodle.deleteOne({ _id: id }).then((err) => {
     if (err) {
-      logAndRespond(res, err.message, 500);
+      next(err);
     } else {
       res.json({ message: "Foodle deleted" });
     }
@@ -220,6 +232,8 @@ const deleteFoodle = (req, res, next) => {
 
 module.exports = {
   getAll,
+  getMyFoodles,
+  getRandomFoodle,
   getFoodleById,
   getImagesById,
   createFoodle,

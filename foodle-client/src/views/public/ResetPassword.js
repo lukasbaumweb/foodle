@@ -71,19 +71,19 @@ const ResetPassword = () => {
               Zurücksetzen
             </Button>
           </Box>
-          <Grid container>
-            <Grid item xs>
-              <Link to={ROUTES.public.login.path} variant="body2">
-                Anmelden
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={ROUTES.public.register.path} variant="body2">
-                Noch kein Account?
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
+        <Grid container>
+          <Grid item xs>
+            <Link to={ROUTES.public.login.path} variant="body2">
+              Anmelden
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link to={ROUTES.public.register.path} variant="body2">
+              Noch kein Account?
+            </Link>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );
