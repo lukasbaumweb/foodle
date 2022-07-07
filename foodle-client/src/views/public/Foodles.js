@@ -43,7 +43,7 @@ const Foodles = ({ uid }) => {
         <>
           <Masonry columns={countColumns} spacing={2}>
             {values.foodles.map((item, index) => (
-              <FoodleCard key={index} recipe={item} />
+              <FoodleCard key={index} foodle={item} />
             ))}
           </Masonry>
           <Box display="flex" justifyContent="center">

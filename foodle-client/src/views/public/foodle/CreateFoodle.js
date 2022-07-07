@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
 
-const CreateRecipe = () => {
+const CreateFoodle = () => {
   const [values, setValues] = useState({
     loading: false,
     title: "",
@@ -80,7 +80,7 @@ const CreateRecipe = () => {
       .then((result) => {
         console.log(result);
         const id = result.data._id;
-        navigate(ROUTES.public.editRecipe.path.replace(":id", id));
+        navigate(ROUTES.public.editFoodle.path.replace(":id", id));
       })
       .catch((err) => {
         console.error(err);
@@ -212,4 +212,4 @@ const CreateRecipe = () => {
   );
 };
 
-export default CreateRecipe;
+export default CreateFoodle;

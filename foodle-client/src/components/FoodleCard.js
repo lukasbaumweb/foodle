@@ -22,7 +22,7 @@ import ROUTES from "../utils/routes";
 import EditIcon from "@mui/icons-material/Edit";
 import { Auth } from "../utils/auth";
 
-const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
+const FoodleCard = ({  foodle = {}, imageSize = 100 }) => {
   const [values, setValues] = useState({ isFavorite: false });
 
   const auth = new Auth();
@@ -39,22 +39,22 @@ const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
         sx={{ p: 1 }}
         avatar={
           <Avatar sx={{ height: 30, width: 30 }}>
-            {recipe.author?.firstName.charAt(0).toUpperCase()}
+            {foodle.author?.firstName.charAt(0).toUpperCase()}
           </Avatar>
         }
         title={
-          recipe.author
-            ? `${recipe.author?.firstName} ${recipe.author?.lastName}`
+          foodle.author
+            ? `${foodle.author?.firstName} ${foodle.author?.lastName}`
             : "Kein Autor vorhanden"
         }
         action={
-          recipe.author?._id === auth.getUser().uid && (
+          foodle.author?._id === auth.getUser().uid && (
             <Tooltip title="Bearbeiten">
               <IconButton
                 site="small"
                 onClick={() =>
                   navigate(
-                    ROUTES.public.editRecipe.path.replace(":id", recipe._id)
+                    ROUTES.public.editFoodle.path.replace(":id", foodle._id)
                   )
                 }
               >
@@ -67,14 +67,14 @@ const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
       <CardMedia
         component="img"
         height={imageSize}
-        image={recipe.img || Chef}
-        alt={recipe.title}
+        image={foodle.img || Chef}
+        alt={foodle.title}
       />
       <CardContent sx={{ pb: 0 }}>
-        <Typography variant="h6">{recipe.title}</Typography>
+        <Typography variant="h6">{foodle.title}</Typography>
         <Typography variant="body2" color="text.secondary">
-          {recipe.body?.substring(0, 120)}
-          {recipe.body?.length >= 120 && "..."}
+          {foodle.body?.substring(0, 120)}
+          {foodle.body?.length >= 120 && "..."}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -95,7 +95,7 @@ const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
                 navigator,
                 `Schau dir mal dieses Foodle an 😋\n`,
                 window.location.origin +
-                  ROUTES.public.recipe.path.replace(":id", recipe._id)
+                  ROUTES.public.foodle.path.replace(":id", foodle._id)
               )
             }
           >
@@ -109,7 +109,7 @@ const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
             size="small"
             endIcon={<RestaurantMenuIcon />}
             onClick={() =>
-              navigate(ROUTES.public.recipe.path.replace(":id", recipe._id))
+              navigate(ROUTES.public.foodle.path.replace(":id", foodle._id))
             }
             aria-label="Foodle anzeigen"
           >

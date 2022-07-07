@@ -28,7 +28,7 @@ import SelectTags from "../../../components/SelectTags";
 import DetailsMenu from "../../../components/DetailsMenu";
 import { capitalize } from "../../../utils/functions";
 
-const EditRecipe = () => {
+const EditFoodle = () => {
   const [values, setValues] = useState({
     title: "",
     description: "",
@@ -119,7 +119,7 @@ const EditRecipe = () => {
     const api = new FoodleAPI();
     try {
       await api.deleteFoodle(id);
-      navigate(ROUTES.public.recipes.path);
+      navigate(ROUTES.public.foodles.path);
     } catch (err) {
       console.error(err);
       setValues({ ...values });
@@ -269,4 +269,4 @@ const EditRecipe = () => {
   );
 };
 
-export default EditRecipe;
+export default EditFoodle;

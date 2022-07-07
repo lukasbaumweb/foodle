@@ -20,10 +20,10 @@ import CallMadeIcon from "@mui/icons-material/CallMade";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import TimerIcon from "@mui/icons-material/Timer";
 
-const Recipe = () => {
+const Foodle = () => {
   const [values, setValues] = useState({
     loading: true,
-    recipe: null,
+    foodle: null,
     ingredients: [],
   });
 
@@ -39,7 +39,7 @@ const Recipe = () => {
           console.log(data);
           setValues((state) => ({
             ...state,
-            recipe: data,
+            foodle: data,
             ingredients: data.ingredients,
             loading: false,
           }));
@@ -62,21 +62,21 @@ const Recipe = () => {
           <img
             src={Chef}
             style={{ width: "100%", maxHeight: "500px" }}
-            alt={values.recipe.title}
+            alt={values.foodle.title}
           />
         </Card>
         <Typography variant="h4" sx={{ mt: 1 }}>
-          {values.recipe.title}
+          {values.foodle.title}
         </Typography>
 
         <Typography variant="caption">
-          Autor: {values.recipe.author ? values.recipe.author.username : "-"}
+          Autor: {values.foodle.author ? values.foodle.author.username : "-"}
         </Typography>
         <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
           <Tooltip title="Zeitaufwand">
             <Chip
               icon={<AccessTimeIcon />}
-              label={values.recipe.cookingTime || "Unbekannt"}
+              label={values.foodle.cookingTime || "Unbekannt"}
               variant="outlined"
               size="small"
               onClick={() => {}}
@@ -85,7 +85,7 @@ const Recipe = () => {
           <Tooltip title="Arbeitsaufwand">
             <Chip
               icon={<TimelapseIcon />}
-              label={values.recipe.workTime || "Unbekannt"}
+              label={values.foodle.workTime || "Unbekannt"}
               variant="outlined"
               size="small"
               onClick={() => {}}
@@ -94,7 +94,7 @@ const Recipe = () => {
           <Tooltip title="Gesamter Aufwand">
             <Chip
               icon={<TimerIcon />}
-              label={values.recipe.totalTime || "Unbekannt"}
+              label={values.foodle.totalTime || "Unbekannt"}
               variant="outlined"
               size="small"
               onClick={() => {}}
@@ -103,7 +103,7 @@ const Recipe = () => {
           <Tooltip title="Kalorien (kcal)">
             <Chip
               icon={<CallMadeIcon />}
-              label={values.recipe.calories || "Unbekannt"}
+              label={values.foodle.calories || "Unbekannt"}
               variant="outlined"
               size="small"
               onClick={() => {}}
@@ -198,4 +198,4 @@ const Recipe = () => {
   );
 };
 
-export default Recipe;
+export default Foodle;

@@ -7,9 +7,9 @@ import {
   CardActionArea,
   CardMedia,
 } from "@mui/material";
-import Foodles from "./../assets/images/recipes.jpg";
+import Foodles from "./../assets/images/table-with-food.jpg";
 import CookBook from "./../assets/images/cook-books.jpg";
-import RandomFoodle from "./../assets/images/random-recipe.jpg";
+import RandomFoodle from "./../assets/images/table-with-cups.jpg";
 import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";

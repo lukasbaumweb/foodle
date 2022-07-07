@@ -19,10 +19,10 @@ import { Link as RouterLink } from "react-router-dom";
 const RandomFoodle = () => {
   const [values, setValues] = useState({
     loading: true,
-    recipe: null,
+    foodle: null,
   });
 
-  const fetchRandomRecipe = useCallback(() => {
+  const fetchRandomFoodle = useCallback(() => {
     const api = new FoodleAPI();
 
     api
@@ -30,11 +30,11 @@ const RandomFoodle = () => {
       .then(({ data }) => {
         if (!data) setValues((state) => ({ ...state, loading: false }));
         else {
-          const recipe = {
+          const foodle = {
             ...data,
             date: new Date(data.date).toLocaleDateString(),
           };
-          setValues((state) => ({ ...state, loading: false, recipe }));
+          setValues((state) => ({ ...state, loading: false, foodle }));
         }
       })
       .catch((err) => {
@@ -48,9 +48,9 @@ const RandomFoodle = () => {
   }, []);
 
   useEffect(() => {
-    fetchRandomRecipe();
+    fetchRandomFoodle();
     return () => {};
-  }, [fetchRandomRecipe]);
+  }, [fetchRandomFoodle]);
 
   if (values.loading) return <Loader />;
 
@@ -64,8 +64,8 @@ const RandomFoodle = () => {
         ausgewählt und angezeigt.
       </Typography>
       <Box display="flex" justifyContent="center" marginTop="20px">
-        {values.recipe ? (
-          <FoodleCard recipe={values.recipe} imageSize="300" />
+        {values.foodle ? (
+          <FoodleCard foodle={values.foodle} imageSize="300" />
         ) : (
           <Card>
             <CardContent>
@@ -91,7 +91,7 @@ const RandomFoodle = () => {
                   component="button"
                   onClick={() => {
                     setValues({ ...values, loading: true });
-                    fetchRandomRecipe();
+                    fetchRandomFoodle();
                   }}
                   variant="body2"
                 >
@@ -110,7 +110,7 @@ const RandomFoodle = () => {
         variant="extended"
         onClick={() => {
           setValues({ ...values, loading: true });
-          fetchRandomRecipe();
+          fetchRandomFoodle();
         }}
         color="secondary"
         aria-label="erneut würfeln"
