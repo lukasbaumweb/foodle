@@ -17,11 +17,6 @@ const FileSchema = Schema(
   }
 );
 
-FileSchema.pre("deleteOne", (next) => {
-  console.log(this);
-  next();
-});
-
 const File = mongoose.model("File", FileSchema);
 
 module.exports = File;

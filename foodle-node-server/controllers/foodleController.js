@@ -59,7 +59,7 @@ const getMyFoodles = (res, req, next) => {
           res.json({ data });
         }
       });
-  } else next(new BadRequestError(" author or missing"));
+  } else next(new BadRequestError("author or missing"));
 };
 
 const getFoodleById = (req, res, next) => {
@@ -87,11 +87,8 @@ const getFoodleById = (req, res, next) => {
             categories: Foodle.schema.path("category").enumValues,
           };
 
-          console.log(foodle);
-
           for (let i = 0; i < foodle.ingredients.length; i++) {
             const ingredientId = foodle.ingredients[i];
-            console.log(ingredientId._id.toHexString());
             const result = await Ingredient.findById(
               ingredientId._id.toHexString()
             )
@@ -112,6 +109,47 @@ const getFoodleById = (req, res, next) => {
     });
 };
 
+const getPublicFoodle = (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    next(new BadRequestError("id missing"));
+    return;
+  }
+
+  Foodle.findOne({ _id: id })
+    .populate("author")
+    .exec(async (err, data) => {
+      if (err) {
+        next(err);
+      } else {
+        if (!data) {
+          next(new BadRequestError("Foodle does not exists"));
+        } else if (data.isPrivate) {
+          next(new NotAuthorizedError("Foodle is not public"));
+        } else {
+          const foodle = {
+            ...data.toObject({ flattenMaps: true }),
+            categories: Foodle.schema.path("category").enumValues,
+          };
+
+          for (let i = 0; i < foodle.ingredients.length; i++) {
+            const ingredientId = foodle.ingredients[i];
+            const result = await Ingredient.findById(
+              ingredientId._id.toHexString()
+            )
+              .populate({ path: "config" })
+              .exec();
+            foodle.ingredients[i] = result;
+          }
+
+          res.json({
+            data: foodle,
+          });
+        }
+      }
+    });
+};
 const getRandomFoodle = (req, res, next) => {
   Foodle.count({ isPrivate: false }).exec((err, count) => {
     if (err) {
@@ -229,7 +267,6 @@ const removeIngredient = async (req, res, next) => {
 const deleteFoodle = (req, res, next) => {
   const { id } = req.params;
   const { imageId } = req.body;
-  console.log(imageId);
 
   if (!id) {
     next(new BadRequestError("id missing"));
@@ -255,4 +292,5 @@ module.exports = {
   updateFoodle,
   deleteFoodle,
   removeIngredient,
+  getPublicFoodle,
 };

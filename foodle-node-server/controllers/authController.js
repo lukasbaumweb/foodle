@@ -34,10 +34,9 @@ const login = (req, res, next) => {
         next(new BadRequestError(err));
         return;
       }
-      console.log("login");
 
       res.json({
-        message: "login successful", 
+        message: "login successful",
         data: {
           uid: user._id,
           email: user.email,

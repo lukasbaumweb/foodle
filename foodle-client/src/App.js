@@ -13,7 +13,7 @@ import Login from "./views/public/Login";
 import Register from "./views/public/Register";
 import ResetPassword from "./views/public/ResetPassword";
 import Foodles from "./views/public/Foodles";
-import Foodle from "./views/public/foodle/Foodle";
+import Foodle from "./views/_shared/foodle/ViewFoodle";
 import CreateFoodle from "./views/public/foodle/CreateFoodle";
 import EditFoodle from "./views/public/foodle/EditFoodle";
 import GroceryList from "./views/public/GroceryList";

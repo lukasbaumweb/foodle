@@ -198,7 +198,9 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
             </Droppable>
             {values.steps.length === 0 && (
               <Typography variant="body2" textAlign="center" color="#9e9e9e">
-                Füge einen Schritt oben rechts hinzu!
+                {editable
+                  ? "Füge einen Schritt oben rechts hinzu!"
+                  : "Keine Schritte vorhanden"}
               </Typography>
             )}
           </CardContent>

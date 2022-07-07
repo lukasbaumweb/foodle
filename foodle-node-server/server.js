@@ -5,7 +5,7 @@ const port = process.env.PORT || 3100;
 app.set("port", port);
 
 app.listen(port, () =>
-  console.log(
+  console.info(
     "Listening on http://localhost:" +
       port +
       " in mode: " +

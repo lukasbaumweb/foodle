@@ -86,6 +86,15 @@ class FoodleAPI {
     return result;
   }
 
+  async getPublicFoodle(id) {
+    const query = axios.get(
+      `${this.url}/foodle/type/public/${id}`,
+      this.options
+    );
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
   async getRandomFoodle() {
     const query = axios.get(`${this.url}/foodle/type/random`, this.options);
     const result = await this.executeQuery(query);

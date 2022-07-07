@@ -72,7 +72,8 @@ const Header = () => {
           aria-controls={MENU_ID}
           aria-haspopup="true"
           onClick={(event) => setAnchorEl(event.currentTarget)}
-          color="inherit"
+          variant="contained"
+          color="secondary"
         >
           <AccountCircle />
         </IconButton>

@@ -19,12 +19,18 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import TimerIcon from "@mui/icons-material/Timer";
+import TutorialList from "../../../components/TutorialList";
 
 const Foodle = () => {
   const [values, setValues] = useState({
-    loading: true,
-    foodle: null,
+    title: "",
+    description: "",
+    category: "",
+    categories: [],
+    tags: [],
     ingredients: [],
+    errors: {},
+    loading: true,
   });
 
   const { id } = useParams();
@@ -34,13 +40,13 @@ const Foodle = () => {
       const api = new FoodleAPI();
 
       api
-        .getFoodle(id)
+        .getPublicFoodle(id)
         .then(({ data }) => {
           console.log(data);
           setValues((state) => ({
             ...state,
             foodle: data,
-            ingredients: data.ingredients,
+            exists: !!data,
             loading: false,
           }));
         })
@@ -112,7 +118,10 @@ const Foodle = () => {
         </Stack>
       </Grid>
       <Grid item xs={12} md={6} xl={4}>
-        <IngredientsList data={values.ingredients} />
+        <IngredientsList data={values.foodle.ingredients} />
+      </Grid>
+      <Grid item xs={12} md={6} xl={4}>
+        <TutorialList data={values.foodle.steps} />
       </Grid>
       <Grid item xs={12} md={12} xl={4}>
         <Grid container spacing={1}>

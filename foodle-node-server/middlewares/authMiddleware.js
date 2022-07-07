@@ -8,7 +8,7 @@ const {
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return next(new NotAuthenticatedError());
+  if (!token) return next(new NotAuthenticatedError("user not authenticated"));
 
   jwt.verify(token, JWT_TOKEN, (err, user) => {
     if (err) {

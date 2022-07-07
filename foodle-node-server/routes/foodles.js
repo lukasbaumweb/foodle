@@ -9,6 +9,7 @@ const {
   getImagesById,
   removeIngredient,
   getRandomFoodle,
+  getPublicFoodle,
 } = require("../controllers/foodleController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.get("/", getAll);
 router.get("/type/random", getRandomFoodle);
+router.get("/type/public/:id", getPublicFoodle);
 router.get("/author/my", authMiddleware, getMyFoodles);
 router.get("/:id", authMiddleware, getFoodleById);
 router.get("/images/:id", authMiddleware, getImagesById);

@@ -20,14 +20,12 @@ const handleValidationError = (err, res) => {
 const errorController = (err, req, res, next) => {
   if (!err.statusCode) err.statusCode = 500;
 
-  console.log(err);
-
   try {
     if (err.name === "ValidationError") handleValidationError(err, res);
     if (err.code && err.code == 11000) handleDuplicateKeyError(err, res);
     else res.status(err.statusCode).json(err);
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).send("An unknown error occurred.");
   }
