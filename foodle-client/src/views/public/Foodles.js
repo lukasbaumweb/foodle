@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, useMediaQuery } from "@mui/material";
-import RecipeCard from "./../../components/RecipeCard";
+import { Box, Pagination, Typography, useMediaQuery } from "@mui/material";
+import FoodleCard from "../../components/FoodleCard";
 import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 import Empty from "../../assets/svg/empty.svg";
-import RecipeDial from "../../components/RecipeDial";
+import FoodleDial from "../../components/FoodleDial";
 
-const Recipes = ({ uid }) => {
-  const [values, setValues] = useState({ loading: true, recipes: [] });
+const Foodles = ({ uid }) => {
+  const [values, setValues] = useState({
+    loading: true,
+    foodles: [],
+    page: 0,
+    pages: 0,
+  });
 
   const isLessThan1000 = useMediaQuery("(max-width: 1000px)");
   const isLessThan750 = useMediaQuery("(max-width: 750px)");
@@ -20,7 +25,7 @@ const Recipes = ({ uid }) => {
       .getFoodles({})
       .then((result) => {
         console.log(result);
-        setValues((state) => ({ ...state, recipes: result.data || [] }));
+        setValues((state) => ({ ...state, ...result.data }));
       })
       .catch((err) => console.error(err));
 
@@ -33,12 +38,18 @@ const Recipes = ({ uid }) => {
   else if (isLessThan1000) countColumns = 3;
   return (
     <Box>
-      {values.recipes.length > 0 ? (
-        <Masonry columns={countColumns} spacing={2}>
-          {values.recipes.map((item, index) => (
-            <RecipeCard key={index} recipe={item} />
-          ))}
-        </Masonry>
+      Foodles
+      {values.foodles.length > 0 ? (
+        <>
+          <Masonry columns={countColumns} spacing={2}>
+            {values.foodles.map((item, index) => (
+              <FoodleCard key={index} recipe={item} />
+            ))}
+          </Masonry>
+          <Box display="flex" justifyContent="center">
+            <Pagination count={values.pages} showFirstButton showLastButton />
+          </Box>
+        </>
       ) : (
         <>
           <Box display="flex" marginTop={3} justifyContent="center">
@@ -49,10 +60,9 @@ const Recipes = ({ uid }) => {
           </Typography>
         </>
       )}
-
-      <RecipeDial />
+      <FoodleDial />
     </Box>
   );
 };
 
-export default Recipes;
+export default Foodles;

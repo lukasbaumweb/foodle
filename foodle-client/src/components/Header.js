@@ -93,7 +93,7 @@ const Header = () => {
   const ButtonList = [
     {
       title: "Foodles",
-      onClick: () => navigate(ROUTES.public.recipes.path),
+      onClick: () => navigate(ROUTES.public.foodles.path),
       icon: <TopicIcon />,
     },
     {
@@ -103,7 +103,7 @@ const Header = () => {
     },
     {
       title: "Zufallsfoodle",
-      onClick: () => navigate(ROUTES.public.randomRecipe.path),
+      onClick: () => navigate(ROUTES.public.randomFoodle.path),
       icon: <CasinoIcon />,
     },
     {

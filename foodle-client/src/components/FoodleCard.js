@@ -22,7 +22,7 @@ import ROUTES from "../utils/routes";
 import EditIcon from "@mui/icons-material/Edit";
 import { Auth } from "../utils/auth";
 
-const RecipeCard = ({ recipe = {}, imageSize = 100 }) => {
+const FoodleCard = ({ recipe = {}, imageSize = 100 }) => {
   const [values, setValues] = useState({ isFavorite: false });
 
   const auth = new Auth();
@@ -39,10 +39,14 @@ const RecipeCard = ({ recipe = {}, imageSize = 100 }) => {
         sx={{ p: 1 }}
         avatar={
           <Avatar sx={{ height: 30, width: 30 }}>
-            {recipe.author?.username.charAt(0).toUpperCase()}
+            {recipe.author?.firstName.charAt(0).toUpperCase()}
           </Avatar>
         }
-        title={recipe.author ? recipe.author?.username : "Kein Autor vorhanden"}
+        title={
+          recipe.author
+            ? `${recipe.author?.firstName} ${recipe.author?.lastName}`
+            : "Kein Autor vorhanden"
+        }
         action={
           recipe.author?._id === auth.getUser().uid && (
             <Tooltip title="Bearbeiten">
@@ -117,4 +121,4 @@ const RecipeCard = ({ recipe = {}, imageSize = 100 }) => {
   );
 };
 
-export default RecipeCard;
+export default FoodleCard;

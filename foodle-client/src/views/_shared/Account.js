@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
-import MyRecipes from "../../components/Recipes/MyRecipes";
+import MyFoodles from "../../components/Foodle/MyFoodles";
 import { Auth } from "../../utils/auth";
 
 const Account = () => {
@@ -13,7 +13,7 @@ const Account = () => {
         <Typography variant="h5" sx={{ my: 1 }}>
           Meine Foodles
         </Typography>
-        <MyRecipes uid={auth.getUser().uid} />
+        <MyFoodles uid={auth.getUser().uid} />
       </Grid>
     </Grid>
   );

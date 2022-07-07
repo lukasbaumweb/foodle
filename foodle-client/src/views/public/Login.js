@@ -23,7 +23,7 @@ import { isObjectEmpty, validateEmail } from "../../utils/functions";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SmallLogo from "./../../assets/images/foodles-small.png";
-import constants from "../../utils/constants";
+import { CONFIG } from "../../utils/config";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -38,7 +38,7 @@ const Login = () => {
     const params = new URLSearchParams(window.location.search);
 
     switch (params.get("e")) {
-      case constants.SESSION_EXPIRED_ABBR:
+      case CONFIG.SESSION_EXPIRED_ABBR:
         setValues((state) => ({
           ...state,
           errors: { all: translate("auth-error/session-expired") },
@@ -89,9 +89,6 @@ const Login = () => {
           loading: false,
         })
       );
-
-    //
-    // navigate(ROUTES.private.home.path);
   };
 
   const handleChange = (e) =>
@@ -109,8 +106,6 @@ const Login = () => {
   };
 
   if (values.loading) return <Loader />;
-
-  console.log(values.errors);
 
   return (
     <Container maxWidth="sm">

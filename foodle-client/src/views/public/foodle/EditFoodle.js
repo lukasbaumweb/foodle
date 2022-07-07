@@ -17,15 +17,16 @@ import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
 import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
-import ImageSlider from "./../../../components/ImageSlieder";
-import UploadImageButton from "./../../../components/UploadImageButton";
-import EditImagesButton from "./../../../components/EditImagesButton";
+import ImageSlider from "../../../components/ImageSlieder";
+import UploadImageButton from "../../../components/UploadImageButton";
+import EditImagesButton from "../../../components/EditImagesButton";
 import IngredientsList from "../../../components/IngredientsList";
 import TutorialList from "../../../components/TutorialList/index";
 import { useNavigate, useParams } from "react-router-dom";
 import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
 import DetailsMenu from "../../../components/DetailsMenu";
+import { capitalize } from "../../../utils/functions";
 
 const EditRecipe = () => {
   const [values, setValues] = useState({
@@ -161,8 +162,11 @@ const EditRecipe = () => {
           <Grid container>
             <Grid item xs={6} display="flex" alignItems="center">
               <Typography variant="body1">
-                {values.title}
-                {values.author && ` von ${values.author.username}`}
+                {values.title}-Rezept
+                {values.author &&
+                  ` von ${capitalize(values.author.firstName)} ${capitalize(
+                    values.author.lastName
+                  )}`}
               </Typography>
             </Grid>
             <Grid item xs={6}>

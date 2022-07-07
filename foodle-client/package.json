@@ -35,8 +35,8 @@
     "serve": "^13.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "SET NODE_ENV=development && react-scripts start",
+    "build": "SET NODE_ENV=production && react-scripts build",
     "preserve": "react-scripts build",
     "serve": "serve -s build"
   },

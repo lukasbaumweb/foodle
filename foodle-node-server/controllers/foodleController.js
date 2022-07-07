@@ -25,7 +25,7 @@ const getAll = (req, res, next) => {
               data: {
                 recipes,
                 page,
-                pages: count / perPage,
+                pages: Math.max(1, Math.round(count / perPage)),
               },
             });
           }
@@ -56,14 +56,14 @@ const getMyFoodles = (res, req, next) => {
           res.json({ data });
         }
       });
-  } else next(new BadRequestError((" author or missing")));
+  } else next(new BadRequestError(" author or missing"));
 };
 
 const getFoodleById = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 
@@ -78,7 +78,7 @@ const getFoodleById = (req, res, next) => {
         next(err);
       } else {
         if (!data) {
-          next(new BadRequestError(("Foodle does not exists")));
+          next(new BadRequestError("Foodle does not exists"));
         } else if (
           !data.author ||
           data.author._id.toHexString() === req.user.id
@@ -89,9 +89,9 @@ const getFoodleById = (req, res, next) => {
 
           res.json({ data });
         } else if (data.isPrivate) {
-          next(new NotAuthorizedError(("Foodle is not public")));
+          next(new NotAuthorizedError("Foodle is not public"));
         } else {
-          next(new BadRequestError(("Foodle does not exists")));
+          next(new BadRequestError("Foodle does not exists"));
         }
       }
     });
@@ -121,7 +121,7 @@ const getImagesById = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 
@@ -150,7 +150,7 @@ const getImagesById = (req, res, next) => {
 const createFoodle = (req, res) => {
   const { title } = req.body;
   if (!title) {
-    next(new BadRequestError(("title missing")));
+    next(new BadRequestError("title missing"));
     return;
   } else {
     Foodle.create({ ...req.body, author: req.user.id }, (err, data) => {
@@ -165,8 +165,8 @@ const updateFoodle = async (req, res, next) => {
   const { id } = req.params;
   const { title, description, category, tags, ingredients, isPrivate, steps } =
     req.body;
-  if (!title) {
-    next(new BadRequestError(("id missing")));
+  if (!id) {
+    next(new BadRequestError("id missing"));
     return;
   }
   const payload = { title, description, category, tags, isPrivate, steps };
@@ -189,12 +189,12 @@ const updateFoodle = async (req, res, next) => {
 const removeIngredient = async (req, res, next) => {
   const { id, ingredientId } = req.params;
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 
   if (!ingredientId) {
-    next(new BadRequestError(("ingriedient id missing")));
+    next(new BadRequestError("ingriedient id missing"));
     return;
   }
 
@@ -217,7 +217,7 @@ const deleteFoodle = (req, res, next) => {
   console.log(imageId);
 
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 

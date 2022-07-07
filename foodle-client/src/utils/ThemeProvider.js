@@ -8,16 +8,15 @@ export const ColorModeContext = React.createContext({
 const getMode = (window) => {
   let theme = "light";
 
-  if (
+  const isDarkModeEnabled =
     window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  ) {
-    theme = "dark";
-  }
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (isDarkModeEnabled) theme = "dark";
+
   let savedTheme = window?.localStorage.getItem("mode");
-  if (savedTheme) {
-    theme = savedTheme;
-  }
+  if (savedTheme) theme = savedTheme;
+
   return theme;
 };
 

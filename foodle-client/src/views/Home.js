@@ -7,14 +7,14 @@ import {
   CardActionArea,
   CardMedia,
 } from "@mui/material";
-import Recipes from "./../assets/images/recipes.jpg";
+import Foodles from "./../assets/images/recipes.jpg";
 import CookBook from "./../assets/images/cook-books.jpg";
-import RandomRecipe from "./../assets/images/random-recipe.jpg";
+import RandomFoodle from "./../assets/images/random-recipe.jpg";
 import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
-import RecipeDial from "../components/RecipeDial";
+import FoodleDial from "../components/FoodleDial";
 
 const Home = () => {
   const theme = useTheme();
@@ -26,9 +26,9 @@ const Home = () => {
         <Grid item xs={12} sm={4} lg={3}>
           <Card>
             <CardActionArea
-              onClick={() => navigate(ROUTES.public.recipes.path)}
+              onClick={() => navigate(ROUTES.public.foodles.path)}
             >
-              <CardMedia component="img" image={Recipes} alt="Foodles" />
+              <CardMedia component="img" image={Foodles} alt="Foodles" />
               <Typography
                 gutterBottom
                 variant="h5"
@@ -62,11 +62,11 @@ const Home = () => {
         <Grid item xs={12} sm={4} lg={3}>
           <Card>
             <CardActionArea
-              onClick={() => navigate(ROUTES.public.randomRecipe.path)}
+              onClick={() => navigate(ROUTES.public.randomFoodle.path)}
             >
               <CardMedia
                 component="img"
-                image={RandomRecipe}
+                image={RandomFoodle}
                 alt="Zufallsfoodle"
               />
               <Typography
@@ -104,7 +104,7 @@ const Home = () => {
           </Card>
         </Grid>
       </Grid>
-      <RecipeDial />
+      <FoodleDial />
     </Container>
   );
 };

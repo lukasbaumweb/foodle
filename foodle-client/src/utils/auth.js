@@ -1,23 +1,13 @@
 import FoodleAPI from "./api";
-import { translate } from "./translater";
-import CONSTANTS from "./constants";
+import { CONFIG } from "./config";
 
-const LOCAL_STORAGE_USER_METADATA = "foodleData";
-const LOCAL_STORAGE_SESSION_KEY = "foodleSession";
-const EXPIRY_TIME = 1000 * 60 * 60 * 7; //7d
+/**
+ * Determines how long a session should be valid (currently: 7 days)
+ */
+const EXPIRY_TIME = 1000 * 60 * 60 * 7;
+
 const EVENTS = {
   authStateChanged: "authStateChanged",
-};
-
-const handleError = (error) => {
-  if (error.response) {
-    return error.response?.data?.error;
-  } else if (error.request) {
-    console.error("Request", error.request);
-    return { error: translate("unknown-error") };
-  } else {
-    return { error: error.message };
-  }
 };
 
 class Auth {
@@ -67,11 +57,11 @@ class Auth {
   }
 
   static logout(error) {
-    window.localStorage.removeItem(LOCAL_STORAGE_USER_METADATA);
-    window.localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
+    window.localStorage.removeItem(CONFIG.LOCAL_STORAGE_USER_METADATA);
+    window.localStorage.removeItem(CONFIG.LOCAL_STORAGE_SESSION_KEY);
 
-    if (error === CONSTANTS.SESSION_EXPIRED) {
-      window.location.href = "/logout?e=" + CONSTANTS.SESSION_EXPIRED_ABBR;
+    if (error === CONFIG.SESSION_EXPIRED) {
+      window.location.href = "/logout?e=" + CONFIG.SESSION_EXPIRED_ABBR;
     } else {
       window.location.href = "/logout";
     }
@@ -90,7 +80,10 @@ class Auth {
   }
 
   save() {
-    window.localStorage.setItem(LOCAL_STORAGE_USER_METADATA, this.toString());
+    window.localStorage.setItem(
+      CONFIG.LOCAL_STORAGE_USER_METADATA,
+      this.toString()
+    );
   }
 
   toString() {
@@ -124,7 +117,7 @@ class Session {
   }
 
   getStoredData() {
-    let storage = window.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
+    let storage = window.localStorage.getItem(CONFIG.LOCAL_STORAGE_SESSION_KEY);
 
     if (storage) {
       storage = JSON.parse(storage);
@@ -140,7 +133,7 @@ class Session {
   }
 
   static getAuthToken() {
-    let storage = window.localStorage.getItem(LOCAL_STORAGE_SESSION_KEY);
+    let storage = window.localStorage.getItem(CONFIG.LOCAL_STORAGE_SESSION_KEY);
     if (storage) {
       storage = JSON.parse(storage);
       return storage.metadata.token;
@@ -159,7 +152,10 @@ class Session {
   }
 
   save() {
-    window.localStorage.setItem(LOCAL_STORAGE_SESSION_KEY, this.toString());
+    window.localStorage.setItem(
+      CONFIG.LOCAL_STORAGE_SESSION_KEY,
+      this.toString()
+    );
   }
 
   toString() {

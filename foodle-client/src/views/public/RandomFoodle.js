@@ -12,11 +12,11 @@ import Loader from "../../components/Loader";
 import FoodleAPI from "../../utils/api";
 
 import CasinoIcon from "@mui/icons-material/Casino";
-import RecipeCard from "../../components/RecipeCard";
+import FoodleCard from "../../components/FoodleCard";
 import ROUTES from "../../utils/routes";
 import { Link as RouterLink } from "react-router-dom";
 
-const RandomRecipe = () => {
+const RandomFoodle = () => {
   const [values, setValues] = useState({
     loading: true,
     recipe: null,
@@ -65,7 +65,7 @@ const RandomRecipe = () => {
       </Typography>
       <Box display="flex" justifyContent="center" marginTop="20px">
         {values.recipe ? (
-          <RecipeCard recipe={values.recipe} imageSize="300" />
+          <FoodleCard recipe={values.recipe} imageSize="300" />
         ) : (
           <Card>
             <CardContent>
@@ -128,4 +128,4 @@ const RandomRecipe = () => {
   );
 };
 
-export default RandomRecipe;
+export default RandomFoodle;

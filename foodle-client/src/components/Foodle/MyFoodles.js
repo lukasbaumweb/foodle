@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import RecipeCard from "./../RecipeCard";
+import FoodleCard from "../FoodleCard";
 import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 
-const MyRecipes = ({ uid }) => {
-  const [values, setValues] = useState({ loading: true, recipes: [] });
+const MyFoodles = ({ uid }) => {
+  const [values, setValues] = useState({ loading: true, foodles: [] });
 
   useEffect(() => {
     const api = new FoodleAPI();
@@ -13,7 +13,7 @@ const MyRecipes = ({ uid }) => {
     api
       .getMyFoodles({ filter: { author: uid } })
       .then((result) => {
-        setValues((state) => ({ ...state, recipes: result.data || [] }));
+        setValues((state) => ({ ...state, foodles: result.data || [] }));
       })
       .catch((err) => console.error(err));
 
@@ -23,12 +23,12 @@ const MyRecipes = ({ uid }) => {
   return (
     <Box>
       <Masonry columns={3} spacing={2}>
-        {values.recipes.map((item, index) => (
-          <RecipeCard key={index} recipe={item} />
+        {values.foodles.map((item, index) => (
+          <FoodleCard key={index} foodle={item} />
         ))}
       </Masonry>
     </Box>
   );
 };
 
-export default MyRecipes;
+export default MyFoodles;

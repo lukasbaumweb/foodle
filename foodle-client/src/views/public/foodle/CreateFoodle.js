@@ -21,7 +21,7 @@ import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import AddFiles from "../../../assets/svg/add-files.svg";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "./../../../utils/routes";
+import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
 
 const CreateRecipe = () => {

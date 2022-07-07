@@ -1,10 +1,21 @@
 import axios from "axios";
 import { Auth } from "./auth";
-import constants from "./constants";
+import { CONFIG } from "./config";
 
+/**
+ * Removes trailing slash from string
+ * @param {String} str custom string
+ * @returns string without trailing slash
+ */
 const removeTrailingSlash = (str) =>
   str.charAt(str.length - 1) === "/" ? str.substr(0, str.length - 1) : str;
 
+/**
+ *  Constructs a search string for browsers and apis from custom filters
+ * @param {Object} filters consists of a filterKey and its filterValue as
+ * object { filterKey: filterValue }
+ * @returns search string for URLs starting with ?
+ */
 const generateSearchUrl = (filters) => {
   return Object.entries(filters)
     .reduce((acc, cur) => {
@@ -12,9 +23,13 @@ const generateSearchUrl = (filters) => {
     }, "?")
     .slice(0, -1);
 };
+
+/**
+ * FoodleAPI class to communicate with foodle api
+ */
 class FoodleAPI {
   constructor(url) {
-    this.url = removeTrailingSlash(url || process.env.REACT_APP_FOODLE_API_URL);
+    this.url = removeTrailingSlash(url || CONFIG.API_URL);
 
     this.authToken = window ? Auth.getAuthToken(window) : null;
     if (this.authToken !== null)

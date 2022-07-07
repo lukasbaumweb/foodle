@@ -1,6 +1,9 @@
 import { de_DE } from "../i18n/de_DE";
 import { en_GB } from "../i18n/en_GB";
 
+/**
+ * Checks if language is set in .ENV.local file 
+ */
 const langCode = process.env.REACT_APP_LANGUAGE || "de_DE";
 
 /**

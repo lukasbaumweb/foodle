@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ROUTES from "../utils/routes";
 import { useNavigate } from "react-router-dom";
 
-const RecipeDial = () => {
+const FoodleDial = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ const RecipeDial = () => {
       icon: <AddIcon />,
       name: "Foodle",
       onClick: () => {
-        navigate(ROUTES.public.createRecipe.path);
+        navigate(ROUTES.public.createFoodle.path);
       },
     },
   ];
@@ -23,7 +23,7 @@ const RecipeDial = () => {
     <>
       <Backdrop open={open} />
       <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
+        ariaLabel="foodledial"
         sx={{ position: "fixed", bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
         onClose={() => setOpen(false)}
@@ -44,4 +44,4 @@ const RecipeDial = () => {
   );
 };
 
-export default RecipeDial;
+export default FoodleDial;

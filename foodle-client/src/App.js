@@ -12,14 +12,14 @@ import Account from "./views/_shared/Account";
 import Login from "./views/public/Login";
 import Register from "./views/public/Register";
 import ResetPassword from "./views/public/ResetPassword";
-import Recipes from "./views/public/Recipes";
-import CreateRecipe from "./views/public/recipe/CreateRecipe";
-import Recipe from "./views/public/recipe/Recipe";
+import Foodles from "./views/public/Foodles";
+import Foodle from "./views/public/foodle/Foodle";
+import CreateFoodle from "./views/public/foodle/CreateFoodle";
+import EditFoodle from "./views/public/foodle/EditFoodle";
 import GroceryList from "./views/public/GroceryList";
-import RandomRecipe from "./views/public/RandomRecipe";
+import RandomFoodle from "./views/public/RandomFoodle";
 import CookingBooks from "./views/public/CookingBooks";
 import Impressum from "./views/public/Impressum";
-import EditRecipe from "./views/public/recipe/EditRecipe";
 
 const AUTH_STATES = {
   waiting: "waiting",
@@ -77,10 +77,10 @@ function App() {
 
   let renderedRoutes = [
     { element: <Home />, index: true },
-    { path: ROUTES.public.recipes.path, element: <Recipes /> },
+    { path: ROUTES.public.foodles.path, element: <Foodles /> },
     { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
-    { path: ROUTES.public.recipe.path, element: <Recipe /> },
-    { path: ROUTES.public.randomRecipe.path, element: <RandomRecipe /> },
+    { path: ROUTES.public.foodle.path, element: <Foodle /> },
+    { path: ROUTES.public.randomFoodle.path, element: <RandomFoodle /> },
     { path: ROUTES.public.about.path, element: <About /> },
     { path: ROUTES.public.impressum.path, element: <Impressum /> },
   ];
@@ -90,8 +90,8 @@ function App() {
       ...renderedRoutes,
       { path: ROUTES.private.account.path, element: <Account /> },
       { path: ROUTES.private.settings.path, element: <Settings /> },
-      { path: ROUTES.public.createRecipe.path, element: <CreateRecipe /> },
-      { path: ROUTES.public.editRecipe.path, element: <EditRecipe /> },
+      { path: ROUTES.public.createFoodle.path, element: <CreateFoodle /> },
+      { path: ROUTES.public.editFoodle.path, element: <EditFoodle /> },
       { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
       { path: "*", element: <NoMatch /> },
     ];

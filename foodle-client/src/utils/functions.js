@@ -1,7 +1,11 @@
 import FoodleAPI from "./api";
-import CONSTANTS from "./constants";
+import { CONFIG } from "./config";
 
-const EXPIRY_TIME = 1000 * 60 * 60; //1d
+/**
+ * Determines when localstorage cache should 
+ * be expired (currently: 1 day)
+ */
+const EXPIRY_TIME = 1000 * 60 * 60;
 
 /**
  * Checks whether object is empty
@@ -22,6 +26,7 @@ export const isObjectEmpty = (obj) => {
  * @returns true if email correspnds with format
  */
 export const validateEmail = (email) => {
+  /* eslint-disable no-useless-escape */
   const regex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(email);
@@ -52,6 +57,11 @@ export const onShare = async (text, customUrl) => {
   }
 };
 
+/**
+ * Capitalizes any string
+ * @param {String} word custom string
+ * @returns word as capitalized string
+ */
 export const capitalize = (word) => {
   return `${word.charAt(0).toUpperCase()}${word.substring(1, word.length)}`;
 };
@@ -76,11 +86,11 @@ export const getLocalStorage = async (entity) => {
 
   switch (entity) {
     case Entity.INGREDIENT:
-      localStorageKey = CONSTANTS.LOCAL_STORAGE_INGREDIENTS_KEY;
+      localStorageKey = CONFIG.LOCAL_STORAGE_INGREDIENTS_KEY;
       innerKey = "ingredients";
       break;
     case Entity.TAG:
-      localStorageKey = CONSTANTS.LOCAL_STORAGE_TAGS_KEY;
+      localStorageKey = CONFIG.LOCAL_STORAGE_TAGS_KEY;
       innerKey = "tags";
       break;
     default:
