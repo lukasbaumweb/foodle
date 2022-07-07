@@ -9,7 +9,7 @@ const ROUTES = {
     foodles: { path: "/foodles" },
     viewFoodle: { path: "/foodle/view/:id" },
     cookingBooks: { path: "/cookingBooks" },
-    randomFoodle: { path: "/randomFoodle" },
+    randomFoodle: { path: "/random" },
     about: { path: "/about" },
     impressum: { path: "/impressum" },
   },

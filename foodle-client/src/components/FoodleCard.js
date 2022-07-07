@@ -49,7 +49,7 @@ const FoodleCard = ({ foodle = {}, imageSize = 100 }) => {
             : "Kein Autor vorhanden"
         }
         action={
-          foodle.author?._id === auth.getUser().uid && (
+          foodle.author?._id === auth.getUser()?.uid && (
             <Tooltip title="Bearbeiten">
               <IconButton
                 site="small"

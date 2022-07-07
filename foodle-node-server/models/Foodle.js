@@ -43,7 +43,17 @@ const FoodleSchema = new Schema(
     tags: [String],
     category: {
       type: String,
-      enum: ["Vorspeise", "Salat", "Hauptgericht", "Sauce", "Nachspeise"],
+      enum: [
+        "Backen",
+        "Vorspeise",
+        "Suppe",
+        "Salat",
+        "Hauptgericht",
+        "Soße & Dressing",
+        "Nachspeise",
+        "Dip",
+        "Getränke",
+      ],
       default: "Hauptgericht",
     },
   },
