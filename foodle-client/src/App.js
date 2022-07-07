@@ -79,7 +79,7 @@ function App() {
     { element: <Home />, index: true },
     { path: ROUTES.public.foodles.path, element: <Foodles /> },
     { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
-    { path: ROUTES.public.foodle.path, element: <Foodle /> },
+    { path: ROUTES.public.viewFoodle.path, element: <Foodle /> },
     { path: ROUTES.public.randomFoodle.path, element: <RandomFoodle /> },
     { path: ROUTES.public.about.path, element: <About /> },
     { path: ROUTES.public.impressum.path, element: <Impressum /> },
@@ -90,9 +90,9 @@ function App() {
       ...renderedRoutes,
       { path: ROUTES.private.account.path, element: <Account /> },
       { path: ROUTES.private.settings.path, element: <Settings /> },
-      { path: ROUTES.public.createFoodle.path, element: <CreateFoodle /> },
-      { path: ROUTES.public.editFoodle.path, element: <EditFoodle /> },
-      { path: ROUTES.public.groceryList.path, element: <GroceryList /> },
+      { path: ROUTES.private.createFoodle.path, element: <CreateFoodle /> },
+      { path: ROUTES.private.editFoodle.path, element: <EditFoodle /> },
+      { path: ROUTES.private.groceryList.path, element: <GroceryList /> },
       { path: "*", element: <NoMatch /> },
     ];
   } else if (values.authState === AUTH_STATES.loggedOut) {

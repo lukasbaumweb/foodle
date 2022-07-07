@@ -80,7 +80,7 @@ const CreateFoodle = () => {
       .then((result) => {
         console.log(result);
         const id = result.data._id;
-        navigate(ROUTES.public.editFoodle.path.replace(":id", id));
+        navigate(ROUTES.private.editFoodle.path.replace(":id", id));
       })
       .catch((err) => {
         console.error(err);

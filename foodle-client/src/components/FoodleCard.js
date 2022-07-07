@@ -54,7 +54,7 @@ const FoodleCard = ({  foodle = {}, imageSize = 100 }) => {
                 site="small"
                 onClick={() =>
                   navigate(
-                    ROUTES.public.editFoodle.path.replace(":id", foodle._id)
+                    ROUTES.private.editFoodle.path.replace(":id", foodle._id)
                   )
                 }
               >
@@ -95,7 +95,7 @@ const FoodleCard = ({  foodle = {}, imageSize = 100 }) => {
                 navigator,
                 `Schau dir mal dieses Foodle an 😋\n`,
                 window.location.origin +
-                  ROUTES.public.foodle.path.replace(":id", foodle._id)
+                  ROUTES.public.viewFoodle.path.replace(":id", foodle._id)
               )
             }
           >
@@ -109,7 +109,7 @@ const FoodleCard = ({  foodle = {}, imageSize = 100 }) => {
             size="small"
             endIcon={<RestaurantMenuIcon />}
             onClick={() =>
-              navigate(ROUTES.public.foodle.path.replace(":id", foodle._id))
+              navigate(ROUTES.public.viewFoodle.path.replace(":id", foodle._id))
             }
             aria-label="Foodle anzeigen"
           >

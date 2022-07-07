@@ -144,7 +144,7 @@ const Gallery = ({}) => {
               alt={item.title}
               loading="lazy"
               onClick={() =>
-                navigate(ROUTES.shared.foodle.path.replace(":id", index))
+                navigate(ROUTES.shared.viewFoodle.path.replace(":id", index))
               }
             />
             <ImageListItemBar

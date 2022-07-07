@@ -14,7 +14,7 @@ const FoodleDial = () => {
       icon: <AddIcon />,
       name: "Foodle",
       onClick: () => {
-        navigate(ROUTES.public.createFoodle.path);
+        navigate(ROUTES.private.createFoodle.path);
       },
     },
   ];
