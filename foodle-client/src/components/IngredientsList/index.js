@@ -21,8 +21,7 @@ import {
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import { alpha } from "@mui/material/styles";
-import { translate, CODES } from "../../utils/translater";
+import { CODES, translate } from "../../utils/translater";
 import { Entity, getLocalStorage } from "../../utils/functions";
 import AddIcon from "@mui/icons-material/Add";
 import AddIngredientDialog from "./AddIngredientDialog";
@@ -92,7 +91,6 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
   const [values, setValues] = useState({
     ingredients: data,
     selectableIngredients: [],
-    ingredientsMap: {},
     countPortions: 1,
     open: false,
   });
@@ -105,9 +103,7 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
         selectableIngredients: Object.values(ingredients).map((item) => ({
           id: item._id,
           name: item.name,
-          label: translate(CODES.INGREDIENT_NAME, item.name),
         })),
-        ingredientsMap: ingredients,
       }));
     })();
 
@@ -197,6 +193,7 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `table-${index}`;
 
+                console.log(row);
                 return (
                   <TableRow
                     hover={!editable}
@@ -206,21 +203,9 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
                     tabIndex={-1}
                     key={index}
                     selected={isItemSelected}
-                    sx={{
-                      bgcolor: (theme) =>
-                        index % 2 === 0
-                          ? alpha(
-                              theme.palette.secondary.main,
-                              theme.palette.action.activatedOpacity
-                            )
-                          : "",
-                    }}
                   >
                     <TableCell component="th" id={labelId} scope="row">
-                      {translate(
-                        CODES.INGREDIENT_NAME,
-                        values.ingredientsMap[row.config]?.name
-                      )}
+                      {row.config.name}
                     </TableCell>
                     <TableCell align="right">
                       {row.amount * values.countPortions}{" "}

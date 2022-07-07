@@ -15,13 +15,6 @@ const FoodleSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
-    tutorial: { type: String, default: "Keine Anleitung vorhanden" },
-    comments: [
-      {
-        ref: "Comment",
-        type: mongoose.Schema.Types.ObjectId,
-      },
-    ],
     isPrivate: { type: Boolean, default: true },
     ratings: [{ type: Schema.ObjectId, ref: "User" }],
     difficulty: {
@@ -50,8 +43,8 @@ const FoodleSchema = new Schema(
     tags: [String],
     category: {
       type: String,
-      enum: ["appetizer", "salad", "meal", "sauce", "dessert"],
-      default: "meal",
+      enum: ["Vorspeise", "Salat", "Hauptgericht", "Sauce", "Nachspeise"],
+      default: "Hauptgericht",
     },
   },
   { timestamps: true }

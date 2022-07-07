@@ -29,7 +29,7 @@ function renderRow(props) {
   }
   return (
     <Typography component="li" {...dataSet[0]} noWrap style={inlineStyle}>
-      {dataSet[1].label}
+      {dataSet[1].name}
     </Typography>
   );
 }
@@ -125,15 +125,16 @@ const VirtualizezSelectBox = ({
     sensitivity: "case",
   });
 
-  const OPTIONS = options.sort((a, b) => Collator.compare(a.label, b.label));
+  console.log(options);
+  const OPTIONS = options.sort((a, b) => Collator.compare(a.name, b.name));
   return (
     <Autocomplete
       disableListWrap
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}
       options={OPTIONS}
-      getOptionLabel={(option) => option.label}
-      groupBy={(option) => option.label.charAt(0).toUpperCase()}
+      getOptionLabel={(option) => option.name}
+      groupBy={(option) => option.name.charAt(0).toUpperCase()}
       renderInput={(params) => (
         <TextField
           {...params}

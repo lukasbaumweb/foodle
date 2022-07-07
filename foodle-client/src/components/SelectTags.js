@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Autocomplete, Chip, CircularProgress, TextField } from "@mui/material";
-import { capitalize, Entity, getLocalStorage } from "../utils/functions";
-import { getLanguage } from "../utils/translater";
+import { Entity, getLocalStorage } from "../utils/functions";
 
-const SelectTags = ({ onChangeTags, ...props }) => {
+const convertValues = (vals) =>
+  vals.map((value) => {
+    if (typeof value === "object") return value;
+    return { name: value };
+  });
+
+const SelectTags = ({ onChangeTags, value }) => {
   const [values, setValues] = useState({
     open: false,
     selectableTags: [],
     loading: true,
   });
+  const initValue = convertValues(value.filter((t) => t));
 
   useEffect(() => {
     (async () => {
       const tags = await getLocalStorage(Entity.TAG);
-      const OPTIONS = Object.values(tags).map((option) => ({
-        ...option,
-        translated: getLanguage().tags[option.name] || option.name,
-      }));
+      const OPTIONS = Object.values(tags);
 
       setValues((state) => ({
         ...state,
@@ -28,15 +31,6 @@ const SelectTags = ({ onChangeTags, ...props }) => {
     return () => {};
   }, []);
 
-  const transformTags = (items) =>
-    items.map((val) => {
-      if (typeof val === "object") return val;
-      return {
-        name: val,
-        translated: capitalize(getLanguage().tags[val] || val),
-      };
-    });
-
   return (
     <Autocomplete
       multiple
@@ -44,12 +38,12 @@ const SelectTags = ({ onChangeTags, ...props }) => {
       id="tags-filled"
       options={values.selectableTags}
       isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.translated || option.name}
+      getOptionLabel={(option) => option.name}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip
             variant="outlined"
-            label={option.translated}
+            label={option.name}
             {...getTagProps({ index })}
           />
         ))
@@ -79,12 +73,12 @@ const SelectTags = ({ onChangeTags, ...props }) => {
               </>
             ),
           }}
+          helperText="z.B. bei Spaghetti Carbonara: Italien, Hauptspeise"
         />
       )}
-      value={transformTags(props.value)}
+      value={initValue}
       onChange={(_event, newValue) => {
-        const transformedValues = transformTags(newValue);
-        onChangeTags(transformedValues);
+        onChangeTags(convertValues(newValue));
       }}
     />
   );

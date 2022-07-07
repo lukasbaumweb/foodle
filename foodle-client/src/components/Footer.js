@@ -19,8 +19,10 @@ const Footer = () => {
           <Link color="inherit" to={ROUTES.public.about.path}>
             Foodle
           </Link>
-          {` ${new Date().getFullYear()}. `}
-
+          {` ${new Date().getFullYear()} -`}
+          {" Version: "}
+          {process.env.REACT_APP_FOODLE_VERSION}
+          {" - "}
           <Link color="inherit" to={ROUTES.public.impressum.path}>
             Impressum
           </Link>

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
-import { getLanguage, translate } from "../../../utils/translater";
+import { translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import ImageSlider from "../../../components/ImageSlieder";
 import UploadImageButton from "../../../components/UploadImageButton";
@@ -33,6 +33,7 @@ const EditFoodle = () => {
     title: "",
     description: "",
     category: "",
+    categories: [],
     isPrivate: true,
     tags: [],
     ingredients: [],
@@ -51,6 +52,7 @@ const EditFoodle = () => {
     api
       .getFoodle(id)
       .then(({ data }) => {
+        console.log(data);
         setValues((state) => ({
           ...state,
           ingredients: data?.ingredients,
@@ -153,8 +155,6 @@ const EditFoodle = () => {
       </Container>
     );
 
-  console.log(values.author);
-
   return (
     <Container sx={{ pt: 1 }}>
       <Grid container spacing={3} component="form" onSubmit={onSubmit}>
@@ -207,10 +207,10 @@ const EditFoodle = () => {
                 variant="filled"
                 onChange={handleChange}
                 value={values.description}
+                multiline
                 rows={3}
                 helperText="z.B. Mega leckere Spaghetti Variante nach Sheldon Cooper"
                 fullWidth
-                multiline
               />
             </Grid>
             <Grid item xs={12}>
@@ -228,13 +228,11 @@ const EditFoodle = () => {
                     Kategorie auswählen
                   </MenuItem>
 
-                  {Object.entries(getLanguage().mealCategory).map(
-                    (category) => (
-                      <MenuItem key={category[0]} value={category[0]}>
-                        {category[1]}
-                      </MenuItem>
-                    )
-                  )}
+                  {values.categories.map((category, index) => (
+                    <MenuItem key={index} value={category}>
+                      {category}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>

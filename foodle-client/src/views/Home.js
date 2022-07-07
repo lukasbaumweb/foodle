@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Grid,
@@ -15,93 +15,76 @@ import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
 import FoodleDial from "../components/FoodleDial";
+import Logo from "../assets/images/orignal-sizes/foodles.png";
+
+const CategoryCard = ({ title, link, img }) => {
+  const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
+  const theme = useTheme();
+
+  return (
+    <Card>
+      <CardActionArea onClick={() => navigate(link)}>
+        <CardMedia
+          onMouseOver={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          sx={{
+            transition: "transform 0.15s ease-in-out",
+            transform: hover ? "scale3d(1.05, 1.05, 1)" : "initial",
+          }}
+          component="img"
+          image={img}
+          alt="Foodles"
+        />
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
+          textAlign="center"
+        >
+          {title}
+        </Typography>
+      </CardActionArea>
+    </Card>
+  );
+};
 
 const Home = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        <Grid item xs={12} sm={4} lg={3}>
-          <Card>
-            <CardActionArea
-              onClick={() => navigate(ROUTES.public.foodles.path)}
-            >
-              <CardMedia component="img" image={Foodles} alt="Foodles" />
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
-                textAlign="center"
-              >
-                Foodles
-              </Typography>
-            </CardActionArea>
-          </Card>
+        <Grid item xs={12}>
+          <img src={Logo} width="70%" />
+          <Typography variant="h3">Willkommen bei Foodles</Typography>
         </Grid>
         <Grid item xs={12} sm={4} lg={3}>
-          <Card>
-            <CardActionArea
-              onClick={() => navigate(ROUTES.public.cookingBooks.path)}
-            >
-              <CardMedia component="img" image={CookBook} alt="Kochbücher" />
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
-                textAlign="center"
-              >
-                Kochbücher
-              </Typography>
-            </CardActionArea>
-          </Card>
+          <CategoryCard
+            title="Foodles"
+            link={ROUTES.public.foodles.path}
+            img={Foodles}
+          />
         </Grid>
         <Grid item xs={12} sm={4} lg={3}>
-          <Card>
-            <CardActionArea
-              onClick={() => navigate(ROUTES.public.randomFoodle.path)}
-            >
-              <CardMedia
-                component="img"
-                image={RandomFoodle}
-                alt="Zufallsfoodle"
-              />
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
-                textAlign="center"
-              >
-                Zufallsfoodle
-              </Typography>
-            </CardActionArea>
-          </Card>
+          <CategoryCard
+            title="Kochbücher"
+            link={ROUTES.public.cookingBooks.path}
+            img={CookBook}
+          />
         </Grid>
         <Grid item xs={12} sm={4} lg={3}>
-          <Card>
-            <CardActionArea
-              onClick={() => navigate(ROUTES.public.groceryList.path)}
-            >
-              <CardMedia
-                component="img"
-                image={GroceriesList}
-                alt="Einkaufsliste"
-              />
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
-                textAlign="center"
-              >
-                Einkaufsliste
-              </Typography>
-            </CardActionArea>
-          </Card>
+          <CategoryCard
+            title="Zufallsfoodle"
+            link={ROUTES.public.randomFoodle.path}
+            img={RandomFoodle}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4} lg={3}>
+          <CategoryCard
+            title="Einkaufsliste"
+            link={ROUTES.private.groceryList.path}
+            img={GroceriesList}
+          />
         </Grid>
       </Grid>
       <FoodleDial />

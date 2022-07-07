@@ -20,6 +20,8 @@ import GroceryList from "./views/public/GroceryList";
 import RandomFoodle from "./views/public/RandomFoodle";
 import CookingBooks from "./views/public/CookingBooks";
 import Impressum from "./views/public/Impressum";
+import CookieNotice from "./components/CookieNotice";
+import { CONFIG } from "./utils/config";
 
 const AUTH_STATES = {
   waiting: "waiting",
@@ -27,11 +29,15 @@ const AUTH_STATES = {
   loggedOut: "loggedOut",
 };
 
+const COOKIES_ALLOWED =
+  window.localStorage.getItem(CONFIG.LOCAL_STORAGE_COOKIE_KEY) || 0;
+
 function App() {
   const [values, setValues] = useState({
     user: null,
     authState: AUTH_STATES.waiting,
     loading: true,
+    cookiesAccepted: Boolean(COOKIES_ALLOWED),
   });
 
   useEffect(() => {
@@ -113,6 +119,17 @@ function App() {
       },
       { path: "*", element: <Navigate to="/login" /> },
     ];
+  }
+
+  if (!values.cookiesAccepted) {
+    return (
+      <CookieNotice
+        onAccept={() => {
+          window.localStorage.setItem(CONFIG.LOCAL_STORAGE_COOKIE_KEY, 1);
+          setValues({ ...values, cookiesAccepted: true });
+        }}
+      />
+    );
   }
 
   return (

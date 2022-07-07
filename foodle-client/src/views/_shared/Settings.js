@@ -82,14 +82,8 @@ const Settings = () => {
       </Box>
       <TabPanel value={values.tab} index={0}>
         <Grid container component="form" spacing={2} noValidate>
-          <Grid item xs={12}>
-            <Typography variant="h5">
-              {values.username || "Kein Benutzername"}
-            </Typography>
-          </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              id="textFirstName"
               name="firstName"
               label="Vorname"
               variant="filled"
@@ -102,7 +96,6 @@ const Settings = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              id="textLastName"
               name="lastName"
               label="Nachname"
               variant="filled"
@@ -129,6 +122,7 @@ const Settings = () => {
             />
           </Grid>
         </Grid>
+        {"TODO: add change password form as tab"}
       </TabPanel>
       <TabPanel value={values.tab} index={1}>
         <Grid container sx={{ pt: 2 }}>

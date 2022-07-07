@@ -108,7 +108,7 @@ const Header = () => {
     },
     {
       title: "Einkaufsliste",
-      onClick: () => navigate(ROUTES.public.groceryList.path),
+      onClick: () => navigate(ROUTES.private.groceryList.path),
       icon: <PlaylistAddCheckIcon />,
     },
   ];
@@ -116,7 +116,7 @@ const Header = () => {
   return (
     <>
       <span id="back-to-top-anchor" />
-      <AppBar position="static">
+      <AppBar position="static" color="primary" enableColorOnDark>
         <Container>
           <Toolbar>
             <Box

@@ -15,7 +15,17 @@ const Layout = () => {
       }}
     >
       <Header />
-      <Container component="main" sx={{ mt: 1, mb: 2 }}>
+      <Container
+        component="main"
+        sx={{
+          display: "flex",
+          minHeight: "100%",
+          flexDirection: "column",
+          flexGrow: 1,
+          mt: 1,
+          mb: 2,
+        }}
+      >
         <Outlet />
       </Container>
 

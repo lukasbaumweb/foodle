@@ -3,8 +3,8 @@ const Foodle = require("./../models/Foodle");
 const { BadRequestError, NotAuthorizedError } = require("../utils/errors");
 
 const getAll = (req, res, next) => {
-  const page = Math.max(0, req.query.page || 1);
-  const perPage = req.query.limit || 25;
+  const page = parseInt(req.query.page, 10) || 0;
+  const limit = parseInt(req.query.limit, 10) || 10;
 
   Foodle.find({ isPrivate: false })
     .populate("author")
@@ -13,7 +13,9 @@ const getAll = (req, res, next) => {
       populate: { path: "ratings" },
     })
     .sort("-createdAt")
-    .exec((err, recipes) => {
+    .limit(limit)
+    .skip(limit * (page > 0 ? page - 1 : page))
+    .exec((err, foodles) => {
       if (err) {
         next(err);
       } else {
@@ -23,9 +25,10 @@ const getAll = (req, res, next) => {
           } else {
             res.json({
               data: {
-                recipes,
+                foodles,
                 page,
-                pages: Math.max(1, Math.round(count / perPage)),
+                pages: Math.max(1, Math.ceil(count / limit)),
+                count,
               },
             });
           }
@@ -69,11 +72,7 @@ const getFoodleById = (req, res, next) => {
 
   Foodle.findOne({ _id: id })
     .populate("author")
-    .populate({
-      path: "ingredients",
-      model: Ingredient,
-    })
-    .exec((err, data) => {
+    .exec(async (err, data) => {
       if (err) {
         next(err);
       } else {
@@ -83,11 +82,27 @@ const getFoodleById = (req, res, next) => {
           !data.author ||
           data.author._id.toHexString() === req.user.id
         ) {
-          data.ingredients.map((ingredient) => {
-            return ingredient;
-          });
+          const foodle = {
+            ...data.toObject({ flattenMaps: true }),
+            categories: Foodle.schema.path("category").enumValues,
+          };
 
-          res.json({ data });
+          console.log(foodle);
+
+          for (let i = 0; i < foodle.ingredients.length; i++) {
+            const ingredientId = foodle.ingredients[i];
+            console.log(ingredientId._id.toHexString());
+            const result = await Ingredient.findById(
+              ingredientId._id.toHexString()
+            )
+              .populate({ path: "config" })
+              .exec();
+            foodle.ingredients[i] = result;
+          }
+
+          res.json({
+            data: foodle,
+          });
         } else if (data.isPrivate) {
           next(new NotAuthorizedError("Foodle is not public"));
         } else {

@@ -9,4 +9,5 @@ export const CONFIG = {
   SESSION_EXPIRED_ABBR: "se",
   LOCAL_STORAGE_INGREDIENTS_KEY: "ingredients",
   LOCAL_STORAGE_TAGS_KEY: "tags",
+  LOCAL_STORAGE_COOKIE_KEY: "yummy",
 };

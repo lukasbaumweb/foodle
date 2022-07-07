@@ -15,7 +15,7 @@ const getOneIngredient = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 
@@ -32,17 +32,12 @@ const createIngredient = (req, res, next) => {
   const { ingredient, amount, unit, foodleId } = req.body;
 
   if (!id) {
-    next(new BadRequestError(("ingriedient id missing")));
-    return;
-  }
-
-  if (!amount) {
-    next(new BadRequestError(("amount missing")));
+    next(new BadRequestError("ingriedient id missing"));
     return;
   }
 
   if (!unit) {
-    next(new BadRequestError(("unit missing")));
+    next(new BadRequestError("unit missing"));
     return;
   }
 
@@ -59,7 +54,7 @@ const createIngredient = (req, res, next) => {
 const updateIngredient = (req, res, next) => {
   const { id } = req.params;
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 
@@ -76,7 +71,7 @@ const deleteIngredient = (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
-    next(new BadRequestError(("id missing")));
+    next(new BadRequestError("id missing"));
     return;
   }
 

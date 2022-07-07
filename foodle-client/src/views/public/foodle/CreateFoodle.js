@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import {
-  Button,
-  Container,
-  Grid,
   Box,
-  TextField,
+  Button,
   Card,
-  CardMedia,
   CardContent,
-  Typography,
-  Select,
-  MenuItem,
+  CardMedia,
+  Container,
   FormControl,
-  InputLabel,
   FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
+import { translate } from "../../../utils/translater";
+import { isObjectEmpty } from "../../../utils/functions";
+import { useNavigate } from "react-router-dom";
+import AddFiles from "../../../assets/svg/add-files.svg";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
-import { getLanguage, translate } from "../../../utils/translater";
-import { isObjectEmpty } from "../../../utils/functions";
-import AddFiles from "../../../assets/svg/add-files.svg";
-import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
 
@@ -30,6 +30,7 @@ const CreateFoodle = () => {
     title: "",
     description: "",
     category: "",
+    categories: [],
     tags: [],
     ingredients: [],
     errors: {},
@@ -173,19 +174,18 @@ const CreateFoodle = () => {
                     Kategorie auswählen
                   </MenuItem>
 
-                  {Object.entries(getLanguage().mealCategory).map(
-                    (category) => (
-                      <MenuItem key={category[0]} value={category[0]}>
-                        {category[1]}
-                      </MenuItem>
-                    )
-                  )}
+                  {values.categories.map((category) => (
+                    <MenuItem key={category[0]} value={category[0]}>
+                      {category[1]}
+                    </MenuItem>
+                  ))}
                 </Select>
-                {values.errors["category"]?.length > 0 && (
-                  <FormHelperText error={true}>
-                    {values.errors["category"]}
-                  </FormHelperText>
-                )}
+
+                <FormHelperText error={values.errors["category"]?.length > 0}>
+                  {values.errors["category"]?.length > 0
+                    ? values.errors["category"]
+                    : "z.B. bei Spaghetti Carbonara: Gericht"}
+                </FormHelperText>
               </FormControl>
             </Grid>
           </Grid>

@@ -8,5 +8,7 @@ module.exports = {
     "package",
     "teaSpoon",
     "tablespoon",
+    "pinch",
+    "some",
   ],
 };

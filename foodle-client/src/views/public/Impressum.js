@@ -10,9 +10,10 @@ const Impressum = () => {
 
       <p>
         Lukas Baum <br />
-        Musterweg
+        Geistinger Höhe 24
         <br />
-        12345 Musterstadt <br />
+        53773 Hennef
+        <br />
       </p>
       <p>
         <strong>Vertreten durch: </strong>
@@ -24,11 +25,9 @@ const Impressum = () => {
       </p>
       <p>
         <strong>Kontakt:</strong> <br />
-        Telefon: 01234-789456
+        Telefon: <a href="tel:015905307603">015905307603</a>
         <br />
-        Fax: 1234-56789
-        <br />
-        E-Mail: <a href="mailto:max@muster.de">max@muster.de</a>
+        E-Mail: <a href="mailto:lukas.baum@fom-net.de">lukas.baum@fom-net.de</a>
       </p>
 
       <p>

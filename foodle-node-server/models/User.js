@@ -7,6 +7,14 @@ const UserSchema = new Schema(
   {
     firstName: String,
     lastName: String,
+    username: {
+      type: String,
+      unique: true,
+      validate: {
+        validator: (v) => v > 3,
+        message: (props) => `${props.value} is too short`,
+      },
+    },
     email: {
       type: String,
       validate: {

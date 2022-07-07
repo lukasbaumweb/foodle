@@ -36,7 +36,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
   const [values, setValues] = useState({
     steps: data || [],
     title: "",
-    description: "",
     open: false,
     selectedItemId: null,
     errors: {},
@@ -61,7 +60,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
       ...values,
       selectedItemId: id,
       title: step.title,
-      description: step.description,
       open: true,
     });
   };
@@ -100,13 +98,11 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
         (stp) => stp.id === values.selectedItemId
       );
       steps[stepIndex]["title"] = values.title;
-      steps[stepIndex]["description"] = values.description;
 
       setValues({
         ...values,
         steps,
         title: "",
-        description: "",
         selectedItemId: null,
         isDirty: true,
       });
@@ -114,7 +110,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
       const newStep = {
         id: uuidv4(),
         title: values.title.trim(),
-        description: values.description.trim(),
       };
 
       const steps = values.steps;
@@ -123,7 +118,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
         ...values,
         steps,
         title: "",
-        description: "",
         isDirty: true,
       });
     }
@@ -231,24 +225,10 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
               onChange={handleChange}
               error={values.errors["title"]?.length > 0}
               helperText={values.errors["title"]}
-              fullWidth
-              required
-            />
-
-            <TextField
-              margin="dense"
-              id="description"
-              name="description"
-              label="Beschreibung"
-              variant="filled"
-              sx={{ mt: 2 }}
-              value={values.description}
-              onChange={handleChange}
               rows={5}
-              error={values.errors["description"]?.length > 0}
-              helperText={values.errors["description"]}
               multiline
               fullWidth
+              required
             />
           </Box>
         </DialogContent>
