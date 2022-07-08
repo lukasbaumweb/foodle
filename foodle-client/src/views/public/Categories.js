@@ -94,7 +94,7 @@ const Categories = () => {
       <Typography variant="h5" component="h1" sx={{ pt: 2 }}>
         Kategorien
       </Typography>
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ px: 2, pb: 2 }}>
         {values.categories
           .sort((a, b) => b.selected - a.selected)
           .map(({ name, selected }) => (
@@ -104,7 +104,7 @@ const Categories = () => {
               variant={selected ? "standard" : "outlined"}
               onClick={handleClick(name)}
               onDelete={selected ? handleClick(name) : undefined}
-              sx={{ ml: 1 }}
+              sx={{ ml: 1, mt: 1 }}
             />
           ))}
         {values.categories.some((cat) => cat.selected) ? (

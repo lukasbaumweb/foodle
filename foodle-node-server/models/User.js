@@ -14,6 +14,8 @@ const UserSchema = new Schema(
         validator: (v) => v.length > 3,
         message: (props) => `${props.value} is too short`,
       },
+      required: true,
+      immutable: true,
     },
     email: {
       type: String,
@@ -24,7 +26,6 @@ const UserSchema = new Schema(
       select: false,
       unique: true,
       required: true,
-      immutable: true,
     },
     password: { type: String, select: false },
     isActivated: { type: Boolean, select: false },

@@ -62,9 +62,7 @@ const SearchBar = () => {
       setText(query);
     }
     return () => {};
-  }, []);
-
-  console.log(text);
+  }, [text]);
 
   const onSubmit = (e) => {
     e.preventDefault();

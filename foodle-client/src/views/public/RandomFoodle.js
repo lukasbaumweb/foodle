@@ -109,26 +109,20 @@ const RandomFoodle = () => {
             </CardContent>
           </Card>
         )}
+        <Fab
+          variant="extended"
+          onClick={() => {
+            setValues({ ...values, loading: true });
+            fetchRandomFoodle();
+          }}
+          color="secondary"
+          aria-label="erneut würfeln"
+          sx={{ mt: 1, width: "auto" }}
+        >
+          <CasinoIcon sx={{ mr: 1 }} />
+          Würfeln
+        </Fab>
       </Box>
-
-      <Fab
-        variant="extended"
-        onClick={() => {
-          setValues({ ...values, loading: true });
-          fetchRandomFoodle();
-        }}
-        color="secondary"
-        aria-label="erneut würfeln"
-        sx={{
-          position: "absolute",
-          bottom: 30,
-          left: "50%",
-          transform: "translate(-50%)",
-        }}
-      >
-        <CasinoIcon sx={{ mr: 1 }} />
-        Würfeln
-      </Fab>
     </Container>
   );
 };

@@ -184,14 +184,14 @@ class FoodleAPI {
     } catch (error) {
       const { request, response } = error;
       if (response) {
-        const { statusCode, error } = response.data.data;
+        const { status, data } = response;
 
-        if (statusCode === 440) {
+        if (status === 440) {
           Auth.logout(error);
           return;
         }
 
-        throw new Error(error);
+        throw new Error(data.messages);
       } else if (request) {
         throw new Error("server time out");
       } else {

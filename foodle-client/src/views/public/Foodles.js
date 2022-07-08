@@ -25,7 +25,7 @@ const Foodles = () => {
     pages: 0,
     perPage: 10,
   });
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
 
   let query = searchParams.get("q") || "";
 

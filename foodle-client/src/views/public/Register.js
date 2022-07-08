@@ -13,7 +13,7 @@ import Loader from "../../components/Loader";
 import { Auth } from "../../utils/auth";
 import { isObjectEmpty } from "../../utils/functions";
 import ROUTES from "../../utils/routes";
-import { translate } from "../../utils/translater";
+import { CODES, translate } from "../../utils/translater";
 import SmallFoodBoy from "./../../assets/images/foodboy-small.png";
 
 const Register = () => {
@@ -82,7 +82,7 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
-    setValues({ ...values, loading: true, errors: {} });
+    // setValues({ ...values, loading: true, errors: {} });
 
     const auth = new Auth();
 
@@ -94,16 +94,17 @@ const Register = () => {
         email: values.email,
         password: values.password,
       })
-      .then(() => {
+      .then((result) => {
         window.location.href = ROUTES.private.home.path;
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.error(err);
         setValues({
           ...values,
-          errors: { all: err.error },
+          errors: { all: translate(err.message) },
           loading: false,
-        })
-      );
+        });
+      });
   };
 
   const handleChange = (e) => {
@@ -235,8 +236,10 @@ const Register = () => {
             </Grid>
           </Grid>
 
-          {values.errors.all && (
-            <Alert severity="error">{values.errors.all}</Alert>
+          {values.errors.all?.length > 0 && (
+            <Alert severity="error" variant="filled">
+              {values.errors.all}
+            </Alert>
           )}
           <Box sx={{ textAlign: "center" }}>
             <Button

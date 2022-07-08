@@ -1,7 +1,8 @@
 export const de_DE = {
   "unknown-error": "Unbekannter Fehler",
   "unknown user": "Benutzer unbekannt",
-
+  "An account with that username already exists.":
+    "Es existiert bereits ein Konto mit diesem Benutzernamen.",
   loaderSentences: [
     "Gäste werden eingeladen",
     "Einkaufszettel wird geschrieben",
@@ -33,6 +34,7 @@ export const de_DE = {
     "validation-error/email-missing": "E-Mail fehlt",
     "validation-error/email-malformed":
       "Fehlerhaftes E-Mail Format (name@domain.tld)",
+
     "validation-error/firstName-missing": "Vorname fehlt",
     "validation-error/lastName-missing": "Nachname fehlt",
     "validation-error/password-missing": "Passwort fehlt",
