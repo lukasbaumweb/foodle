@@ -49,7 +49,12 @@ const login = (req, res, next) => {
 };
 
 const register = (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { firstName, lastName, username, email, password } = req.body;
+
+  if (!username) {
+    next(new BadRequestError("username is missing"));
+    return;
+  }
 
   if (!email) {
     next(new BadRequestError("email is missing"));
@@ -62,9 +67,11 @@ const register = (req, res, next) => {
   const newUser = {
     firstName,
     lastName,
+    username,
     email,
     password: hashedPassword,
   };
+
   User.create(newUser, (err, user) => {
     if (err) {
       next(err);

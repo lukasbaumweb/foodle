@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import EditIcon from "@mui/icons-material/Edit";
-import FoodleAPI from "../utils/api";
+import FoodleAPI from "../../utils/api";
 
 const EditImagesButton = ({ id }) => {
   const isNew = id === "new";

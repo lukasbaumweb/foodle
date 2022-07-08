@@ -7,8 +7,8 @@ import { CONFIG } from "./config";
  * @param {String} str custom string
  * @returns string without trailing slash
  */
-const removeTrailingSlash = (str) =>
-  str.charAt(str.length - 1) === "/" ? str.substr(0, str.length - 1) : str;
+const removeTrailingSlash = (str = "") =>
+  str?.charAt(str.length - 1) === "/" ? str.substring(0, str.length - 1) : str;
 
 /**
  *  Constructs a search string for browsers and apis from custom filters
@@ -170,6 +170,12 @@ class FoodleAPI {
     return result;
   }
 
+  async getVersion() {
+    const query = axios.get(`${this.url}/`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
   async executeQuery(promise) {
     try {
       const result = await promise;
@@ -207,17 +213,10 @@ class FoodleAPI {
     return result;
   }
 
-  async register({ firstName, lastName, email, password }) {
+  async register(payload) {
     const query = axios.post(
       `${this.url}/auth/register`,
-      {
-        firstName,
-        lastName,
-
-        email,
-        password,
-        mode: "user",
-      },
+      payload,
       this.options
     );
     const result = await this.executeQuery(query);

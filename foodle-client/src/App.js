@@ -133,14 +133,16 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        {renderedRoutes.map(({ path, element, index }, i) => {
-          if (index) return <Route index element={element} key={i} />;
-          return <Route path={path} element={element} key={i} />;
-        })}
-      </Route>
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {renderedRoutes.map(({ path, element, index }, i) => {
+            if (index) return <Route index element={element} key={i} />;
+            return <Route path={path} element={element} key={i} />;
+          })}
+        </Route>
+      </Routes>
+    </>
   );
 }
 

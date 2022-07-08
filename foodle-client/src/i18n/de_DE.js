@@ -29,6 +29,7 @@ export const de_DE = {
   },
 
   "validation-error": {
+    "validation-error/username-missing": "Benutzername fehlt",
     "validation-error/email-missing": "E-Mail fehlt",
     "validation-error/email-malformed":
       "Fehlerhaftes E-Mail Format (name@domain.tld)",

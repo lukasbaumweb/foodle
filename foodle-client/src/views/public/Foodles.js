@@ -15,7 +15,7 @@ import FoodleAPI from "../../utils/api";
 import Empty from "../../assets/svg/empty.svg";
 import { useCallback } from "react";
 
-const Foodles = ({ uid }) => {
+const Foodles = () => {
   const [values, setValues] = useState({
     loading: true,
     foodles: [],

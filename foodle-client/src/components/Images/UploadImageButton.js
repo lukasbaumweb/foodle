@@ -13,10 +13,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { translate } from "../utils/translater";
+import { translate } from "../../utils/translater";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import FoodleAPI from "../utils/api";
+import FoodleAPI from "../../utils/api";
 
 const UploadImageButton = ({ id }) => {
   const isNew = id === "new";
@@ -71,9 +71,10 @@ const UploadImageButton = ({ id }) => {
 
     const formData = new FormData();
     try {
-      formData.append("files", values.images);
-
-      console.log(formData, values.images);
+      for (let i = 0; i < values.images.length; i++) {
+        const img = values.images[i];
+        formData.append("files", img);
+      }
       api
         .uploadImages(id, formData, loadingOptions)
         .then((result) => {

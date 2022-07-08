@@ -1,7 +1,8 @@
 import React from "react";
+import ComingSoon from "../../components/ComingSoon";
 
 const GroceryList = () => {
-  return <div>GroceryList</div>;
+  return <ComingSoon />;
 };
 
 export default GroceryList;

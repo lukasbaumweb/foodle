@@ -5,15 +5,14 @@ const { BadRequestError, NotAuthorizedError } = require("../utils/errors");
 const getAll = (req, res, next) => {
   const page = parseInt(req.query.page, 10) || 0;
   const limit = parseInt(req.query.limit, 10) || 10;
+  const categories = req.query.categories?.split(",") || [];
 
-  const mongooseFilter = { isPrivate: false };
+  const categoryFilter = {};
+  if (categories.length > 0) categoryFilter["category"] = { $in: categories };
+  const mongooseFilter = { isPrivate: false, ...categoryFilter };
 
   Foodle.find(mongooseFilter)
     .populate("author")
-    .populate({
-      path: "ratings",
-      populate: { path: "ratings" },
-    })
     .sort("-createdAt")
     .limit(limit)
     .skip(limit * (page > 0 ? page - 1 : page))
@@ -46,10 +45,6 @@ const getMyFoodles = (req, res, next) => {
   if (isAuthorCurrentUser) {
     Foodle.find({ author: req.user.id })
       .populate("author")
-      .populate({
-        path: "ratings",
-        populate: { path: "ratings" },
-      })
       .populate({
         path: "ingredients",
         populate: { path: "ingredient", model: Ingredient },
@@ -151,6 +146,7 @@ const getPublicFoodle = (req, res, next) => {
       }
     });
 };
+
 const getRandomFoodle = (req, res, next) => {
   Foodle.count({ isPrivate: false }).exec((err, count) => {
     if (err) {

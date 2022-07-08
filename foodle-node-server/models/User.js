@@ -11,7 +11,7 @@ const UserSchema = new Schema(
       type: String,
       unique: true,
       validate: {
-        validator: (v) => v > 3,
+        validator: (v) => v.length > 3,
         message: (props) => `${props.value} is too short`,
       },
     },

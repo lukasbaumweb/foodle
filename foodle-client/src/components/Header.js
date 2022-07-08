@@ -21,6 +21,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+
 import ROUTES from "../utils/routes";
 import { Auth } from "../utils/auth";
 import Chef from "./../assets/images/cook.svg";
@@ -33,6 +34,7 @@ import CasinoIcon from "@mui/icons-material/Casino";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import SmallFoodBoy from "../assets/images/foodboy-small.png";
+import SearchBar from "./SearchBar";
 
 const MENU_ID = "primary-menu";
 
@@ -161,7 +163,9 @@ const Header = () => {
                   <AnimatedFoodleLogo />
                 </Link>
               </Typography>
-              <Box sx={{ flexGrow: 1 }}></Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <SearchBar />
+              </Box>
               <Box>
                 {ButtonList.map(({ title, onClick }, index) => (
                   <Button color="inherit" onClick={onClick} key={index}>
@@ -195,14 +199,19 @@ const Header = () => {
           onKeyDown={toggleDrawer(false)}
         >
           <Toolbar sx={{ backgroundColor: theme.palette.primary.main }}>
-            <Avatar
-              sx={{ width: 50, height: 50, mr: 2 }}
-              src={SmallFoodBoy}
-              alt="Foodles"
-            />
-            <Typography sx={{ pt: 1, fontSize: 30, lineHeight: "50px" }}>
-              Foodle
-            </Typography>
+            <Link
+              to={ROUTES.home.path}
+              style={{ textDecoration: "none", display: "flex" }}
+            >
+              <Avatar
+                sx={{ width: 50, height: 50, mr: 2 }}
+                src={SmallFoodBoy}
+                alt="Foodles"
+              />
+              <Typography sx={{ pt: 1, fontSize: 30, lineHeight: "50px" }}>
+                Foodle
+              </Typography>
+            </Link>
           </Toolbar>
           <Divider />
           <List>

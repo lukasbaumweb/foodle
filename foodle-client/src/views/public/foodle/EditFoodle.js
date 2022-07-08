@@ -17,9 +17,9 @@ import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
 import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
-import ImageSlider from "../../../components/ImageSlieder";
-import UploadImageButton from "../../../components/UploadImageButton";
-import EditImagesButton from "../../../components/EditImagesButton";
+import ImageSlider from "../../../components/Images/ImageSlieder";
+import UploadImageButton from "../../../components/Images/UploadImageButton";
+import EditImagesButton from "../../../components/Images/EditImagesButton";
 import IngredientsList from "../../../components/IngredientsList";
 import TutorialList from "../../../components/TutorialList/index";
 import { useNavigate, useParams } from "react-router-dom";
@@ -33,7 +33,6 @@ const EditFoodle = () => {
     title: "",
     description: "",
     category: "",
-    categories: [],
     isPrivate: true,
     tags: [],
     ingredients: [],
@@ -52,7 +51,6 @@ const EditFoodle = () => {
     api
       .getFoodle(id)
       .then(({ data }) => {
-        console.log(data);
         setValues((state) => ({
           ...state,
           ingredients: data?.ingredients,
@@ -91,8 +89,6 @@ const EditFoodle = () => {
     if (!validate()) return;
 
     setValues({ ...values, loading: true });
-
-    console.log(values.tags);
 
     const payload = {
       title: values.title,

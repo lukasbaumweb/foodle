@@ -20,6 +20,7 @@ const Register = () => {
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     password: "",
     repeatPassword: "",
@@ -32,8 +33,13 @@ const Register = () => {
     if (values.firstName.trim().length === 0) {
       errors["firstName"] = translate("validation-error/firstName-missing");
     }
+
     if (values.lastName.trim().length === 0) {
       errors["lastName"] = translate("validation-error/lastName-missing");
+    }
+
+    if (values.username.trim().length === 0) {
+      errors["username"] = translate("validation-error/username-missing");
     }
 
     if (values.email.trim().length === 0) {
@@ -84,6 +90,7 @@ const Register = () => {
       .register({
         firstName: values.firstName,
         lastName: values.lastName,
+        username: values.username,
         email: values.email,
         password: values.password,
       })
@@ -104,8 +111,6 @@ const Register = () => {
   };
 
   if (values.loading) return <Loader />;
-
-  console.log(values.errors);
 
   return (
     <Container maxWidth="sm">
@@ -159,6 +164,21 @@ const Register = () => {
                 error={values.errors["lastName"]?.length > 0}
                 helperText={values.errors["lastName"]}
                 autoComplete="family-name"
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="filled"
+                margin="normal"
+                id="username"
+                label="Benutzername"
+                name="username"
+                autoComplete="username"
+                error={values.errors["username"]?.length > 0}
+                helperText={values.errors["username"]}
+                onChange={handleChange}
                 required
                 fullWidth
               />

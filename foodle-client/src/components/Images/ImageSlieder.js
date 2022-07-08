@@ -10,10 +10,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import AddFiles from "../assets/svg/add-files.svg";
+import AddFiles from "../../assets/svg/add-files.svg";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import FoodleAPI from "../utils/api";
+import FoodleAPI from "../../utils/api";
 
 const ImageSlider = ({ id }) => {
   const isNew = id === "new";

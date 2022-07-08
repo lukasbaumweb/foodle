@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Avatar } from "@mui/material";
+import { Avatar, useMediaQuery } from "@mui/material";
 import SmallFoodboy from "../assets/images/foodboy-small.png";
 
 const LogoHeader = styled("h3")(`
@@ -58,6 +58,8 @@ const LogoHeader = styled("h3")(`
 `);
 
 const AnimatedFoodleLogo = () => {
+  const isLessThan1100px = useMediaQuery("(max-width: 1100px)");
+
   return (
     <LogoHeader className="foodle-logo">
       <Avatar
@@ -65,12 +67,16 @@ const AnimatedFoodleLogo = () => {
         sx={{ zIndex: 4, height: 50, width: 50 }}
       ></Avatar>
 
-      <span>F</span>
-      <span>O</span>
-      <span>O</span>
-      <span>D</span>
-      <span>L</span>
-      <span>E</span>
+      {!isLessThan1100px && (
+        <>
+          <span>F</span>
+          <span>O</span>
+          <span>O</span>
+          <span>D</span>
+          <span>L</span>
+          <span>E</span>
+        </>
+      )}
     </LogoHeader>
   );
 };

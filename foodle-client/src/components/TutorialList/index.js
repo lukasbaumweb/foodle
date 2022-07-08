@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import update from "immutability-helper";
 
 import DraggableListItem from "./DraggableItem";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   Box,
   Button,
@@ -24,14 +26,6 @@ import { v4 as uuidv4 } from "uuid";
 import { LoadingButton } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
 const TutorialList = React.memo(({ foodleId, data, editable }) => {
   const [values, setValues] = useState({
     steps: data || [],
@@ -42,12 +36,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
     loading: false,
     isDirty: false,
   });
-
-  const onDragEnd = ({ destination, source }) => {
-    if (!destination) return;
-    const steps = reorder(values.steps, source.index, destination.index);
-    setValues({ ...values, steps, sDirty: true });
-  };
 
   const handleClose = () => setValues({ ...values, open: !values.open });
 
@@ -89,7 +77,7 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
     return result;
   };
 
-  const addStep = (e) => {
+  const addStep = () => {
     if (!validateStep()) return;
 
     if (values.selectedItemId !== null) {
@@ -132,17 +120,49 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
       .updateFoodle(foodleId, { steps: values.steps })
       .then((result) => {
         console.log(result);
-        setValues({ ...values, loading: true, isDirty: false });
+        setValues({ ...values, loading: false, isDirty: false });
       })
       .catch((err) => {
         console.error(err);
-        setValues({ ...values, loading: true });
+        setValues({ ...values, loading: false });
       });
   };
 
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const steps = update(values.steps, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, values.steps[dragIndex]],
+        ],
+      });
+
+      setValues((state) => ({ ...state, steps, isDirty: true }));
+    },
+    [values.steps]
+  );
+
+  const renderCard = useCallback(
+    (text, index, id, onEdit, onDelete, editable) => {
+      return (
+        <DraggableListItem
+          key={id}
+          index={index}
+          id={id}
+          text={text}
+          moveCard={moveCard}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          editable={editable}
+        />
+      );
+    },
+    [moveCard]
+  );
+
   return (
     <>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DndProvider backend={HTML5Backend}>
         <Card>
           <CardHeader
             action={
@@ -179,23 +199,18 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
             }
           />
           <CardContent>
-            <Droppable droppableId="droppable-list">
-              {(provided) => (
-                <List ref={provided.innerRef} {...provided.droppableProps}>
-                  {values.steps.map((item, index) => (
-                    <DraggableListItem
-                      item={item}
-                      index={index}
-                      key={item.id}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                      editable={editable}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </List>
+            <List sx={{ py: 2 }}>
+              {values.steps.map((item, index) =>
+                renderCard(
+                  item.title,
+                  index,
+                  item.id,
+                  onEdit,
+                  onDelete,
+                  editable
+                )
               )}
-            </Droppable>
+            </List>
             {values.steps.length === 0 && (
               <Typography variant="body2" textAlign="center" color="#9e9e9e">
                 {editable
@@ -205,7 +220,7 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
             )}
           </CardContent>
         </Card>
-      </DragDropContext>
+      </DndProvider>
       <Dialog
         open={values.open}
         onClose={handleClose}

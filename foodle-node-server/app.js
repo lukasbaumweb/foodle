@@ -51,6 +51,7 @@ app.options("*", cors());
 
 // Routes
 app.use("/", indexRouter);
+app.use("/api/v1/", indexRouter);
 app.use("/api/v1/auth", limiter, authRouter);
 app.use("/api/v1/user", usersRouter);
 app.use("/api/v1/foodle", foodlesRouter);
