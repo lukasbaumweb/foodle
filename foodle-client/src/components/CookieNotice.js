@@ -7,7 +7,7 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import Logo from "./../assets/images/orignal-sizes/foodles.png";
+import FoodBoy from "./../assets/images/foodboy.png";
 
 const CookieNotice = ({ onAccept }) => {
   const TransitionUp = (props) => <Slide {...props} direction="up" />;
@@ -34,7 +34,7 @@ const CookieNotice = ({ onAccept }) => {
   return (
     <Container maxWidth="md" height="100vh" sx={{ pt: 5, pb: "20%" }}>
       <Box textAlign="center">
-        <img src={Logo} alt="Foodle Logo" width="80%" />
+        <img src={FoodBoy} alt="Foodle Logo" width="80%" />
       </Box>
       <Typography variant="h3" component="h1" sx={{ mt: 3 }}>
         Herzlich Willkommen

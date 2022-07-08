@@ -92,11 +92,13 @@ const EditFoodle = () => {
 
     setValues({ ...values, loading: true });
 
+    console.log(values.tags);
+
     const payload = {
       title: values.title,
       description: values.description,
       category: values.category,
-      tags: values.tags.map((tag) => tag.name),
+      tags: values.tags.filter((t) => t).map((tag) => tag.name),
     };
     const api = new FoodleAPI();
 

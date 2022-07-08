@@ -16,6 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
+  Avatar,
+  Divider,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../utils/routes";
@@ -28,7 +30,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import TopicIcon from "@mui/icons-material/Topic";
 import CasinoIcon from "@mui/icons-material/Casino";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import FoodlesSmall from "../assets/images/foodles-small.png";
+import SmallFoodBoy from "../assets/images/foodboy-small.png";
 
 const MENU_ID = "primary-menu";
 
@@ -72,8 +74,6 @@ const Header = () => {
           aria-controls={MENU_ID}
           aria-haspopup="true"
           onClick={(event) => setAnchorEl(event.currentTarget)}
-          variant="contained"
-          color="secondary"
         >
           <AccountCircle />
         </IconButton>
@@ -184,9 +184,17 @@ const Header = () => {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <Toolbar>
-            <img src={FoodlesSmall} alt="Foodles" />
+          <Toolbar sx={{ backgroundColor: theme.palette.primary.main }}>
+            <Avatar
+              sx={{ width: 50, height: 50, mr: 2 }}
+              src={SmallFoodBoy}
+              alt="Foodles"
+            />
+            <Typography sx={{ pt: 1, fontSize: 30, lineHeight: "50px" }}>
+              Foodle
+            </Typography>
           </Toolbar>
+          <Divider />
           <List>
             {ButtonList.map(({ title, onClick, icon }, index) => (
               <ListItem button key={index} onClick={onClick}>

@@ -15,19 +15,20 @@ const Layout = () => {
       }}
     >
       <Header />
-      <Container
+      <Box
         component="main"
         sx={{
           display: "flex",
           minHeight: "100%",
           flexDirection: "column",
           flexGrow: 1,
+          flex: 1,
           mt: 1,
           mb: 2,
         }}
       >
         <Outlet />
-      </Container>
+      </Box>
 
       <ToTopButton />
       <Footer />

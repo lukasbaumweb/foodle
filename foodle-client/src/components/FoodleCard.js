@@ -22,9 +22,8 @@ import ROUTES from "../utils/routes";
 import EditIcon from "@mui/icons-material/Edit";
 import { Auth } from "../utils/auth";
 
-const FoodleCard = ({ foodle = {}, imageSize = 100 }) => {
+const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
   const [values, setValues] = useState({ isFavorite: false });
-  const [hover, setHover] = useState(false);
 
   const auth = new Auth();
 
@@ -70,12 +69,7 @@ const FoodleCard = ({ foodle = {}, imageSize = 100 }) => {
         height={imageSize}
         image={foodle.img || Chef}
         alt={foodle.title}
-        onMouseOver={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        sx={{
-          transition: "transform 0.15s ease-in-out",
-          transform: hover ? "scale3d(1.05, 1.05, 1)" : "initial",
-        }}
+        className="on-hover-grow"
       />
       <CardContent sx={{ pb: 0 }}>
         <Typography variant="h6">{foodle.title}</Typography>

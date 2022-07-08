@@ -1,13 +1,19 @@
 import React from "react";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
+import SmallFoodboy from "../assets/images/foodboy-small.png";
 
-const LogoHeader = styled('h3')(`
+const LogoHeader = styled("h3")(`
    position: relative;
    cursor: pointer;
    user-select: none;
    margin: auto;
+   display: flex;
+   align-items: center;
+   line-height: 50px;
+   font-size: 18pt;
   
-  
+  &:hover span:nth-of-type(1),
   &:hover span:nth-of-type(2),
   &:hover span:nth-of-type(3),
   &:hover span:nth-of-type(4),
@@ -25,8 +31,8 @@ const LogoHeader = styled('h3')(`
     transition: .4s all ease;
   }
   & > span:nth-of-type(1){
-    opacity: 1;
     z-index: 2;
+    transform: translateX(-10px);
     transition: .2s all ease; 
   }
   & > span:nth-of-type(2) {
@@ -54,6 +60,11 @@ const LogoHeader = styled('h3')(`
 const AnimatedFoodleLogo = () => {
   return (
     <LogoHeader className="foodle-logo">
+      <Avatar
+        src={SmallFoodboy}
+        sx={{ zIndex: 4, height: 50, width: 50 }}
+      ></Avatar>
+
       <span>F</span>
       <span>O</span>
       <span>O</span>

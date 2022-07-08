@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
+  Container,
   MenuItem,
   Pagination,
   Select,
@@ -26,8 +27,7 @@ const Foodles = ({ uid }) => {
   });
 
   const isLessThan1000 = useMediaQuery("(max-width: 1000px)");
-  const isLessThan750 = useMediaQuery("(max-width: 750px)");
-  const isLessThan550 = useMediaQuery("(max-width: 550px)");
+  const isLessThan650 = useMediaQuery("(max-width: 650px)");
 
   const fetchFoodles = useCallback(() => {
     const api = new FoodleAPI();
@@ -47,11 +47,10 @@ const Foodles = ({ uid }) => {
   }, [fetchFoodles]);
 
   let countColumns = 4;
-  if (isLessThan550) countColumns = 1;
-  else if (isLessThan750) countColumns = 2;
+  if (isLessThan650) countColumns = 2;
   else if (isLessThan1000) countColumns = 3;
   return (
-    <>
+    <Container maxWidth="lg">
       <Typography variant="h5" component="h1" sx={{ py: 2 }}>
         Foodles
       </Typography>
@@ -106,7 +105,7 @@ const Foodles = ({ uid }) => {
         </Typography>
       </Box>
       <FoodleDial />
-    </>
+    </Container>
   );
 };
 

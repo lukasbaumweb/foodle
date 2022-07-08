@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Container,
   Grid,
   Typography,
   Card,
   CardActionArea,
   CardMedia,
+  Box,
+  Container,
 } from "@mui/material";
 import Foodles from "./../assets/images/table-with-food.jpg";
 import CookBook from "./../assets/images/cook-books.jpg";
@@ -15,10 +16,9 @@ import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
 import FoodleDial from "../components/FoodleDial";
-import Logo from "../assets/images/orignal-sizes/foodles.png";
+import FoodBoy from "../assets/images/foodboy.png";
 
 const CategoryCard = ({ title, link, img }) => {
-  const [hover, setHover] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -26,12 +26,7 @@ const CategoryCard = ({ title, link, img }) => {
     <Card>
       <CardActionArea onClick={() => navigate(link)}>
         <CardMedia
-          onMouseOver={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          sx={{
-            transition: "transform 0.15s ease-in-out",
-            transform: hover ? "scale3d(1.05, 1.05, 1)" : "initial",
-          }}
+          className="on-hover-grow"
           component="img"
           image={img}
           alt="Foodles"
@@ -52,11 +47,20 @@ const CategoryCard = ({ title, link, img }) => {
 
 const Home = () => {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="xl">
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        <Grid item xs={12}>
-          <img src={Logo} width="70%" />
-          <Typography variant="h3">Willkommen bei Foodles</Typography>
+        <Grid item xs={12} sx={{ marginBottom: 2 }}>
+          <Container maxWidth="md">
+            <Box display="flex" justifyContent="center" marginBottom={2}>
+              <img src={FoodBoy} width="50%" alt="Foodboy" />
+            </Box>
+            <Typography variant="h3" textAlign="center">
+              Willkommen bei Foodle!
+            </Typography>
+            <Typography variant="body1" textAlign="center">
+              Das Rezeptbuch, das nie schmutzig wird für dich und deine Familie
+            </Typography>
+          </Container>
         </Grid>
         <Grid item xs={12} sm={4} lg={3}>
           <CategoryCard
