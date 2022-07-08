@@ -63,11 +63,16 @@ const RandomFoodle = () => {
         Hier wird ein veröffentlichtes Foodle aus der großen Sammlung zufällig
         ausgewählt und angezeigt.
       </Typography>
-      <Box display="flex" justifyContent="center" marginTop="20px">
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        marginTop="20px"
+      >
         {values.foodle ? (
           <FoodleCard foodle={values.foodle} imageSize="300" />
         ) : (
-          <Card>
+          <Card sx={{ marginY: 2 }}>
             <CardContent>
               <Typography variant="h5">
                 Kein zufälliges Foodle gefunden

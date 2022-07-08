@@ -8,7 +8,7 @@ import Settings from "./views/_shared/Settings";
 import { Auth } from "./utils/auth";
 import Loader from "./components/Loader";
 import ROUTES from "./utils/routes";
-import Account from "./views/_shared/Account";
+import FoodlesByAuthor from "./views/_shared/MyFoodles";
 import Login from "./views/public/Login";
 import Register from "./views/public/Register";
 import ResetPassword from "./views/public/ResetPassword";
@@ -18,7 +18,7 @@ import CreateFoodle from "./views/public/foodle/CreateFoodle";
 import EditFoodle from "./views/public/foodle/EditFoodle";
 import GroceryList from "./views/public/GroceryList";
 import RandomFoodle from "./views/public/RandomFoodle";
-import CookingBooks from "./views/public/CookingBooks";
+import Categories from "./views/public/Categories";
 import Impressum from "./views/public/Impressum";
 import CookieNotice from "./components/CookieNotice";
 import { CONFIG } from "./utils/config";
@@ -84,7 +84,7 @@ function App() {
   let renderedRoutes = [
     { element: <Home />, index: true },
     { path: ROUTES.public.foodles.path, element: <Foodles /> },
-    { path: ROUTES.public.cookingBooks.path, element: <CookingBooks /> },
+    { path: ROUTES.public.categories.path, element: <Categories /> },
     { path: ROUTES.public.viewFoodle.path, element: <Foodle /> },
     { path: ROUTES.public.randomFoodle.path, element: <RandomFoodle /> },
     { path: ROUTES.public.about.path, element: <About /> },
@@ -94,7 +94,7 @@ function App() {
   if (values.authState === AUTH_STATES.loggedIn) {
     renderedRoutes = [
       ...renderedRoutes,
-      { path: ROUTES.private.account.path, element: <Account /> },
+      { path: ROUTES.private.myFoodles.path, element: <FoodlesByAuthor /> },
       { path: ROUTES.private.settings.path, element: <Settings /> },
       { path: ROUTES.private.createFoodle.path, element: <CreateFoodle /> },
       { path: ROUTES.private.editFoodle.path, element: <EditFoodle /> },

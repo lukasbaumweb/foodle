@@ -151,4 +151,16 @@ export const de_DE = {
       abbr: "Et.",
     },
   },
+
+  categories: [
+    "Backen",
+    "Vorspeise",
+    "Suppe",
+    "Salat",
+    "Hauptgericht",
+    "Soße & Dressing",
+    "Nachspeise",
+    "Dip",
+    "Getränke",
+  ],
 };

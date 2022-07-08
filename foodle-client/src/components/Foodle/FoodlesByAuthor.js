@@ -4,7 +4,7 @@ import FoodleCard from "../FoodleCard";
 import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 
-const MyFoodles = ({ uid }) => {
+const FoodlesByAuthor = ({ uid }) => {
   const [values, setValues] = useState({ loading: true, foodles: [] });
 
   useEffect(() => {
@@ -31,4 +31,4 @@ const MyFoodles = ({ uid }) => {
   );
 };
 
-export default MyFoodles;
+export default FoodlesByAuthor;

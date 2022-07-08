@@ -205,7 +205,7 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
                     selected={isItemSelected}
                   >
                     <TableCell component="th" id={labelId} scope="row">
-                      {row.config.name}
+                      {row.config.name || row.name}
                     </TableCell>
                     <TableCell align="right">
                       {row.amount * values.countPortions}{" "}

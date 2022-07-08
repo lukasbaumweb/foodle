@@ -8,7 +8,7 @@ const ROUTES = {
     resetPassword: { path: "/resetPassword" },
     foodles: { path: "/foodles" },
     viewFoodle: { path: "/foodle/view/:id" },
-    cookingBooks: { path: "/cookingBooks" },
+    categories: { path: "/categories" },
     randomFoodle: { path: "/random" },
     about: { path: "/about" },
     impressum: { path: "/impressum" },
@@ -18,7 +18,7 @@ const ROUTES = {
     editFoodle: { path: "/foodle/edit/:id" },
     createFoodle: { path: "/foodle/create" },
     groceryList: { path: "/groceryList" },
-    account: { path: "/account" },
+    myFoodles: { path: "/my" },
     settings: { path: "/settings" },
   },
 };

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
-import { translate } from "../../../utils/translater";
+import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import ImageSlider from "../../../components/ImageSlieder";
 import UploadImageButton from "../../../components/UploadImageButton";
@@ -230,8 +230,8 @@ const EditFoodle = () => {
                     Kategorie auswählen
                   </MenuItem>
 
-                  {values.categories.map((category, index) => (
-                    <MenuItem key={index} value={category}>
+                  {getLanguage()["categories"].map((category) => (
+                    <MenuItem key={category} value={category}>
                       {category}
                     </MenuItem>
                   ))}

@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { Auth } from "../../utils/auth";
 import ROUTES from "../../utils/routes";
-import SmallLogo from "./../../assets/images/foodles-small.png";
+import SmallFoodBoy from "./../../assets/images/foodboy-small.png";
 
 const ResetPassword = () => {
   const [values, setValues] = useState({});
@@ -33,7 +33,7 @@ const ResetPassword = () => {
           alignItems: "center",
         }}
       >
-        <img src={SmallLogo} alt="Foodle Logo" />
+        <img src={SmallFoodBoy} alt="Foodle Logo" />
         <Typography component="h1" variant="h5">
           Passwort zurücksetzen
         </Typography>
@@ -80,7 +80,7 @@ const ResetPassword = () => {
           </Grid>
           <Grid item>
             <Link to={ROUTES.public.register.path} variant="body2">
-              Noch kein Account?
+              Noch keinen Account?
             </Link>
           </Grid>
         </Grid>

@@ -14,7 +14,7 @@ import { Auth } from "../../utils/auth";
 import { isObjectEmpty } from "../../utils/functions";
 import ROUTES from "../../utils/routes";
 import { translate } from "../../utils/translater";
-import SmallLogo from "./../../assets/images/foodles-small.png";
+import SmallFoodBoy from "./../../assets/images/foodboy-small.png";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -117,7 +117,7 @@ const Register = () => {
           alignItems: "center",
         }}
       >
-        <img src={SmallLogo} alt="Foodle Logo" />
+        <img src={SmallFoodBoy} alt="Foodle Logo" />
 
         <Typography variant="body1" sx={{ mt: 2 }}>
           Du hast noch keinen Account, möchtest aber trotzdem deine Foodles

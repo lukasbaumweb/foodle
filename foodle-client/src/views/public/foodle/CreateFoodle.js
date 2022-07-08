@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { translate } from "../../../utils/translater";
+import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import { useNavigate } from "react-router-dom";
 import AddFiles from "../../../assets/svg/add-files.svg";
@@ -30,7 +30,6 @@ const CreateFoodle = () => {
     title: "",
     description: "",
     category: "",
-    categories: [],
     tags: [],
     ingredients: [],
     errors: {},
@@ -174,9 +173,9 @@ const CreateFoodle = () => {
                     Kategorie auswählen
                   </MenuItem>
 
-                  {values.categories.map((category) => (
-                    <MenuItem key={category[0]} value={category[0]}>
-                      {category[1]}
+                  {getLanguage()["categories"].map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
                     </MenuItem>
                   ))}
                 </Select>

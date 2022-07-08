@@ -18,6 +18,7 @@ import {
   useTheme,
   Avatar,
   Divider,
+  Tooltip,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "../utils/routes";
@@ -30,6 +31,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import TopicIcon from "@mui/icons-material/Topic";
 import CasinoIcon from "@mui/icons-material/Casino";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import AddIcon from "@mui/icons-material/Add";
 import SmallFoodBoy from "../assets/images/foodboy-small.png";
 
 const MENU_ID = "primary-menu";
@@ -98,8 +100,8 @@ const Header = () => {
       icon: <TopicIcon />,
     },
     {
-      title: "Kochbücher",
-      onClick: () => navigate(ROUTES.public.cookingBooks.path),
+      title: "Kategorien",
+      onClick: () => navigate(ROUTES.public.categories.path),
       icon: <LibraryBooksIcon />,
     },
     {
@@ -166,6 +168,14 @@ const Header = () => {
                     {title}
                   </Button>
                 ))}
+                <Tooltip title="Foodle erstellen" sx={{ ml: 2 }}>
+                  <IconButton
+                    onClick={() => navigate(ROUTES.private.createFoodle.path)}
+                    color="inherit"
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
               </Box>
               {AccountComp}
             </Box>
@@ -230,8 +240,8 @@ const Header = () => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={() => onNavigate(ROUTES.private.account.path)}>
-          Account
+        <MenuItem onClick={() => onNavigate(ROUTES.private.myFoodles.path)}>
+          Meine Foodles
         </MenuItem>
         <MenuItem onClick={() => onNavigate(ROUTES.private.settings.path)}>
           Einstellungen

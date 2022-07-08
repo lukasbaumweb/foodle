@@ -6,7 +6,9 @@ const getAll = (req, res, next) => {
   const page = parseInt(req.query.page, 10) || 0;
   const limit = parseInt(req.query.limit, 10) || 10;
 
-  Foodle.find({ isPrivate: false })
+  const mongooseFilter = { isPrivate: false };
+
+  Foodle.find(mongooseFilter)
     .populate("author")
     .populate({
       path: "ratings",
@@ -19,9 +21,9 @@ const getAll = (req, res, next) => {
       if (err) {
         next(err);
       } else {
-        Foodle.count().exec((err, count) => {
+        Foodle.count(mongooseFilter).exec((err, count) => {
           if (err) {
-            logAndRespond(res, err.message, 500);
+            next(err);
           } else {
             res.json({
               data: {
@@ -37,7 +39,7 @@ const getAll = (req, res, next) => {
     });
 };
 
-const getMyFoodles = (res, req, next) => {
+const getMyFoodles = (req, res, next) => {
   const authorId = req.query.author;
 
   const isAuthorCurrentUser = authorId && req.user && req.user.id === authorId;
@@ -130,7 +132,6 @@ const getPublicFoodle = (req, res, next) => {
         } else {
           const foodle = {
             ...data.toObject({ flattenMaps: true }),
-            categories: Foodle.schema.path("category").enumValues,
           };
 
           for (let i = 0; i < foodle.ingredients.length; i++) {
@@ -266,14 +267,13 @@ const removeIngredient = async (req, res, next) => {
 
 const deleteFoodle = (req, res, next) => {
   const { id } = req.params;
-  const { imageId } = req.body;
 
   if (!id) {
     next(new BadRequestError("id missing"));
     return;
   }
 
-  Foodle.deleteOne({ _id: id }).then((err) => {
+  Foodle.deleteOne({ _id: id }, (err) => {
     if (err) {
       next(err);
     } else {

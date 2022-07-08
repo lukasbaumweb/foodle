@@ -22,7 +22,7 @@ import { translate } from "../../utils/translater";
 import { isObjectEmpty, validateEmail } from "../../utils/functions";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import SmallLogo from "./../../assets/images/foodles-small.png";
+import SmallFoodBoy from "./../../assets/images/foodboy-small.png";
 import { CONFIG } from "../../utils/config";
 
 const Login = () => {
@@ -117,7 +117,7 @@ const Login = () => {
           alignItems: "center",
         }}
       >
-        <img src={SmallLogo} alt="Foodle Logo" />
+        <img src={SmallFoodBoy} alt="Foodle Logo" />
 
         <Typography variant="body1" sx={{ mt: 2 }}>
           Foodle - Deine App für alle deine Rezepte
@@ -190,7 +190,7 @@ const Login = () => {
           </Grid>
           <Grid item>
             <Link to={ROUTES.public.register.path} variant="body2">
-              Noch kein Account?
+              Noch keinen Account?
             </Link>
           </Grid>
         </Grid>

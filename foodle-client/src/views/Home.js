@@ -15,7 +15,6 @@ import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
-import FoodleDial from "../components/FoodleDial";
 import FoodBoy from "../assets/images/foodboy.png";
 
 const CategoryCard = ({ title, link, img }) => {
@@ -71,8 +70,8 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} sm={4} lg={3}>
           <CategoryCard
-            title="Kochbücher"
-            link={ROUTES.public.cookingBooks.path}
+            title="Kategorien"
+            link={ROUTES.public.categories.path}
             img={CookBook}
           />
         </Grid>
@@ -91,7 +90,6 @@ const Home = () => {
           />
         </Grid>
       </Grid>
-      <FoodleDial />
     </Container>
   );
 };

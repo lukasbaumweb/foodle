@@ -10,6 +10,7 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -24,6 +25,8 @@ import { Auth } from "../utils/auth";
 
 const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
   const [values, setValues] = useState({ isFavorite: false });
+
+  const isMobileDevice = useMediaQuery("(max-width: 650px)");
 
   const auth = new Auth();
 
@@ -104,18 +107,35 @@ const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Foodle anzeigen">
-          <Button
-            sx={{ ml: "auto" }}
-            variant="contained"
-            size="small"
-            endIcon={<RestaurantMenuIcon />}
-            onClick={() =>
-              navigate(ROUTES.public.viewFoodle.path.replace(":id", foodle._id))
-            }
-            aria-label="Foodle anzeigen"
-          >
-            Kochen
-          </Button>
+          {!isMobileDevice ? (
+            <Button
+              sx={{ ml: "auto" }}
+              variant="contained"
+              size="small"
+              endIcon={<RestaurantMenuIcon />}
+              onClick={() =>
+                navigate(
+                  ROUTES.public.viewFoodle.path.replace(":id", foodle._id)
+                )
+              }
+              aria-label="Foodle anzeigen"
+            >
+              Kochen
+            </Button>
+          ) : (
+            <IconButton
+              sx={{ ml: "auto" }}
+              size="small"
+              aria-label="Foodle anzeigen"
+              onClick={() =>
+                navigate(
+                  ROUTES.public.viewFoodle.path.replace(":id", foodle._id)
+                )
+              }
+            >
+              <RestaurantMenuIcon />
+            </IconButton>
+          )}
         </Tooltip>
       </CardActions>
     </Card>

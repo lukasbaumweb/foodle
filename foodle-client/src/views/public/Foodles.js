@@ -13,7 +13,6 @@ import FoodleCard from "../../components/FoodleCard";
 import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 import Empty from "../../assets/svg/empty.svg";
-import FoodleDial from "../../components/FoodleDial";
 import { useCallback } from "react";
 
 const Foodles = ({ uid }) => {
@@ -104,7 +103,6 @@ const Foodles = ({ uid }) => {
           {values.count} Foodles
         </Typography>
       </Box>
-      <FoodleDial />
     </Container>
   );
 };

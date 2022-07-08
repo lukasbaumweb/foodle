@@ -37,7 +37,7 @@ const AddIngredient = ({ selectableIngredients, onAdd, open, onClose }) => {
     if (!values.name || !values.name.id) {
       errors["name"] = "Name erforderlich";
     }
-    
+
     if (!values.unit || !values.unit.id) {
       errors["unit"] = "Einheit erforderlich";
     }
@@ -133,7 +133,8 @@ const AddIngredient = ({ selectableIngredients, onAdd, open, onClose }) => {
               value={values.unit}
               onChange={(_event, newValue) => {
                 let amountIsRequired = true;
-                if (["pinch", "some"].indexOf(newValue) > -1) {
+                console.log(newValue);
+                if (["pinch", "some"].indexOf(newValue.id) > -1) {
                   amountIsRequired = false;
                 }
 
