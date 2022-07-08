@@ -58,7 +58,7 @@ const LogoHeader = styled("h3")(`
 `);
 
 const AnimatedFoodleLogo = () => {
-  const isLessThan1100px = useMediaQuery("(max-width: 1100px)");
+  const isLessThan1100px = useMediaQuery("(max-width: 1150px)");
 
   return (
     <LogoHeader className="foodle-logo">

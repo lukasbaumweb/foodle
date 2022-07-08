@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { Box, IconButton, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../utils/routes";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,9 +53,26 @@ const StyledClearBase = styled(IconButton)(({ theme }) => ({
 
 const SearchBar = () => {
   const [text, setText] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URL(document.location).searchParams;
+    const query = params.get("q");
+    if (query && query !== text) {
+      setText(query);
+    }
+    return () => {};
+  }, []);
+
+  console.log(text);
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    navigate({
+      pathname: ROUTES.public.foodles.path,
+      search: `?q=${text}`,
+    });
   };
 
   return (

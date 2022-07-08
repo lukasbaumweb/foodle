@@ -24,8 +24,7 @@ import TutorialList from "../../../components/TutorialList";
 
 const Foodle = () => {
   const [values, setValues] = useState({
-    title: "",
-    description: "",
+    foodle: {},
     category: "",
     categories: [],
     tags: [],
@@ -76,7 +75,9 @@ const Foodle = () => {
           <Typography variant="h4" sx={{ mt: 1 }}>
             {values.foodle.title}
           </Typography>
-
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            {values.foodle.description}
+          </Typography>
           <Typography variant="caption">
             Autor: {values.foodle.author ? values.foodle.author.username : "-"}
           </Typography>

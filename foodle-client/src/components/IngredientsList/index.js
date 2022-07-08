@@ -89,7 +89,7 @@ const EnhancedTableToolbar = (props) => {
 
 const IngredientsList = ({ data = [], foodleId, editable = false }) => {
   const [values, setValues] = useState({
-    ingredients: data,
+    ingredients: data.filter((a) => a),
     selectableIngredients: [],
     countPortions: 1,
     open: false,

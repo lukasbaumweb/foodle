@@ -236,7 +236,7 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
               margin="dense"
               id="title"
               name="title"
-              label="Titel"
+              label="Beschreibung"
               variant="filled"
               value={values.title}
               onChange={handleChange}

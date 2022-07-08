@@ -60,6 +60,10 @@ const FoodleSchema = new Schema(
   { timestamps: true }
 );
 
+FoodleSchema.index({ title: "text", description: "text", tags: "text" });
+
 const Foodle = mongoose.model("Foodle", FoodleSchema);
+
+Foodle.createIndexes();
 
 module.exports = Foodle;

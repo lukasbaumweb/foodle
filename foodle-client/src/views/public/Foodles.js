@@ -14,6 +14,7 @@ import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 import Empty from "../../assets/svg/empty.svg";
 import { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Foodles = () => {
   const [values, setValues] = useState({
@@ -24,6 +25,9 @@ const Foodles = () => {
     pages: 0,
     perPage: 10,
   });
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  let query = searchParams.get("q") || "";
 
   const isLessThan1000 = useMediaQuery("(max-width: 1000px)");
   const isLessThan650 = useMediaQuery("(max-width: 650px)");
@@ -32,13 +36,19 @@ const Foodles = () => {
     const api = new FoodleAPI();
 
     api
-      .getFoodles({ filter: { page: values.page, limit: values.perPage } })
+      .getFoodles({
+        filter: {
+          page: values.page,
+          limit: values.perPage,
+          text: query,
+        },
+      })
       .then((result) => {
         console.log(result);
         setValues((state) => ({ ...state, ...result.data }));
       })
       .catch((err) => console.error(err));
-  }, [values.page, values.perPage]);
+  }, [values.page, values.perPage, query]);
 
   useEffect(() => {
     fetchFoodles();
