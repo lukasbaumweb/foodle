@@ -4,6 +4,47 @@
 ❤️ Ein Rezept wird Foodle (Plural: Foodles) genannt. Foodle ist Neologismus bestehend aus dem englischem Wort **Food** und **Noodle**.
 Eine Sammlung von Foodles wird Spaghetti ___FoodusOpus___ Sammlung oder Feed genannt.
 
+## Installation
+
+1. Vorbereitung
+Es wird folgendes benötigt:
+* Ein Rechner für den Server. Dazu können alle Rechner verwendet werden, welche mind. 1GB RAM haben, um einen NodeJS-Server hosten zu können. Beispielsweise: Raspberry PI 3 oder 4 oder eine ältere Maschine, welche nicht mehr benötigt wird. Selbstverständlich kann auch der eigene Rechner dafür verwendet werden.
+* Server-Umgebung: [NodeJS](https://nodejs.org/) in Kombination mit NPM [NPM](https://www.npmjs.com/package/npm). _Hinweis: NPM wird standardmäßig mit NodeJS automatisch installiert_
+
+2. Github Repositories clonen
+Dies kann man mittels [git](https://git-scm.com/) oder über Github per zip-Download durchführen. 
+* ```git clone https://github.com/lukasbaumweb/foodle-client.git```
+* ```git clone https://github.com/lukasbaumweb/foodle-server-api.git```
+
+3. Foodle Server Umgebungsvariablen setzen
+Die Datei ```foodle-node-server/.env.example``` in ```.env``` umbennen und die einzelnen Werte anpassen.
+```
+# MongoDB Connection-String austauschen
+MONGO_URI=mongodb+srv://<username>:<password>@mongoserver.a1a1a1.mongodb.net/<database>?retryWrites=true&w=majority
+
+# foodlicious durch eine willkürlische Zeichenkette ersetzen
+JWT_TOKEN=foodlicious
+```
+4. Foodle Server installieren und starten
+Den Ordner foodle-node-server mit angepasster .env-Datei auf dem Wunschrechner platzieren und im Ordner die Befehle nacheinander ausführen:
+```npm install``` und ```npm run start```
+Anschließend sollte der Server starten und die API ist Abrufbar. Standardmäßig auf: [http://localhost:3100](http://localhost:3100)
+
+Falls der PORT in der .env-Datei angepasst wurde, wird der Server auf [http://localhost:$PORT](http://localhost:$PORT) ($PORT durch den neuen Port austauschen) erreichbar sein. Ansonsten befindet sich immer die Server URL in der ausführenden Befehlszeile (Shell).
+
+5. Foodle Client installieren und konfigurieren
+* Im Ordner foodle-client den Befehl: ```npm install``` in der Befehlszeile ausführen.
+* Die Datei ```foodle-client/.env.local.example``` in ```foodle-client/.env.local``` umbennen und wie folgt anpassen.
+
+```
+REACT_APP_FOODLE_API_URL=<<URL DES SERVERS aus Punkt 4>> + "/api/v1"
+```
+* Anschließend kann in der Befehlezeile der Build-Befehl ausgeführt werden: ```npm run build```
+
+6. Foodle Client ausliefern
+
+Nach dem Build-Befehl des Foodle Clients sollte, wenn alles richtig verlaufen ist, der Ordner "build" im Ordner foodle-client mit Dateien gefüllt sein. Der Inhalt des Ordners "build" kann nun in den Ordner "public" des Ordners foodle-node-server kopiert werden. Sofern sich alle Dateien einschließlich der index.html im public-Ordner des Servers befinden, kann die Server URL im Browser abgerufen werden. Standardmäßig auf: [http://localhost:3100](http://localhost:3100)
+
 ## Ideas
 
 * 🤝 Rezepte mit anderen Benutzern teilen
