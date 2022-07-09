@@ -9,7 +9,7 @@ Eine Sammlung von Foodles wird Spaghetti ___FoodusOpus___ Sammlung oder Feed gen
 1. Vorbereitung
 Es wird folgendes benötigt:
 * Ein Rechner für den Server. Dazu können alle Rechner verwendet werden, welche mind. 1GB RAM haben, um einen NodeJS-Server hosten zu können. Beispielsweise: Raspberry PI 3 oder 4 oder eine ältere Maschine, welche nicht mehr benötigt wird. Selbstverständlich kann auch der eigene Rechner dafür verwendet werden.
-* Server-Umgebung: [NodeJS](https://nodejs.org/) in Kombination mit NPM [NPM](https://www.npmjs.com/package/npm). _Hinweis: NPM wird standardmäßig mit NodeJS automatisch installiert_
+* Server-Umgebung: [NodeJS](https://nodejs.org/) in Kombination mit [NPM](https://www.npmjs.com/package/npm). _Hinweis: NPM wird standardmäßig mit NodeJS automatisch installiert_
 
 2. Github Repositories clonen
 Dies kann man mittels [git](https://git-scm.com/) oder über Github per zip-Download durchführen. 
