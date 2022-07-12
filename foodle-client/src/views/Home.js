@@ -15,7 +15,7 @@ import GroceriesList from "./../assets/images/groceries-list.jpg";
 import useTheme from "@mui/material/styles/useTheme";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "./../utils/routes";
-import FoodBoy from "../assets/images/foodboy.png";
+import FoodBoy from "../assets/images/foodboy-450px.png";
 
 const CategoryCard = ({ title, link, img }) => {
   const navigate = useNavigate();
@@ -29,12 +29,21 @@ const CategoryCard = ({ title, link, img }) => {
           component="img"
           image={img}
           alt="Foodles"
+          sx={{
+            zIndex: 1,
+          }}
         />
         <Typography
           gutterBottom
           variant="h5"
           component="div"
-          sx={{ bgcolor: theme.palette.primary.main, p: 1, margin: 0 }}
+          sx={{
+            position: "relative",
+            bgcolor: theme.palette.primary.main,
+            p: 1,
+            margin: 0,
+            zIndex: 2,
+          }}
           textAlign="center"
         >
           {title}
@@ -47,7 +56,7 @@ const CategoryCard = ({ title, link, img }) => {
 const Home = () => {
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+      <Grid container spacing={2} sx={{ marginTop: 2, pb: 10 }}>
         <Grid item xs={12} sx={{ marginBottom: 2 }}>
           <Container maxWidth="md">
             <Box display="flex" justifyContent="center" marginBottom={2}>

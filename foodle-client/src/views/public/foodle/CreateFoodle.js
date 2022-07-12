@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ import {
 import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
 import { useNavigate } from "react-router-dom";
-import AddFiles from "../../../assets/svg/add-files.svg";
+import NoImage from "../../../assets/images/no-image.png";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
 import ROUTES from "../../../utils/routes";
@@ -31,9 +31,25 @@ const CreateFoodle = () => {
     description: "",
     category: "",
     tags: [],
-    ingredients: [],
+    startPortion: 1,
+    isDirty: false,
     errors: {},
   });
+
+  useEffect(() => {
+    const beforeUnloadCallback = (event) => {
+      if (values.isDirty) {
+        event.returnValue = false;
+      } else {
+        return false;
+      }
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadCallback);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadCallback);
+    };
+  }, [values.isDirty]);
 
   const navigate = useNavigate();
 
@@ -50,6 +66,10 @@ const CreateFoodle = () => {
       errors["category"] = translate("validation-error/category-missing");
     }
 
+    if (values.startPortion < 1) {
+      errors["startPortion"] = translate("validation-error/start-too-low");
+    }
+
     const result = isObjectEmpty(errors);
     if (!result) setValues({ ...values, errors: errors });
 
@@ -57,7 +77,7 @@ const CreateFoodle = () => {
   };
 
   const handleChange = (e) =>
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value, isDirty: true });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -71,6 +91,7 @@ const CreateFoodle = () => {
       description: values.description,
       category: values.category,
       tags: values.tags.map((tag) => tag.name || tag),
+      startPortion: values.startPortion,
     };
 
     const api = new FoodleAPI();
@@ -78,7 +99,6 @@ const CreateFoodle = () => {
     api
       .createFoodle(payload)
       .then((result) => {
-        console.log(result);
         const id = result.data._id;
         navigate(ROUTES.private.editFoodle.path.replace(":id", id));
       })
@@ -110,10 +130,13 @@ const CreateFoodle = () => {
             <Card>
               <CardMedia
                 component="img"
-                height="200"
-                sx={{ width: "auto", p: 1 }}
-                image={AddFiles}
-                alt="Bild hinzufügen"
+                sx={{
+                  maxHeight: "300px",
+                  height: "100%",
+                  backgroundSize: "contain",
+                }}
+                image={NoImage}
+                alt="Foodle hochladen"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -186,6 +209,23 @@ const CreateFoodle = () => {
                     : "z.B. bei Spaghetti Carbonara: Gericht"}
                 </FormHelperText>
               </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="startPortion"
+                label="Startportion"
+                variant="filled"
+                onChange={handleChange}
+                value={values.startPortion}
+                type="number"
+                helperText={
+                  values.errors["startPortion"]?.length > 0
+                    ? values.errors["startPortion"]
+                    : "Portion, welche standardmäßig vorgeschlagen wird"
+                }
+                error={values.errors["startPortion"]?.length > 0}
+                fullWidth
+              />
             </Grid>
           </Grid>
         </Grid>

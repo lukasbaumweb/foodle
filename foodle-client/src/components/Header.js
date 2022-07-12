@@ -36,6 +36,10 @@ import AddIcon from "@mui/icons-material/Add";
 import SmallFoodBoy from "../assets/images/foodboy-small.png";
 import SearchBar from "./SearchBar";
 
+import FolderIcon from "@mui/icons-material/Folder";
+import SettingsIcon from '@mui/icons-material/Settings'; 
+import LogoutIcon from "@mui/icons-material/Logout";
+
 const MENU_ID = "primary-menu";
 
 const Header = () => {
@@ -251,13 +255,22 @@ const Header = () => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
+        <MenuItem onClick={() => onNavigate(ROUTES.private.createFoodle.path)}>
+          <AddIcon sx={{ mr: 1 }} />
+          Foodle erstellen
+        </MenuItem>
         <MenuItem onClick={() => onNavigate(ROUTES.private.myFoodles.path)}>
+          <FolderIcon sx={{ mr: 1 }} />
           Meine Foodles
         </MenuItem>
         <MenuItem onClick={() => onNavigate(ROUTES.private.settings.path)}>
+          <SettingsIcon sx={{ mr: 1 }} />
           Einstellungen
         </MenuItem>
-        <MenuItem onClick={() => Auth.logout()}>Abmelden</MenuItem>
+        <MenuItem onClick={() => Auth.logout()}>
+          <LogoutIcon sx={{ mr: 1 }} />
+          Abmelden
+        </MenuItem>
       </Menu>
     </>
   );

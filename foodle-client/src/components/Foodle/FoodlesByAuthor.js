@@ -4,6 +4,8 @@ import FoodleCard from "../FoodleCard";
 import { Masonry } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 import Loader from "../../components/Loader";
+import { Link } from "react-router-dom";
+import ROUTES from "../../utils/routes";
 
 const FoodlesByAuthor = ({ uid }) => {
   const [values, setValues] = useState({ loading: true, foodles: [] });
@@ -14,14 +16,25 @@ const FoodlesByAuthor = ({ uid }) => {
     api
       .getMyFoodles({ filter: { author: uid } })
       .then((result) => {
-        setValues((state) => ({ ...state, foodles: result.data || [] }));
+        setValues((state) => ({
+          ...state,
+          foodles: result.data || [],
+          loading: false,
+        }));
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setValues((state) => ({
+          ...state,
+          foodles: [],
+          loading: false,
+        }));
+      });
 
     return () => {};
   }, [uid]);
 
-  if (values.loading) <Loader />;
+  if (values.loading) return <Loader />;
 
   return (
     <Box>
@@ -32,7 +45,12 @@ const FoodlesByAuthor = ({ uid }) => {
           ))}
         </Masonry>
       ) : (
-        <Typography variant="body1">Keine eigenen Foodles gefunden</Typography>
+        <Box textAlign="center">
+          <Typography variant="h6" textAlign="center">
+            Keine eigenen Foodles gefunden.
+          </Typography>{" "}
+          <Link to={ROUTES.private.createFoodle.path}>Foodle Erstellen</Link>
+        </Box>
       )}
     </Box>
   );

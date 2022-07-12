@@ -2,7 +2,7 @@ import FoodleAPI from "./api";
 import { CONFIG } from "./config";
 
 /**
- * Determines when localstorage cache should 
+ * Determines when localstorage cache should
  * be expired (currently: 1 day)
  */
 const EXPIRY_TIME = 1000 * 60 * 60;
@@ -102,7 +102,7 @@ export const getLocalStorage = async (entity) => {
     const storedObject = JSON.parse(local);
 
     if (
-      new Date(storedObject?.savedAt).getTime() - new Date().getTime() <
+      new Date().getTime() - new Date(storedObject?.savedAt).getTime() <
       EXPIRY_TIME
     ) {
       return storedObject[innerKey];

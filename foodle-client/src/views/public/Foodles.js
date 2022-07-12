@@ -15,6 +15,9 @@ import FoodleAPI from "../../utils/api";
 import Empty from "../../assets/svg/empty.svg";
 import { useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import Loader from "../../components/Loader";
+
+const DEFAULT_VISIBLE_ITEMS = 25;
 
 const Foodles = () => {
   const [values, setValues] = useState({
@@ -23,11 +26,11 @@ const Foodles = () => {
     count: 0,
     page: 0,
     pages: 0,
-    perPage: 10,
+    perPage: DEFAULT_VISIBLE_ITEMS,
   });
-  let [searchParams] = useSearchParams();
 
-  let query = searchParams.get("q") || "";
+  const [params] = useSearchParams();
+  const query = params.get("q");
 
   const isLessThan1000 = useMediaQuery("(max-width: 1000px)");
   const isLessThan650 = useMediaQuery("(max-width: 650px)");
@@ -35,17 +38,19 @@ const Foodles = () => {
   const fetchFoodles = useCallback(() => {
     const api = new FoodleAPI();
 
+    const filter = {
+      page: values.page,
+      limit: values.perPage,
+    };
+
+    if (query) filter["text"] = query;
+
     api
       .getFoodles({
-        filter: {
-          page: values.page,
-          limit: values.perPage,
-          text: query,
-        },
+        filter,
       })
       .then((result) => {
-        console.log(result);
-        setValues((state) => ({ ...state, ...result.data }));
+        setValues((state) => ({ ...state, ...result.data, loading: false }));
       })
       .catch((err) => console.error(err));
   }, [values.page, values.perPage, query]);
@@ -55,16 +60,24 @@ const Foodles = () => {
     return () => {};
   }, [fetchFoodles]);
 
+  if (values.loading) return <Loader />;
+
   let countColumns = 4;
   if (isLessThan650) countColumns = 2;
   else if (isLessThan1000) countColumns = 3;
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h5" component="h1" sx={{ py: 2 }}>
         Foodles
       </Typography>
       {values.foodles.length > 0 ? (
-        <Masonry columns={countColumns} spacing={2}>
+        <Masonry
+          columns={countColumns}
+          spacing={2}
+          defaultColumns={4}
+          defaultSpacing={2}
+        >
           {values.foodles.map((item, index) => (
             <FoodleCard key={index} foodle={item} />
           ))}
@@ -104,7 +117,7 @@ const Foodles = () => {
         <Pagination
           count={values.pages}
           onChange={(_e, newValue) => setValues({ ...values, page: newValue })}
-          sx={{ marginX: 2 }}
+          sx={{ marginX: 2, mt: 2 }}
           showFirstButton
           showLastButton
         />

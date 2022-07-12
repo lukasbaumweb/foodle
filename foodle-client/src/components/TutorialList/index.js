@@ -26,7 +26,7 @@ import { v4 as uuidv4 } from "uuid";
 import { LoadingButton } from "@mui/lab";
 import FoodleAPI from "../../utils/api";
 
-const TutorialList = React.memo(({ foodleId, data, editable }) => {
+const TutorialList = React.memo(({ foodleId, data, editable = false }) => {
   const [values, setValues] = useState({
     steps: data || [],
     title: "",
@@ -119,7 +119,6 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
     api
       .updateFoodle(foodleId, { steps: values.steps })
       .then((result) => {
-        console.log(result);
         setValues({ ...values, loading: false, isDirty: false });
       })
       .catch((err) => {
@@ -198,8 +197,8 @@ const TutorialList = React.memo(({ foodleId, data, editable }) => {
                 : "Zubereitungsschritte"
             }
           />
-          <CardContent>
-            <List sx={{ py: 2 }}>
+          <CardContent sx={{ pt: 0 }}>
+            <List sx={{ pb: 2 }}>
               {values.steps.map((item, index) =>
                 renderCard(
                   item.title,

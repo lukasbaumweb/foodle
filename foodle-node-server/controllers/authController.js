@@ -1,7 +1,11 @@
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { NotFoundError, BadRequestError } = require("./../utils/errors");
+const {
+  NotFoundError,
+  BadRequestError,
+  NotAuthenticatedError,
+} = require("./../utils/errors");
 
 const generateAccessToken = (email, id) => {
   const payload = { email, id };
@@ -31,19 +35,20 @@ const login = (req, res, next) => {
 
     user.comparePassword(password, user.password, (err, isMatch) => {
       if (err) {
-        next(new BadRequestError(err));
-        return;
+        next(err);
+      } else if (isMatch) {
+        res.json({
+          message: "login successful",
+          data: {
+            uid: user._id,
+            email: user.email,
+            type: user.type,
+            token: generateAccessToken(email, user._id),
+          },
+        });
+      } else {
+        next(new NotAuthenticatedError("password wrong"));
       }
-
-      res.json({
-        message: "login successful",
-        data: {
-          uid: user._id,
-          email: user.email,
-          type: user.type,
-          token: generateAccessToken(email, user._id),
-        },
-      });
     });
   });
 };
@@ -94,24 +99,19 @@ const resetPassword = (req, res, next) => {
 };
 
 const changePassword = (req, res, next) => {
-  const { email, oldPassword, newPassword } = req.body;
+  const { oldPassword, newPassword } = req.body;
 
-  if (!email || !password) {
+  if (!oldPassword) {
     next(new BadRequestError("email or password missing"));
     return;
   }
 
-  if (!oldPassword) {
+  if (!newPassword) {
     next(new BadRequestError("current password missing"));
     return;
   }
 
-  if (!oldPassword) {
-    next(new BadRequestError("new password missing"));
-    return;
-  }
-
-  User.findOne({ email }, "password", (err, user) => {
+  User.findOne({ _id: req.user.id }, "password", (err, user) => {
     if (err) {
       next(err);
     }
@@ -140,4 +140,42 @@ const changePassword = (req, res, next) => {
   });
 };
 
-module.exports = { login, register, resetPassword, changePassword };
+const checkAuthStatus = (req, res, next) => {
+  res.json({ data: { status: "authenticated" } });
+};
+
+const getCurrentUser = (req, res, next) => {
+  User.findOne({ _id: req.user.id }, "+email", (err, user) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    res.json({ data: user });
+  });
+};
+
+const updateUser = (req, res, next) => {
+  const { firstName, lastName, email } = req.body;
+
+  User.updateOne(
+    { _id: req.user.id },
+    { firstName, lastName, email },
+    (err, user) => {
+      if (err) {
+        next(err);
+      } else {
+        res.json({ data: user });
+      }
+    }
+  );
+};
+
+module.exports = {
+  login,
+  register,
+  resetPassword,
+  changePassword,
+  checkAuthStatus,
+  getCurrentUser,
+  updateUser,
+};

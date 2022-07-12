@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import NoMatch from "./views/public/NoMatch";
 import About from "./views/public/About";
 import Home from "./views/Home";
-import Settings from "./views/_shared/Settings";
+import Settings from "./views/_shared/Settings/Settings";
 import { Auth } from "./utils/auth";
 import Loader from "./components/Loader";
 import ROUTES from "./utils/routes";
@@ -22,6 +22,7 @@ import Categories from "./views/public/Categories";
 import Impressum from "./views/public/Impressum";
 import CookieNotice from "./components/CookieNotice";
 import { CONFIG } from "./utils/config";
+import ChangeLog from "./views/public/ChangeLog";
 
 const AUTH_STATES = {
   waiting: "waiting",
@@ -34,52 +35,43 @@ const COOKIES_ALLOWED =
 
 function App() {
   const [values, setValues] = useState({
-    user: null,
     authState: AUTH_STATES.waiting,
     loading: true,
     cookiesAccepted: Boolean(COOKIES_ALLOWED),
   });
 
   useEffect(() => {
-    const auth = new Auth(window);
-    const user = auth.getUser();
+    const auth = new Auth();
 
-    if (user && user.isActivated === true) {
-      setValues((state) => ({
-        ...state,
-        authState: AUTH_STATES.loggedIn,
-        loading: false,
-      }));
-    } else {
-      setValues((state) => ({
-        ...state,
-        authState: AUTH_STATES.loggedOut,
-        loading: false,
-      }));
-    }
-
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setValues((state) => ({
-          ...state,
-          authState: AUTH_STATES.loggedIn,
-          loading: false,
-        }));
-      } else {
+    auth
+      .getCurrentUser()
+      .then((user) => {
+        if (user) {
+          setValues((state) => ({
+            ...state,
+            authState: AUTH_STATES.loggedIn,
+            loading: false,
+          }));
+        } else {
+          setValues((state) => ({
+            ...state,
+            authState: AUTH_STATES.loggedOut,
+            loading: false,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
         setValues((state) => ({
           ...state,
           authState: AUTH_STATES.loggedOut,
           loading: false,
         }));
-      }
-    });
-
+      });
     return () => {};
   }, []);
 
-  if (values.loading) {
-    return <Loader />;
-  }
+  if (values.loading) return <Loader />;
 
   let renderedRoutes = [
     { element: <Home />, index: true },
@@ -89,6 +81,7 @@ function App() {
     { path: ROUTES.public.randomFoodle.path, element: <RandomFoodle /> },
     { path: ROUTES.public.about.path, element: <About /> },
     { path: ROUTES.public.impressum.path, element: <Impressum /> },
+    { path: ROUTES.public.changeLog.path, element: <ChangeLog /> },
   ];
 
   if (values.authState === AUTH_STATES.loggedIn) {

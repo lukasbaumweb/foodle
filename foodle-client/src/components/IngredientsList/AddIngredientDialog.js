@@ -133,7 +133,6 @@ const AddIngredient = ({ selectableIngredients, onAdd, open, onClose }) => {
               value={values.unit}
               onChange={(_event, newValue) => {
                 let amountIsRequired = true;
-                console.log(newValue);
                 if (["pinch", "some"].indexOf(newValue.id) > -1) {
                   amountIsRequired = false;
                 }

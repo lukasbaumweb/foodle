@@ -75,6 +75,7 @@ const DraggableListItem = ({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    canDrag: editable,
   });
 
   drag(drop(ref));

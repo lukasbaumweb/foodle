@@ -1,0 +1,210 @@
+[
+  {
+    "version": "0.0.8",
+    "changes": [
+      {
+        "text": "Rezept hinzufügen - Bild hochladen Funktion eingeführt",
+        "type": "entry"
+      },
+      {
+        "text": " Rezepte \"veröffentlichen\" und \"verheimlichen\" angepasst auf \"Privat\" und \"Öffentlich\"",
+        "type": "entry"
+      },
+      {
+        "text": "Privat und Öffentlich Symbole angepasst",
+        "type": "entry"
+      },
+      {
+        "text": "Arbeitsaufwand und Gesamter Aufwand bei Rezepterstellung eintragen hinzugefügt",
+        "type": "entry"
+      }
+    ]
+  },
+  {
+    "version": "0.0.7",
+    "changes": [
+      {
+        "text": "18 Zutaten hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Suche hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Kategorie Getränke hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Zeitaufwand bei Rezepterstellung eintragen hinzugefügt",
+        "type": "entry"
+      }
+    ]
+  },
+  {
+    "version": "0.0.6",
+    "changes": [
+      {
+        "text": "Startseite angepasst",
+        "type": "entry"
+      },
+      {
+        "text": "Rezept hinzufügen - Zutatenliste hinzufügen angepasst",
+        "type": "entry"
+      },
+      {
+        "text": "Rezeptzutaten in Einkaufsliste packen hinzugefügt",
+        "type": "entry"
+      }
+    ]
+  },
+  {
+    "version": "0.0.5",
+    "changes": [
+      {
+        "text": "Neue Startseite",
+        "type": "entry"
+      },
+      {
+        "text": "Zufallsfoodle hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "\"Über Uns\"-Seite angepasst",
+        "type": "entry"
+      },
+      {
+        "text": "Header fixiert",
+        "type": "entry"
+      },
+      {
+        "text": "Logo animiert",
+        "type": "entry"
+      },
+      {
+        "text": "Weitere Loader-Texte hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Rezept hinzufügen - Einheit Packung, Etwas und Priese angepasst",
+        "type": "entry"
+      },
+      {
+        "text": "Responsivität erweitert",
+        "type": "entry"
+      },
+      {
+        "text": "Bearbeiten des Rezepts erreichbar aus \"Kochen-Ansicht\"",
+        "type": "entry"
+      },
+      {
+        "text": "Bug-Fix: Doppelte Benutzernamen",
+        "type": "bug-fix"
+      }
+    ]
+  },
+  {
+    "version": "0.0.4",
+    "changes": [
+      {
+        "text": "Benutzernamen hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Passwortänderung in Account hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "32 Zutaten hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Rezept hinzufügen - Anleitungs-Schritte Titel entfernt",
+        "type": "entry"
+      },
+      {
+        "text": "Rezept hinzufügen - Einheit Etwas hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Rezept hinzufügen - Einheit Priese hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Bug-Fix: Manche Zutaten durch Fehler in der CSV-Datei nicht angezeigt",
+        "type": "bug-fix"
+      }
+    ]
+  },
+  {
+    "version": "0.0.3",
+    "changes": [
+      {
+        "text": "Neues Logo",
+        "type": "entry"
+      },
+      {
+        "text": "Dark/light-Mode-Switch eingebaut",
+        "type": "entry"
+      },
+      {
+        "text": "Kategorie Suppe hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Kategorie Dip hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Einkaufsliste hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "104 Zutaten hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Rezepte veröffentlichen und verheimlichen hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Bug-Fix: Inhalt verschwindet hinter Header",
+        "type": "bug-fix"
+      },
+      {
+        "text": "Bug-Fix: Container-Größe angepasst",
+        "type": "bug-fix"
+      }
+    ]
+  },
+  {
+    "version": "0.0.2",
+    "changes": [
+      {
+        "text": "Zutaten-Datenbank geleert und personalisierte Einträge hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Dark/Light-Mode hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Changelog anzeigen hinzugefügt",
+        "type": "entry"
+      },
+      {
+        "text": "Bug-Fix: Konto erstellen",
+        "type": "bug-fix"
+      }
+    ]
+  },
+  {
+    "version": "0.0.1",
+    "changes": [
+      {
+        "text": "Deployment",
+        "type": "entry"
+      }
+    ]
+  }
+]

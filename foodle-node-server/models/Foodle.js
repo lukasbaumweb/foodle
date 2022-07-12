@@ -32,14 +32,17 @@ const FoodleSchema = new Schema(
     },
     cookingTime: { type: Number },
     workTime: { type: Number },
+    totalTime: { type: Number },
     calories: { type: Number },
     createdAt: { type: Date, default: Date.now },
     images: [
       {
         ref: "File",
         type: mongoose.Schema.Types.ObjectId,
+        autopopulate: true,
       },
     ],
+    startPortion: { type: Number, default: 1 },
     tags: [String],
     category: {
       type: String,
@@ -61,6 +64,7 @@ const FoodleSchema = new Schema(
 );
 
 FoodleSchema.index({ title: "text", description: "text", tags: "text" });
+FoodleSchema.plugin(require("mongoose-autopopulate"));
 
 const Foodle = mongoose.model("Foodle", FoodleSchema);
 

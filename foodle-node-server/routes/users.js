@@ -95,7 +95,7 @@ router.put("/", authMiddleware, (req, res, next) => {
       User.updateOne({ _id: id }, payload, (err, user) => {
         if (err) {
           next(err);
-        } else res.json({ user, message: "User updated successfully" });
+        } else res.json({ user, message: "User updated" });
       });
     } else next(new BadRequestError("password incorrect"));
   });
@@ -111,10 +111,10 @@ router.delete("/:id", authMiddleware, (req, res, next) => {
     return;
   }
 
-  User.deleteOne({ _id: id }, (err, user) => {
+  User.deleteOne({ _id: id }, (err) => {
     if (err) {
       next(err);
-    } else res.json({ user, message: "User updated successfully" });
+    } else res.json({ message: "User deleted" });
   });
 });
 

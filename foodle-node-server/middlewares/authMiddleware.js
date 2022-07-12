@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
 
   jwt.verify(token, JWT_TOKEN, (err, user) => {
     if (err) {
-      next(new SessionExpiredError());
+      next(new SessionExpiredError("session expired"));
     } else {
       req.user = user;
       next();

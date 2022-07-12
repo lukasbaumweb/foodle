@@ -36,6 +36,7 @@ class FoodleAPI {
       this.options = {
         headers: {
           Authorization: `Bearer ${this.authToken}`,
+          "Access-Control-Allow-Origin": this.url || "*",
         },
       };
     else this.options = {};
@@ -45,6 +46,16 @@ class FoodleAPI {
     let searchParams = "";
     if (props.filter) searchParams = generateSearchUrl(props.filter);
     const query = axios.get(`${this.url}/foodle${searchParams}`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async getFoodlesByQuery(filter) {
+    let searchParams = generateSearchUrl(filter);
+    const query = axios.get(
+      `${this.url}/foodle/query/all${searchParams}`,
+      this.options
+    );
     const result = await this.executeQuery(query);
     return result;
   }
@@ -87,10 +98,7 @@ class FoodleAPI {
   }
 
   async getPublicFoodle(id) {
-    const query = axios.get(
-      `${this.url}/foodle/type/public/${id}`,
-      this.options
-    );
+    const query = axios.get(`${this.url}/foodle/${id}`, this.options);
     const result = await this.executeQuery(query);
     return result;
   }
@@ -111,8 +119,7 @@ class FoodleAPI {
 
   async deleteFoodleImage(foodleId, imageId) {
     const query = axios.delete(
-      `${this.url}/foodle/image/${foodleId}`,
-      { imageId },
+      `${this.url}/files/${foodleId}/${imageId}/`,
       this.options
     );
     const result = await this.executeQuery(query);
@@ -144,34 +151,35 @@ class FoodleAPI {
     return result;
   }
 
-  async post(collection, { id, data }) {
-    const query = axios.post(
-      `${this.url}/${collection}/${id}`,
-      { data },
-      this.options
-    );
-    const result = await this.executeQuery(query);
-    return result;
-  }
-
-  async put(collection, { id, data }) {
-    const query = axios.put(
-      `${this.url}/${collection}/${id}`,
-      data,
-      this.options
-    );
-    const result = await this.executeQuery(query);
-    return result;
-  }
-
-  async delete(collection, id) {
-    const query = axios.delete(`${this.url}/${collection}/${id}`, this.options);
-    const result = await this.executeQuery(query);
-    return result;
-  }
-
   async getVersion() {
     const query = axios.get(`${this.url}/`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async getChangelog() {
+    const query = axios.get(`${this.url}/changes`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async getCurrentUser() {
+    const query = axios.get(`${this.url}/auth/user`, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+  async updateUser(payload) {
+    const query = axios.put(`${this.url}/auth/user`, payload, this.options);
+    const result = await this.executeQuery(query);
+    return result;
+  }
+
+  async changePassword(payload) {
+    const query = axios.put(
+      `${this.url}/auth/changePassword`,
+      payload,
+      this.options
+    );
     const result = await this.executeQuery(query);
     return result;
   }
@@ -191,7 +199,11 @@ class FoodleAPI {
           return;
         }
 
-        throw new Error(data.messages);
+        if (data.data?.error) {
+          throw new Error(data.data.error);
+        } else {
+          throw new Error(data);
+        }
       } else if (request) {
         throw new Error("server time out");
       } else {
@@ -223,19 +235,16 @@ class FoodleAPI {
     return result;
   }
 
-  async isLoggedIn(sessionKey) {
+  async isLoggedIn() {
     this.options = {
       headers: {
         Authorization: `Bearer ${this.authToken}`,
       },
     };
-    const query = axios.post(
-      `${this.url}/auth/check`,
-      {
-        token: sessionKey,
-      },
-      this.options
-    );
+    const query = axios.get(`${this.url}/auth/check`, {
+      ...this.options,
+    });
+
     await this.executeQuery(query);
 
     return false;

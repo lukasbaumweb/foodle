@@ -125,7 +125,6 @@ const VirtualizezSelectBox = ({
     sensitivity: "case",
   });
 
-  console.log(options);
   const OPTIONS = options.sort((a, b) => Collator.compare(a.name, b.name));
   return (
     <Autocomplete

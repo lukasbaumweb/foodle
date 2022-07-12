@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  ToggleButton,
   IconButton,
   Paper,
   Table,
@@ -18,8 +17,6 @@ import {
   Box,
 } from "@mui/material";
 
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CODES, translate } from "../../utils/translater";
 import { Entity, getLocalStorage } from "../../utils/functions";
@@ -28,9 +25,7 @@ import AddIngredientDialog from "./AddIngredientDialog";
 import FoodleAPI from "../../utils/api";
 
 const EnhancedTableToolbar = (props) => {
-  const { numSelected, onSelectAllClick, rowCount, editable, onOpenDialog } =
-    props;
-  const allSelected = rowCount > 0 && numSelected === rowCount;
+  const { editable, onOpenDialog } = props;
 
   return (
     <Toolbar
@@ -39,43 +34,15 @@ const EnhancedTableToolbar = (props) => {
         pr: { xs: 1, sm: 1 },
       }}
     >
-      {rowCount > 0 && !editable && (
-        <ToggleButton
-          variant="outlined"
-          onClick={onSelectAllClick}
-          sx={{ mr: 2 }}
-          value={allSelected ? "all" : "none"}
-          selected={allSelected}
-        >
-          {allSelected ? "Keine" : "Alle"}
-        </ToggleButton>
-      )}
-      {numSelected > 0 && !editable ? (
-        <>
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} ausgewählt
-          </Typography>
-          <Tooltip title="Zur Einkaufsliste hinzufügen">
-            <IconButton>
-              <AddShoppingCartIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Zutaten
-        </Typography>
-      )}
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+      >
+        Zutaten
+      </Typography>
+
       {editable && (
         <Tooltip title="Zutat hinzufügen">
           <IconButton onClick={onOpenDialog}>
@@ -110,40 +77,8 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
     return () => {};
   }, []);
 
-  const [selected, setSelected] = React.useState([]);
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.value === "none") {
-      const newSelecteds = values.ingredients.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleChange = (e) =>
     setValues({ ...values, [e.target.name]: e.target.value });
-
-  const handleClick = (name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const removeIngredient = (index) => async () => {
     const ingredients = values.ingredients;
@@ -180,9 +115,6 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
     <Box>
       <Paper sx={{ pb: 2 }}>
         <EnhancedTableToolbar
-          numSelected={selected.length}
-          onSelectAllClick={handleSelectAllClick}
-          rowCount={values.ingredients.length}
           editable={editable}
           onOpenDialog={() => setValues({ ...values, open: true })}
         />
@@ -190,35 +122,38 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
           <Table size={"small"}>
             <TableBody>
               {values.ingredients.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
                 const labelId = `table-${index}`;
 
-                console.log(row);
+                let amount = `${(row.amount * values.countPortions)
+                  .toString()
+                  .replace(".", ",")} ${
+                  translate(CODES.FOOD_UNITS, row.unit)?.abbr
+                }`;
+                if (["pinch", "some"].indexOf(row.unit) > -1) {
+                  amount = translate(CODES.FOOD_UNITS, row.unit)?.full;
+                }
+
                 return (
                   <TableRow
-                    hover={!editable}
-                    onClick={editable ? undefined : () => handleClick(row.name)}
+                    hover={editable}
                     role="checkbox"
-                    aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={index}
-                    selected={isItemSelected}
                   >
+                    <TableCell align="right">{amount}</TableCell>
                     <TableCell component="th" id={labelId} scope="row">
-                      {row.config.name || row.name}
+                      {row.config?.name || row.name || "Zutat unbekannt"}
                     </TableCell>
-                    <TableCell align="right">
-                      {row.amount * values.countPortions}{" "}
-                      {translate(CODES.FOOD_UNITS, row.unit)?.abbr}
-                    </TableCell>
-                    <TableCell align="right" sx={{ width: "auto" }}>
-                      <IconButton
-                        size="small"
-                        onClick={removeIngredient(index)}
-                      >
-                        <DeleteIcon color="error" />
-                      </IconButton>
-                    </TableCell>
+                    {editable && (
+                      <TableCell align="right" sx={{ width: "auto" }}>
+                        <IconButton
+                          size="small"
+                          onClick={removeIngredient(index)}
+                        >
+                          <DeleteIcon color="error" />
+                        </IconButton>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}
@@ -243,6 +178,7 @@ const IngredientsList = ({ data = [], foodleId, editable = false }) => {
                       <FilledInput
                         id="portion-input"
                         type="number"
+                        name="countPortions"
                         value={values.countPortions}
                         onChange={handleChange}
                         endAdornment={

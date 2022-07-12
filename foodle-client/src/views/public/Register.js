@@ -82,7 +82,6 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
-    // setValues({ ...values, loading: true, errors: {} });
 
     const auth = new Auth();
 
@@ -91,7 +90,7 @@ const Register = () => {
         firstName: values.firstName,
         lastName: values.lastName,
         username: values.username,
-        email: values.email,
+        email: values.email.trim().toLowerCase(),
         password: values.password,
       })
       .then((result) => {
@@ -150,7 +149,6 @@ const Register = () => {
                 helperText={values.errors["firstName"]}
                 required
                 fullWidth
-                autoFocus
               />
             </Grid>
             <Grid item xs={12} sm={6}>

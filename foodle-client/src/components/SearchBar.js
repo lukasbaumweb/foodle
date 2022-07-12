@@ -44,7 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const StyledClearBase = styled(IconButton)(({ theme }) => ({
+const StyledClearBase = styled(IconButton)(() => ({
   position: "absolute",
   right: 5,
   top: "50%",
@@ -58,19 +58,25 @@ const SearchBar = () => {
   useEffect(() => {
     const params = new URL(document.location).searchParams;
     const query = params.get("q");
-    if (query && query !== text) {
+    if (query) {
       setText(query);
     }
     return () => {};
-  }, [text]);
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    navigate({
-      pathname: ROUTES.public.foodles.path,
-      search: `?q=${text}`,
-    });
+    if (text.trim() === "") {
+      navigate({
+        pathname: ROUTES.public.foodles.path,
+      });
+    } else {
+      navigate({
+        pathname: ROUTES.public.foodles.path,
+        search: `?q=${text.trim()}`,
+      });
+    }
   };
 
   return (
@@ -86,7 +92,15 @@ const SearchBar = () => {
           value={text}
         />
         {text.trim().length > 0 && (
-          <StyledClearBase size="small" onClick={() => setText("")}>
+          <StyledClearBase
+            size="small"
+            onClick={() => {
+              setText("");
+              navigate({
+                pathname: ROUTES.public.foodles.path,
+              });
+            }}
+          >
             <ClearIcon fontSize="small" />
           </StyledClearBase>
         )}

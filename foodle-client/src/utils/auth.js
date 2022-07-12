@@ -4,39 +4,27 @@ import { CONFIG } from "./config";
 /**
  * Determines how long a session should be valid (currently: 7 days)
  */
-const EXPIRY_TIME = 1000 * 60 * 60 * 7;
-
-const EVENTS = {
-  authStateChanged: "authStateChanged",
-};
+const EXPIRY_TIME = 1000; //* 60 * 60 * 7;
 
 class Auth {
   constructor() {
     this._api = new FoodleAPI();
 
-    this.attachEvents();
     this._session = new Session(window);
     this._session.init(this);
-  }
-
-  attachEvents() {
-    Object.values(EVENTS).forEach((event) => new Event(event));
-
-    document.addEventListener(
-      EVENTS.authStateChanged,
-      (e) => {
-        console.log(e);
-      },
-      false
-    );
   }
 
   onAuthStateChanged(callback) {
     callback(this._session.getUser());
   }
 
-  async refresh() {
-    this._api.isLoggedIn();
+  async checkAuthStatus() {
+    try {
+      await this._api.isLoggedIn();
+    } catch (err) {
+      this._session.destroy();
+      throw new Error("not authenticated");
+    }
   }
 
   async login(email, password) {
@@ -65,6 +53,18 @@ class Auth {
     } else {
       window.location.href = "/logout";
     }
+  }
+
+  async getCurrentUser() {
+    return this._api.getCurrentUser();
+  }
+
+  async updateUser(payload) {
+    return this._api.updateUser(payload);
+  }
+
+  async changePassword(payload) {
+    return this._api.changePassword(payload);
   }
 
   static getAuthToken() {
@@ -156,6 +156,10 @@ class Session {
       CONFIG.LOCAL_STORAGE_SESSION_KEY,
       this.toString()
     );
+  }
+
+  destroy() {
+    window.localStorage.removeItem(CONFIG.LOCAL_STORAGE_SESSION_KEY);
   }
 
   toString() {

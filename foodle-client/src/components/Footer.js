@@ -20,8 +20,10 @@ const Footer = () => {
             Foodle
           </Link>
           {` ${new Date().getFullYear()} -`}
-          {" Version: "}
-          {process.env.REACT_APP_FOODLE_VERSION}
+          <Link color="inherit" to={ROUTES.public.changeLog.path}>
+            {" Version: "}
+            {process.env.REACT_APP_FOODLE_VERSION}
+          </Link>
           {" - "}
           <Link color="inherit" to={ROUTES.public.impressum.path}>
             Impressum

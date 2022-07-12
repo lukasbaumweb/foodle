@@ -12,38 +12,46 @@ import {
   Card,
   CardContent,
   Typography,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import FoodleAPI from "../../../utils/api";
 import Loader from "../../../components/Loader";
 import { getLanguage, translate } from "../../../utils/translater";
 import { isObjectEmpty } from "../../../utils/functions";
-import ImageSlider from "../../../components/Images/ImageSlieder";
-import UploadImageButton from "../../../components/Images/UploadImageButton";
-import EditImagesButton from "../../../components/Images/EditImagesButton";
 import IngredientsList from "../../../components/IngredientsList";
 import TutorialList from "../../../components/TutorialList/index";
 import { useNavigate, useParams } from "react-router-dom";
-import ROUTES from "../../../utils/routes";
 import SelectTags from "../../../components/SelectTags";
-import DetailsMenu from "../../../components/DetailsMenu";
-import { capitalize } from "../../../utils/functions";
+import UploadImage from "../../../components/UploadImage";
+import SwitchPublishStatus from "../../../components/SwitchPublishStatus";
+import DeleteFoodleButton from "../../../components/DeleteFoodleButton";
+import ROUTES from "../../../utils/routes";
+import PageviewIcon from "@mui/icons-material/Pageview";
 
 const EditFoodle = () => {
   const [values, setValues] = useState({
     title: "",
     description: "",
     category: "",
-    isPrivate: true,
     tags: [],
-    ingredients: [],
     steps: [],
-    error: {},
+    startPortion: 1,
+    cookingTime: 0,
+    workTime: 0,
+    totalTime: 0,
+    calories: 0,
+    ingredients: [],
+    isPrivate: true,
+    errors: {},
     exists: false,
     loading: true,
+    isDirty: false,
+    openConfirmDialog: false,
   });
 
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     const api = new FoodleAPI();
@@ -55,6 +63,7 @@ const EditFoodle = () => {
           ...state,
           ingredients: data?.ingredients,
           steps: data?.steps,
+          startState: { ...data },
           ...data,
           exists: !!data,
           loading: false,
@@ -62,8 +71,19 @@ const EditFoodle = () => {
       })
       .catch((err) => console.error(err));
 
-    return () => {};
-  }, [id]);
+    const beforeUnloadCallback = (event) => {
+      if (values.isDirty) {
+        event.returnValue = false;
+      } else {
+        return false;
+      }
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadCallback);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadCallback);
+    };
+  }, [id, values.isDirty]);
 
   if (values.loading) return <Loader />;
 
@@ -74,6 +94,10 @@ const EditFoodle = () => {
       errors["title"] = translate("validation-error/title-missing");
     }
 
+    if (values.startPortion < 1) {
+      errors["startPortion"] = translate("validation-error/start-too-low");
+    }
+
     const result = isObjectEmpty(errors);
     if (!result) setValues({ ...values, errors: errors });
 
@@ -81,10 +105,10 @@ const EditFoodle = () => {
   };
 
   const handleChange = (e) =>
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value, isDirty: true });
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (!validate()) return;
 
@@ -95,15 +119,20 @@ const EditFoodle = () => {
       description: values.description,
       category: values.category,
       tags: values.tags.filter((t) => t).map((tag) => tag.name),
+      cookingTime: values.cookingTime || 0,
+      workTime: values.workTime || 0,
+      totalTime: values.totalTime || 0,
+      calories: values.calories || 0,
+      startPortion: values.startPortion || 1,
     };
     const api = new FoodleAPI();
 
     api
       .updateFoodle(id, payload)
-      .then(() => setValues({ ...values, loading: false }))
+      .then(() => setValues({ ...values, loading: false, isDirty: false }))
       .catch((err) => {
         console.error(err);
-        setValues({ ...values, loading: false });
+        setValues({ ...values, loading: false, errors: {} });
       });
 
     try {
@@ -112,28 +141,6 @@ const EditFoodle = () => {
         ? error.response.data.message
         : error.message;
       setValues({ ...values, error: { type: "error", message } });
-    }
-  };
-
-  const deleteFoodle = async () => {
-    const api = new FoodleAPI();
-    try {
-      await api.deleteFoodle(id);
-      navigate(ROUTES.public.foodles.path);
-    } catch (err) {
-      console.error(err);
-      setValues({ ...values });
-    }
-  };
-
-  const publishFoodle = async () => {
-    const api = new FoodleAPI();
-    try {
-      await api.updateFoodle(id, { isPrivate: !values.isPrivate });
-      setValues({ ...values, isPrivate: !values.isPrivate });
-    } catch (err) {
-      console.error(err);
-      setValues({ ...values });
     }
   };
 
@@ -158,34 +165,27 @@ const EditFoodle = () => {
       <Grid container spacing={3} component="form" onSubmit={onSubmit}>
         <Grid item xs={12}>
           <Grid container>
-            <Grid item xs={6} display="flex" alignItems="center">
-              <Typography variant="body1">
-                {values.title}-Rezept
-                {values.author &&
-                  ` von ${capitalize(values.author.firstName)} ${capitalize(
-                    values.author.lastName
-                  )}`}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="flex-end">
-                <DetailsMenu
-                  onDelete={deleteFoodle}
-                  onPublish={publishFoodle}
-                  isPrivate={values.isPrivate}
-                />
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="flex-end" alignItems="center">
+                <Tooltip title="Foodle anschauen">
+                  <IconButton
+                    onClick={() =>
+                      navigate(ROUTES.public.viewFoodle.path.replace(":id", id))
+                    }
+                  >
+                    <PageviewIcon />
+                  </IconButton>
+                </Tooltip>
+                <SwitchPublishStatus isPrivate={values.isPrivate} id={id} />
+                <DeleteFoodleButton id={id} sx={{ ml: 2 }} />
               </Box>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <ImageSlider id={id} images={values.images} />
-          <Box display="flex" justifyContent="space-between" paddingTop={1}>
-            <UploadImageButton id={id} />
-            <EditImagesButton id={id} />
-          </Box>
+        <Grid item xs={12} md={6} xl={4}>
+          <UploadImage id={id} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} xl={4}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -234,14 +234,83 @@ const EditFoodle = () => {
                 </Select>
               </FormControl>
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="startPortion"
+                label="Startportion"
+                variant="filled"
+                onChange={handleChange}
+                value={values.startPortion}
+                type="number"
+                helperText={
+                  values.errors["startPortion"]?.length > 0
+                    ? values.errors["startPortion"]
+                    : "Portion, welche standardmäßig vorgeschlagen wird"
+                }
+                error={values.errors["startPortion"]?.length > 0}
+                fullWidth
+              />
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} xl={4}>
           <IngredientsList foodleId={id} data={values.ingredients} editable />
         </Grid>
         <Grid item xs={12} md={6}>
           <TutorialList foodleId={id} data={values.steps} editable />
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="cookingTime"
+                label="Zeitaufwand"
+                variant="filled"
+                onChange={handleChange}
+                value={values.cookingTime}
+                helperText="Minuten"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="workTime"
+                label="Arbeitsaufwand"
+                variant="filled"
+                onChange={handleChange}
+                value={values.workTime}
+                helperText="Minuten"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="totalTime"
+                label="Gesamter Aufwand"
+                variant="filled"
+                onChange={handleChange}
+                value={values.totalTime}
+                helperText="Minuten"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                name="calories"
+                label="Kalorien"
+                variant="filled"
+                onChange={handleChange}
+                value={values.calories}
+                helperText="kcal"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <SelectTags

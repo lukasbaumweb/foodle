@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Avatar,
   Button,
@@ -11,11 +11,10 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
-import Chef from "../assets/svg/chef.svg";
+import NoImage from "../assets/images/no-image.png";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import { useNavigate } from "react-router-dom";
 import { onShare } from "../utils/functions";
@@ -24,32 +23,34 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Auth } from "../utils/auth";
 
 const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
-  const [values, setValues] = useState({ isFavorite: false });
-
   const isMobileDevice = useMediaQuery("(max-width: 650px)");
 
   const auth = new Auth();
+  const theme = useTheme();
 
-  const addToFavorites = () => {
-    setValues({ ...values, isFavorite: !values.isFavorite });
-  };
+  const bgColor =
+    theme.palette.mode === "dark" ? "#1e1e1e" : theme.palette.background.paper;
 
   const navigate = useNavigate();
+
+  let imageSrc =
+    foodle.images?.length > 0 ? foodle.images[0].publicUrl : NoImage;
 
   return (
     <Card sx={{ width: "100%" }}>
       <CardHeader
-        sx={{ p: 1 }}
+        sx={{
+          p: 1,
+          position: "relative",
+          zIndex: 2,
+          backgroundColor: bgColor,
+        }}
         avatar={
           <Avatar sx={{ height: 30, width: 30 }}>
-            {foodle.author?.firstName.charAt(0).toUpperCase()}
+            {foodle.author?.username.charAt(0).toUpperCase()}
           </Avatar>
         }
-        title={
-          foodle.author
-            ? `${foodle.author?.firstName} ${foodle.author?.lastName}`
-            : "Kein Autor vorhanden"
-        }
+        title={foodle.author ? foodle.author.username : "Kein Autor vorhanden"}
         action={
           foodle.author?._id === auth.getUser()?.uid && (
             <Tooltip title="Bearbeiten">
@@ -70,11 +71,23 @@ const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
       <CardMedia
         component="img"
         height={imageSize}
-        image={foodle.img || Chef}
-        alt={foodle.title}
+        image={imageSrc}
+        alt={"Foodle Bild nicht gefunden"}
+        onError={(e) => {
+          imageSrc = NoImage;
+          e.target.src = NoImage;
+        }}
         className="on-hover-grow"
+        sx={{ position: "relative", zIndex: 1, maxHeight: "300px" }}
       />
-      <CardContent sx={{ pb: 0 }}>
+      <CardContent
+        sx={{
+          pb: 0,
+          position: "relative",
+          zIndex: 2,
+          backgroundColor: bgColor,
+        }}
+      >
         <Typography variant="h6">{foodle.title}</Typography>
         <Typography variant="body2" color="text.secondary">
           {foodle.body?.substring(0, 120)}
@@ -82,21 +95,11 @@ const FoodleCard = ({ foodle = {}, imageSize = "auto" }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Tooltip title="Favorit">
-          <IconButton
-            aria-label="Zu Favoriten hinzufügen"
-            onClick={addToFavorites}
-          >
-            {values.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-        </Tooltip>
         <Tooltip title="Teilen">
           <IconButton
             aria-label="share"
             onClick={() =>
               onShare(
-                document,
-                navigator,
                 `Schau dir mal dieses Foodle an 😋\n`,
                 window.location.origin +
                   ROUTES.public.viewFoodle.path.replace(":id", foodle._id)

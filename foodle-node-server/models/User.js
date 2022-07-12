@@ -1,5 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const mongoose = require("mongoose");
+const { NotAuthenticatedError } = require("../utils/errors");
 const { Schema } = mongoose;
 const { validateEmail } = require("./../utils/functions");
 
@@ -41,8 +42,9 @@ UserSchema.methods.comparePassword = (oldPassword, password, callback) => {
     if (error) {
       return callback(error);
     } else {
-      if (!isMatch) throw Error("passwords do not match");
-      else callback(null, isMatch);
+      if (!isMatch) {
+        callback(new NotAuthenticatedError("password wrong"));
+      } else callback(null, isMatch);
     }
   });
 };

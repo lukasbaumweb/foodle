@@ -18,6 +18,7 @@ import Empty from "../../assets/svg/empty.svg";
 import { useCallback } from "react";
 import { getLanguage } from "../../utils/translater";
 import ClearIcon from "@mui/icons-material/Clear";
+import Loader from "../../components/Loader";
 
 const categories = getLanguage()["categories"].map((cat) => ({
   name: cat,
@@ -59,8 +60,12 @@ const Categories = () => {
       api
         .getFoodles(params)
         .then((result) => {
-          console.log(result);
-          setValues((state) => ({ ...state, ...result.data, categories }));
+          setValues((state) => ({
+            ...state,
+            ...result.data,
+            categories,
+            loading: false,
+          }));
         })
         .catch((err) => {
           setValues((state) => ({ ...state, categories }));
@@ -89,6 +94,9 @@ const Categories = () => {
   let countColumns = 4;
   if (isLessThan650) countColumns = 2;
   else if (isLessThan1000) countColumns = 3;
+
+  if (values.loading) return <Loader />;
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h5" component="h1" sx={{ pt: 2 }}>

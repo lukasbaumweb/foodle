@@ -3,13 +3,14 @@ const { Schema } = mongoose;
 
 const FileSchema = Schema(
   {
-    title: String,
     name: String,
     type: String,
     path: String,
     storedAt: String,
     storedName: String,
     size: String,
+    publicUrl: String,
+    cloudinaryId: String,
     order: { type: Number, default: 0 },
   },
   {

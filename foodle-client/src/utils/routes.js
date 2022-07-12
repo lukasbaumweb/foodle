@@ -12,6 +12,7 @@ const ROUTES = {
     randomFoodle: { path: "/random" },
     about: { path: "/about" },
     impressum: { path: "/impressum" },
+    changeLog: { path: "/log" },
   },
   private: {
     home: { path: "/" },

@@ -1,8 +1,12 @@
 export const de_DE = {
   "unknown-error": "Unbekannter Fehler",
-  "unknown user": "Benutzer unbekannt",
+  "unknown user": "Benutzername oder Passwort falsch",
+  "password wrong": "Benutzername oder Passwort falsch",
+  "Too many requests, please try again later.":
+    "Zu viele Anfragen auf einmal. Versuche es später erneut",
   "An account with that username already exists.":
     "Es existiert bereits ein Konto mit diesem Benutzernamen.",
+    
   loaderSentences: [
     "Gäste werden eingeladen",
     "Einkaufszettel wird geschrieben",
@@ -45,6 +49,7 @@ export const de_DE = {
       "Bitte nicht zu viele Bilder auf einmal hochladen",
     "validation-error/title-missing": "Titel fehlt",
     "validation-error/category-missing": "Kategorie fehlt",
+    "validation-error/start-too-low": "Portionsanzahl zu gering (Mind. 1)",
   },
 
   statusCodes: {

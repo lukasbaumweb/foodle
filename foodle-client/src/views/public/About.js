@@ -47,6 +47,43 @@ const About = () => {
           </Link>
         </Stack>
       </Box>
+
+      {process.env.REACT_APP_PAYPAL_LINK && (
+        <Box sx={{ mt: 5, textAlign: "center" }}>
+          <Typography variant="h5" sx={{ textAlign: "left" }}>
+            Donate
+          </Typography>
+          <form
+            action="https://www.paypal.com/donate"
+            method="post"
+            target="_top"
+            style={{ textAlign: "center" }}
+          >
+            <input
+              type="hidden"
+              name="hosted_button_id"
+              value="TGKZNP977QMLN"
+            />
+            <input
+              type="image"
+              src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif"
+              border="0"
+              name="submit"
+              title="PayPal - The safer, easier way to pay online!"
+              alt="Spenden mit dem PayPal-Button"
+            />
+            <img
+              alt=""
+              border="0"
+              src="https://www.paypal.com/de_DE/i/scr/pixel.gif"
+              width="1"
+              height="1"
+            />
+          </form>
+          <Link href={process.env.REACT_APP_PAYPAL_LINK}>PayPal</Link>
+        </Box>
+      )}
+
       <Typography variant="body1" sx={{ mt: 3 }}>
         Made with ❤ and Caffeine by Jan & Lukas
       </Typography>
